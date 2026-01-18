@@ -1,14 +1,20 @@
-/* Main App Component - Handles routing (using react-router-dom), query client and other providers - use this file to add all routes */
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import Layout from './components/Layout'
 import Index from './pages/Index'
 import NotFound from './pages/NotFound'
-import Layout from './components/Layout'
-
-// ONLY IMPORT AND RENDER WORKING PAGES, NEVER ADD PLACEHOLDER COMPONENTS OR PAGES IN THIS FILE
-// AVOID REMOVING ANY CONTEXT PROVIDERS FROM THIS FILE (e.g. TooltipProvider, Toaster, Sonner)
+import Risks from './pages/Risks'
+import Controls from './pages/Controls'
+import Audits from './pages/Audits'
+import Policies from './pages/Policies'
+import Cadocs from './pages/Cadocs'
+import Lgpd from './pages/Lgpd'
+import ThirdParty from './pages/ThirdParty'
+import Bia from './pages/Bia'
+import Tasks from './pages/Tasks'
+import Admin from './pages/Admin'
 
 const App = () => (
   <BrowserRouter
@@ -20,7 +26,16 @@ const App = () => (
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES MUST BE ADDED HERE */}
+          <Route path="/risks" element={<Risks />} />
+          <Route path="/controls" element={<Controls />} />
+          <Route path="/audits" element={<Audits />} />
+          <Route path="/policies" element={<Policies />} />
+          <Route path="/cadocs" element={<Cadocs />} />
+          <Route path="/lgpd" element={<Lgpd />} />
+          <Route path="/third-party" element={<ThirdParty />} />
+          <Route path="/bia" element={<Bia />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
