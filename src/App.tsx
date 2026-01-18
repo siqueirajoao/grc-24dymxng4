@@ -4,7 +4,8 @@ import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import Layout from './components/Layout'
-import Index from './pages/Index'
+import LandingPage from './pages/Index' // Renamed import for clarity, though file is Index.tsx
+import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
 import Risks from './pages/Risks'
 import Controls from './pages/Controls'
@@ -26,8 +27,12 @@ const App = () => (
         <Toaster />
         <Sonner />
         <Routes>
+          {/* Landing Page (No Layout) */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* Authenticated App Routes (With Layout) */}
           <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/risks" element={<Risks />} />
             <Route path="/controls" element={<Controls />} />
             <Route path="/audits" element={<Audits />} />
@@ -39,6 +44,7 @@ const App = () => (
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/admin" element={<Admin />} />
           </Route>
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </TooltipProvider>

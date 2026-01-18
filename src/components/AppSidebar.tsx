@@ -45,7 +45,7 @@ export function AppSidebar() {
     {
       label: 'Executivo',
       items: [
-        { title: 'Dashboard', url: '/', icon: LayoutDashboard },
+        { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard }, // Updated URL
         { title: 'Minhas Tarefas', url: '/tasks', icon: ListTodo },
       ],
     },

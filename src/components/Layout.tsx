@@ -24,6 +24,7 @@ export default function Layout() {
   const pathSegments = location.pathname.split('/').filter(Boolean)
 
   const breadcrumbNameMap: Record<string, string> = {
+    dashboard: 'Visão Geral',
     risks: 'Gestão de Riscos',
     controls: 'Controles Internos',
     audits: 'Auditorias & Achados',
@@ -50,7 +51,7 @@ export default function Layout() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Lawyn GRC</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">Lawyn GRC</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
