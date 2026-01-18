@@ -17,7 +17,7 @@ import {
 import { Bell, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
+import { ModeToggle } from '@/components/ModeToggle'
 
 export default function Layout() {
   const location = useLocation()
@@ -44,7 +44,7 @@ export default function Layout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10 transition-colors duration-300">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
@@ -67,6 +67,7 @@ export default function Layout() {
                 className="w-64 rounded-lg bg-background pl-8 md:w-[200px] lg:w-[300px]"
               />
             </div>
+            <ModeToggle />
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600 animate-pulse" />
