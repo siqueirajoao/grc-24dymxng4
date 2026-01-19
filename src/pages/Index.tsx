@@ -1,7 +1,7 @@
 import { AnimatedBackground } from '@/components/AnimatedBackground'
 import { Navbar } from '@/components/landing/Navbar'
 import { HeroSection } from '@/components/landing/HeroSection'
-import { FeaturesSection } from '@/components/landing/FeaturesSection'
+import { ModuleShowcase } from '@/components/landing/ModuleShowcase'
 import { SegmentsSection } from '@/components/landing/SegmentsSection'
 import { ComplianceSection } from '@/components/landing/ComplianceSection'
 import { LandingFooter } from '@/components/landing/LandingFooter'
@@ -19,8 +19,8 @@ export default function LandingPage() {
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Modules Grid */}
-        <FeaturesSection />
+        {/* Modules Interactive Showcase (Replaces FeaturesSection) */}
+        <ModuleShowcase />
 
         {/* Target Audience */}
         <SegmentsSection />
