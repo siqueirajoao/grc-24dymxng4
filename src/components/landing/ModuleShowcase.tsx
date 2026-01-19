@@ -47,23 +47,25 @@ export function ModuleShowcase() {
         </div>
 
         {/* Interactive Area */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Interactive Graph */}
           <div
             className={cn(
-              'lg:col-span-5 flex justify-center lg:justify-end pr-0 lg:pr-4 transition-all duration-1000 delay-100 sticky top-24',
+              'lg:col-span-6 flex justify-center lg:justify-end transition-all duration-1000 delay-100',
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 -translate-x-10',
             )}
           >
-            <EcosystemGraph activeId={activeTab} onSelect={setActiveTab} />
+            <div className="w-full max-w-[500px] aspect-square relative">
+              <EcosystemGraph activeId={activeTab} onSelect={setActiveTab} />
+            </div>
           </div>
 
           {/* Right Column: Detailed View */}
           <div
             className={cn(
-              'lg:col-span-7 transition-all duration-1000 delay-300 min-h-[600px]',
+              'lg:col-span-6 transition-all duration-1000 delay-300 min-h-[500px] lg:h-[600px] flex flex-col justify-center',
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 translate-x-10',

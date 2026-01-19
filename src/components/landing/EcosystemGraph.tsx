@@ -11,30 +11,60 @@ interface EcosystemGraphProps {
 export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
-  // Adjusted radius to prevent overlap on smaller screens
-  const radius = 38 // percentage
+  // Use a slightly smaller radius to ensure labels have room within the container
+  const radius = 34 // percentage of container size (0-50)
   const total = modules.length
 
-  // Calculate node positions
+  // Calculate node positions with corrected geometry
   const nodes = useMemo(() => {
     return modules.map((module, index) => {
+      // -90 degrees puts the first item at the top (12 o'clock)
       const angleDeg = (index * 360) / total - 90
       const angleRad = angleDeg * (Math.PI / 180)
+
+      // Center is 50, 50
       const x = 50 + radius * Math.cos(angleRad)
       const y = 50 + radius * Math.sin(angleRad)
-      return { ...module, x, y }
+
+      return {
+        ...module,
+        x,
+        y,
+        angleDeg,
+        angleRad,
+      }
     })
   }, [total])
 
   // Determine which node is currently the "focus" (hovered takes precedence over active)
   const currentFocusId = hoveredId || activeId
 
+  // Helper to determine label positioning based on angle
+  const getLabelStyle = (angleDeg: number) => {
+    // Normalize angle to 0-360
+    const normalizedAngle = (angleDeg + 360) % 360
+
+    // Determine translation direction to push label away from center
+    // We add extra offset for specific quadrants to avoid overlapping
+    const isTop = normalizedAngle > 200 && normalizedAngle < 340
+    const isBottom = normalizedAngle > 20 && normalizedAngle < 160
+    const isRight = normalizedAngle >= 340 || normalizedAngle <= 20
+    const isLeft = normalizedAngle >= 160 && normalizedAngle <= 200
+
+    if (isTop) return 'bottom-full mb-3 left-1/2 -translate-x-1/2'
+    if (isBottom) return 'top-full mt-3 left-1/2 -translate-x-1/2'
+    if (isRight) return 'left-full ml-3 top-1/2 -translate-y-1/2'
+    if (isLeft) return 'right-full mr-3 top-1/2 -translate-y-1/2'
+
+    return 'top-full mt-2 left-1/2 -translate-x-1/2' // Fallback
+  }
+
   return (
-    <div className="relative w-full aspect-square max-w-[400px] lg:max-w-[480px] mx-auto select-none p-4">
+    <div className="relative w-full h-full select-none p-4 md:p-8">
       {/* Background Decor: Rotating Rings */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-        <div className="w-[65%] h-[65%] border border-dashed border-blue-500/50 rounded-full animate-spin-slow" />
-        <div className="absolute w-[45%] h-[45%] border border-dotted border-white/50 rounded-full animate-reverse-spin-slow" />
+        <div className="w-[65%] h-[65%] border border-dashed border-blue-500/30 rounded-full animate-spin-slow" />
+        <div className="absolute w-[45%] h-[45%] border border-dotted border-white/40 rounded-full animate-reverse-spin-slow" />
         <div className="absolute w-[80%] h-[80%] border border-white/5 rounded-full" />
       </div>
 
@@ -63,7 +93,7 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
           return node.relatedIds.map((targetId) => {
             const targetNode = nodes.find((n) => n.id === targetId)
             if (!targetNode) return null
-            // Ensure unique key for connection
+            // Ensure unique key for connection (draw line only once per pair)
             if (node.id > targetId) return null
 
             const isRelatedActive =
@@ -82,12 +112,12 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
                 stroke={
                   isRelatedActive
                     ? 'url(#activeLineGradient)'
-                    : 'rgba(255,255,255,0.03)'
+                    : 'rgba(255,255,255,0.05)'
                 }
                 strokeWidth={isRelatedActive ? '1.5' : '0.5'}
                 className={cn(
                   'transition-all duration-500',
-                  isRelatedActive && 'opacity-100',
+                  isRelatedActive ? 'opacity-100' : 'opacity-40',
                 )}
               />
             )
@@ -114,18 +144,20 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
                 stroke={
                   isActiveLine
                     ? 'url(#activeLineGradient)'
-                    : 'rgba(255,255,255,0.05)'
+                    : 'rgba(255,255,255,0.08)'
                 }
-                strokeWidth={isFocused ? '2' : '1'}
-                className={cn('transition-all duration-500')}
+                strokeWidth={isFocused ? '2' : isActiveLine ? '1' : '0.5'}
+                className={cn(
+                  'transition-all duration-500',
+                  isActiveLine ? 'opacity-100' : 'opacity-20',
+                )}
               />
               {/* Particle flow animation on active lines */}
               {isFocused && (
                 <circle r="3" fill="#60A5FA" filter="url(#glow)">
                   <animateMotion
-                    dur="2s"
+                    dur="1.5s"
                     repeatCount="indefinite"
-                    // Simple path approximation for SVG coordinate system
                     path={`M 50 50 L ${node.x} ${node.y}`}
                     keyPoints="0;1"
                     keyTimes="0;1"
@@ -173,16 +205,19 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
             onMouseEnter={() => setHoveredId(node.id)}
             onMouseLeave={() => setHoveredId(null)}
             className={cn(
-              'absolute z-30 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 outline-none',
+              'absolute z-30 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 outline-none group',
               isActive || isHovered
-                ? 'scale-110 z-40'
+                ? 'scale-110 z-50'
                 : 'scale-100 hover:scale-105',
               isDimmed ? 'opacity-40 blur-[1px] scale-90' : 'opacity-100',
             )}
-            style={{ left: `${node.x}%`, top: `${node.y}%` }}
+            style={{
+              left: `${node.x}%`,
+              top: `${node.y}%`,
+            }}
             aria-label={`Select ${node.title} module`}
           >
-            <div className="relative flex flex-col items-center group">
+            <div className="relative flex flex-col items-center justify-center">
               {/* Glow Effect */}
               <div
                 className={cn(
@@ -196,10 +231,10 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
               {/* Icon Container */}
               <div
                 className={cn(
-                  'w-12 h-12 md:w-16 md:h-16 rounded-full border flex items-center justify-center transition-all duration-300 backdrop-blur-md shadow-lg',
+                  'w-12 h-12 md:w-16 md:h-16 rounded-full border flex items-center justify-center transition-all duration-300 backdrop-blur-md shadow-lg z-20',
                   isActive || isHovered
                     ? `bg-black border-${node.color.split('-')[1]}-500/50 ${node.color} shadow-[0_0_25px_rgba(0,0,0,0.5)] ring-1 ring-${node.color.split('-')[1]}-500/30`
-                    : `bg-zinc-950/80 border-white/10 text-gray-500 hover:border-white/20 hover:text-gray-300`,
+                    : `bg-zinc-950 border-white/10 text-gray-500 hover:border-white/20 hover:text-gray-300`,
                 )}
               >
                 <node.icon
@@ -210,13 +245,14 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
                 />
               </div>
 
-              {/* Label */}
+              {/* Label - Positioned radially away from center to avoid overlaps */}
               <div
                 className={cn(
-                  'absolute top-full mt-2 md:mt-3 whitespace-nowrap text-[10px] md:text-xs font-semibold px-2 md:px-3 py-1 rounded-full border backdrop-blur-md transition-all duration-300 pointer-events-none',
+                  'absolute whitespace-nowrap text-[10px] md:text-xs font-semibold px-3 py-1.5 rounded-full border backdrop-blur-md transition-all duration-300 z-30 pointer-events-none',
+                  getLabelStyle(node.angleDeg),
                   isActive || isHovered
-                    ? 'bg-zinc-900/90 border-white/20 text-white opacity-100 translate-y-0 shadow-xl'
-                    : 'bg-black/40 border-transparent text-gray-500 opacity-0 -translate-y-2',
+                    ? 'bg-zinc-900/95 border-white/20 text-white opacity-100 shadow-xl scale-100'
+                    : 'bg-black/60 border-transparent text-gray-500 opacity-0 scale-90',
                 )}
               >
                 {node.title}

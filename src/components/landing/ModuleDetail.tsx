@@ -12,10 +12,10 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
   const module = modules.find((m) => m.id === moduleId) || modules[0]
 
   return (
-    <div className="h-full flex flex-col justify-center">
+    <div className="h-full w-full">
       <div
         key={module.id}
-        className="relative bg-zinc-950 border border-white/10 rounded-3xl p-6 md:p-10 lg:p-12 shadow-2xl overflow-hidden animate-fade-in group"
+        className="relative bg-zinc-950 border border-white/10 rounded-3xl p-6 md:p-8 lg:p-10 shadow-2xl overflow-hidden animate-fade-in group h-full flex flex-col"
       >
         {/* Subtle dynamic background gradient based on module color */}
         <div
@@ -28,7 +28,7 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
         {/* Content */}
         <div className="relative z-10 flex flex-col h-full">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-8">
             <div className="space-y-4 flex-1">
               <div className="flex flex-wrap gap-2">
                 {module.regulation.map((reg, i) => (
@@ -43,7 +43,7 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
               </div>
 
               <div>
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
+                <h3 className="text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
                   {module.title}
                 </h3>
                 <p
@@ -60,10 +60,9 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
 
             <div
               className={cn(
-                'hidden md:flex items-center justify-center p-4 rounded-2xl border bg-black/40 backdrop-blur-sm shadow-xl shrink-0 transition-all duration-500',
+                'hidden sm:flex items-center justify-center p-4 rounded-2xl border bg-black/40 backdrop-blur-sm shadow-xl shrink-0 transition-all duration-500 transform group-hover:scale-105 group-hover:rotate-3',
                 module.borderColor,
                 module.color,
-                'group-hover:scale-105',
               )}
             >
               <module.icon className="w-10 h-10" />
@@ -71,20 +70,20 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
           </div>
 
           {/* Description */}
-          <p className="text-gray-400 leading-relaxed text-lg mb-10 max-w-2xl border-l-2 border-white/5 pl-6">
+          <p className="text-gray-400 leading-relaxed text-lg mb-8 max-w-2xl border-l-2 border-white/5 pl-6">
             {module.description}
           </p>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
             {module.features.map((feat, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/10 hover:bg-white/[0.05] transition-all duration-300 group/feature"
+                className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/10 hover:bg-white/[0.05] transition-all duration-300 group/feature"
               >
                 <div
                   className={cn(
-                    'p-1.5 rounded-full bg-black/50',
+                    'p-1.5 rounded-full bg-black/50 shrink-0',
                     module.color
                       .replace('text-', 'bg-')
                       .replace('400', '900/30'),
