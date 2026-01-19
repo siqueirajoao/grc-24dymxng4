@@ -1,9 +1,9 @@
 import {
   Activity,
-  Binoculars,
   Book,
   Calendar,
-  FileText,
+  ClipboardList,
+  FileSpreadsheet,
   Lock,
   Scale,
   Target,
@@ -14,8 +14,8 @@ import { cn } from '@/lib/utils'
 
 const features = [
   {
-    icon: Binoculars,
-    title: 'Controle de Tarefas',
+    icon: ClipboardList,
+    title: 'Controle',
     description:
       'Gerencie seus planos de ação e pendências. Defina responsáveis e datas limite para sempre priorizar o que for necessário.',
   },
@@ -26,8 +26,8 @@ const features = [
       'Cadastre e monitore os riscos organizacionais. Acompanhe os riscos em aberto e sua severidade (crítico, alto, médio e baixo).',
   },
   {
-    icon: FileText,
-    title: 'CADOCs e RelatóriosCs',
+    icon: FileSpreadsheet,
+    title: 'CADOCs e Relatórios',
     description:
       'Gerencie os documentos obrigatórios enviados ao banco central. Acompanhe documentos pendentes, atrasados e enviados e sua periodicidade.',
   },
