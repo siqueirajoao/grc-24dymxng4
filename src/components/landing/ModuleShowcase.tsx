@@ -18,8 +18,8 @@ export function ModuleShowcase() {
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-950/20 blur-[150px] rounded-full pointer-events-none opacity-50" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-950/20 blur-[120px] rounded-full pointer-events-none opacity-30" />
 
-      {/* Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_100%)] pointer-events-none" />
+      {/* Circuit Grid Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(30,58,138,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(30,58,138,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_100%)] pointer-events-none" />
 
       <div
         className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col justify-center"
@@ -31,7 +31,7 @@ export function ModuleShowcase() {
             isVisible ? 'opacity-100' : 'opacity-0',
           )}
         >
-          {/* Interactive Graph (Left/Top or Center when nothing selected) */}
+          {/* Interactive Graph */}
           <div
             className={cn(
               'order-2 lg:order-1 relative transition-all duration-700 ease-in-out',
@@ -51,15 +51,15 @@ export function ModuleShowcase() {
             </div>
 
             {!selectedModuleId && (
-              <div className="text-center mt-8 animate-fade-in-up delay-500">
-                <p className="text-gray-400 text-sm">
-                  Clique em um módulo para ver detalhes
+              <div className="text-center mt-4 animate-fade-in-up delay-500">
+                <p className="text-gray-500 text-sm tracking-wide">
+                  Explore o ecossistema regulatório Lawyn
                 </p>
               </div>
             )}
           </div>
 
-          {/* Detail Panel (Right/Bottom) - Only visible when selected */}
+          {/* Detail Panel */}
           <div
             className={cn(
               'w-full lg:w-[40%] order-1 lg:order-2 overflow-hidden transition-all duration-700 ease-in-out',

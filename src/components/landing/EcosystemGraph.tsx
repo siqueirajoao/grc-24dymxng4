@@ -1,13 +1,7 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { modules } from './modules-data'
-
-interface OrbitConfig {
-  id: number
-  speed: number
-  moduleIds: string[]
-  direction: 1 | -1
-}
+import { Building2 } from 'lucide-react'
 
 interface EcosystemGraphProps {
   activeModuleId: string | null
@@ -19,24 +13,22 @@ export function EcosystemGraph({
   onModuleSelect,
 }: EcosystemGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const animationRef = useRef<number>(0)
   const [hoveredModule, setHoveredModule] = useState<string | null>(null)
-
-  // Scale Factors
-  const [scale, setScale] = useState(0.85)
-  // Adjusted radii to accommodate larger icons and prevent overlap
-  const [radii, setRadii] = useState([130, 210, 290])
+  const [radius, setRadius] = useState(260)
+  const [scale, setScale] = useState(1)
 
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth
-      if (w < 768) {
-        setScale(0.75) // Mobile Scale
-        // Increased mobile radii to prevent core overlap with larger icons
-        setRadii([95, 160, 225])
+      if (w < 640) {
+        setRadius(130)
+        setScale(0.7)
+      } else if (w < 1024) {
+        setRadius(200)
+        setScale(0.85)
       } else {
-        setScale(0.85) // Desktop Scale
-        setRadii([130, 210, 290])
+        setRadius(280)
+        setScale(1)
       }
     }
     handleResize()
@@ -44,283 +36,197 @@ export function EcosystemGraph({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Store angles per module for independent movement
-  const moduleAnglesRef = useRef<{ [key: string]: number }>({})
-
-  // Configuration for Orbits
-  const orbits: OrbitConfig[] = useMemo(
-    () => [
-      {
-        id: 1, // Core
-        speed: 0.001,
-        moduleIds: ['risks', 'controls', 'audit', 'policies'],
-        direction: 1,
-      },
-      {
-        id: 2, // Mid
-        speed: 0.0015,
-        moduleIds: ['regulatory', 'cadocs', 'lgpd'],
-        direction: -1,
-      },
-      {
-        id: 3, // Outer
-        speed: 0.0005,
-        moduleIds: ['third-party', 'bia'],
-        direction: 1,
-      },
-    ],
-    [],
-  )
-
-  // Refs for direct DOM manipulation
-  const moduleRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
-  const coreLineRefs = useRef<{ [key: string]: SVGLineElement | null }>({})
-
-  useEffect(() => {
-    const animate = () => {
-      // 1. Update Angles & Position Modules
-      orbits.forEach((orbit, orbitIndex) => {
-        const radius = radii[orbitIndex] * scale
-        const { moduleIds, id: orbitId, speed, direction } = orbit
-
-        // Base spacing for initialization
-        const spacing = (Math.PI * 2) / moduleIds.length
-        // Initial phase offset based on orbit ID
-        const startPhase = { 1: 0, 2: 1.5, 3: 3.0 }[orbitId] || 0
-
-        moduleIds.forEach((modId, index) => {
-          // Initialize angle if needed
-          if (typeof moduleAnglesRef.current[modId] === 'undefined') {
-            moduleAnglesRef.current[modId] = startPhase + spacing * index
-          }
-
-          // Check if we should pause this specific module
-          // Pauses if module is hovered OR selected (active)
-          const isPaused = modId === hoveredModule || modId === activeModuleId
-
-          // Update angle if not paused
-          if (!isPaused) {
-            moduleAnglesRef.current[modId] += speed * direction
-          }
-
-          // Get current angle
-          const angle = moduleAnglesRef.current[modId]
-          const element = moduleRefs.current[modId]
-          if (!element) return
-
-          // Polar to Cartesian with tilt
-          const tilt = 0.6
-          const x = radius * Math.cos(angle)
-          const y = radius * Math.sin(angle) * tilt
-
-          // Depth calculations
-          const sin = Math.sin(angle)
-          const zIndex = Math.floor((sin + 1) * 50) + 10
-
-          // Visual Scale based on Depth and Hover/Active
-          const depthScale = 0.85 + ((sin + 1) / 2) * 0.3
-          const isActive = modId === activeModuleId
-          const isHovered = modId === hoveredModule
-
-          let finalScale = depthScale
-          if (isActive) finalScale = 1.3
-          if (isHovered) finalScale = 1.2
-
-          // Opacity
-          let opacity = 0.5 + ((sin + 1) / 2) * 0.5
-          if (isActive || isHovered) opacity = 1
-
-          // Force higher opacity if no module is active (initial state) so everything looks balanced
-          if (!activeModuleId && !hoveredModule) {
-            opacity = 0.7 + ((sin + 1) / 2) * 0.3
-          }
-
-          // Apply Styles
-          element.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${finalScale})`
-          element.style.opacity = opacity.toFixed(2)
-          element.style.zIndex = (
-            isActive || isHovered ? 200 : zIndex
-          ).toString()
-
-          // Update Lines
-          const coreLine = coreLineRefs.current[modId]
-          if (coreLine) {
-            coreLine.setAttribute('x2', x.toString())
-            coreLine.setAttribute('y2', y.toString())
-            coreLine.setAttribute(
-              'opacity',
-              Math.max(0.1, opacity * 0.3).toFixed(2),
-            )
-          }
-        })
-      })
-
-      animationRef.current = requestAnimationFrame(animate)
-    }
-
-    animationRef.current = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationRef.current)
-  }, [orbits, radii, scale, hoveredModule, activeModuleId])
-
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[500px] md:h-[700px] flex items-center justify-center select-none perspective-1000 overflow-visible"
+      className="relative w-full h-[500px] md:h-[700px] flex items-center justify-center select-none overflow-visible"
     >
-      {/* SVG Connections */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
-        <g className="translate-[50%_50%]">
-          {modules.map((mod) => (
-            <line
-              key={`core-${mod.id}`}
-              ref={(el) => {
-                coreLineRefs.current[mod.id] = el
-              }}
-              x1="0"
-              y1="0"
-              stroke="url(#core-gradient)"
-              strokeWidth="1"
-            />
-          ))}
-          <defs>
-            <linearGradient
-              id="core-gradient"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="0%"
-            >
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </g>
-      </svg>
+      {/* Background Decorative Rings (The Circuit Base) */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div
+          className="rounded-full border border-blue-900/20"
+          style={{ width: radius * 2.8, height: radius * 2.8 }}
+        />
+        <div
+          className="absolute rounded-full border border-dashed border-blue-900/30 animate-spin-slow"
+          style={{ width: radius * 2.2, height: radius * 2.2 }}
+        />
+        <div
+          className="absolute rounded-full border border-blue-900/10"
+          style={{ width: radius * 1.5, height: radius * 1.5 }}
+        />
+      </div>
 
-      {/* Orbit Rings */}
-      {orbits.map((orbit, index) => {
-        const radius = radii[index] * scale
-        return (
-          <div
-            key={orbit.id}
-            className="absolute rounded-full border border-white/5 pointer-events-none transition-all duration-500"
-            style={{
-              width: radius * 2,
-              height: radius * 2 * 0.6,
-              boxShadow:
-                orbit.id === 1 ? '0 0 40px rgba(59, 130, 246, 0.05)' : 'none',
-            }}
-          />
-        )
-      })}
+      {/* Connection Lines (Circuit Traces) */}
+      <div className="absolute inset-0 pointer-events-none">
+        <svg
+          className="w-full h-full overflow-visible"
+          style={{ transform: 'rotate(0deg)' }}
+        >
+          <g className="translate-[50%_50%]">
+            {modules.map((mod, index) => {
+              const angle = (index / modules.length) * 2 * Math.PI - Math.PI / 2
+              const x = Math.cos(angle) * radius
+              const y = Math.sin(angle) * radius
 
-      {/* Center Core Branding */}
+              const isActive = activeModuleId === mod.id
+              const isHovered = hoveredModule === mod.id
+              const isHighlighted = isActive || isHovered
+
+              return (
+                <g key={`connection-${mod.id}`}>
+                  {/* Base Line */}
+                  <line
+                    x1="0"
+                    y1="0"
+                    x2={x}
+                    y2={y}
+                    className={cn(
+                      'transition-all duration-500',
+                      isHighlighted
+                        ? 'stroke-blue-400 stroke-[2px] opacity-100'
+                        : 'stroke-blue-800/30 stroke-[1px] opacity-50',
+                    )}
+                  />
+
+                  {/* Active Data Flow Pulse (Animated Circle) */}
+                  {(isHighlighted || !activeModuleId) && (
+                    <circle r="3" fill="#60A5FA">
+                      <animateMotion
+                        dur={isHighlighted ? '1.5s' : '4s'}
+                        repeatCount="indefinite"
+                        path={`M 0 0 L ${x} ${y}`}
+                        keyPoints="0;1"
+                        keyTimes="0;1"
+                      />
+                    </circle>
+                  )}
+
+                  {/* Node Connector Dot at the hub */}
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="4"
+                    className="fill-blue-950 stroke-blue-500 stroke-1"
+                  />
+                  {/* Node Connector Dot at the module */}
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r="4"
+                    className={cn(
+                      'transition-colors duration-300',
+                      isHighlighted
+                        ? 'fill-blue-400 stroke-white'
+                        : 'fill-black stroke-blue-800',
+                    )}
+                  />
+                </g>
+              )
+            })}
+          </g>
+        </svg>
+      </div>
+
+      {/* Central Hub (Lawyn Core) */}
       <div
-        className="absolute z-[50] flex flex-col items-center justify-center bg-black rounded-full border border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.9)] backdrop-blur-sm"
-        style={{
-          width: 100 * scale,
-          height: 100 * scale,
-        }}
+        className="absolute z-20 flex flex-col items-center justify-center bg-black rounded-full border border-blue-500/30 shadow-[0_0_50px_rgba(37,99,235,0.3)] backdrop-blur-md transition-all duration-500 hover:scale-110 hover:border-blue-400/50 group"
+        style={{ width: 120 * scale, height: 120 * scale }}
       >
-        <div className="absolute inset-0 rounded-full border border-blue-500/20 animate-pulse-slow" />
-        <div className="absolute inset-[-1px] rounded-full border border-blue-500/10" />
+        <div className="absolute inset-0 rounded-full border border-blue-400/20 animate-pulse-glow" />
+        <div className="absolute -inset-2 rounded-full border border-blue-500/10 animate-spin-slow" />
 
-        {/* L Monogram */}
-        <div className="w-8 h-8 rounded bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center text-white font-bold text-lg mb-1 shadow-lg shadow-blue-900/50">
-          L
+        {/* Logo/Icon */}
+        <div className="bg-gradient-to-tr from-blue-700 to-blue-500 p-3 rounded-xl shadow-lg shadow-blue-900/50 mb-1 relative z-10">
+          <Building2
+            className="text-white"
+            style={{ width: 32 * scale, height: 32 * scale }}
+          />
         </div>
 
         {/* Brand Name */}
-        <div className="text-[10px] font-bold tracking-[0.2em] text-white uppercase text-center relative z-10">
+        <div className="text-white font-bold tracking-widest text-[10px] md:text-xs mt-1">
           LAWYN
         </div>
-        {/* Micro Subtitle */}
-        <div className="text-[6px] font-medium text-blue-400/80 uppercase tracking-wider text-center mt-0.5">
-          REGULATORY OS
+        <div className="text-blue-400 text-[8px] font-medium tracking-wider uppercase">
+          Regulatory Hub
         </div>
       </div>
 
-      {/* Modules */}
-      {orbits.map((orbit) => (
-        <div
-          key={orbit.id}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        >
-          {orbit.moduleIds.map((modId) => {
-            const module = modules.find((m) => m.id === modId)
-            if (!module) return null
+      {/* Module Nodes */}
+      {modules.map((mod, index) => {
+        const angle = (index / modules.length) * 2 * Math.PI - Math.PI / 2
+        const x = Math.cos(angle) * radius
+        const y = Math.sin(angle) * radius
 
-            const isActive = activeModuleId === modId
-            const isHovered = hoveredModule === modId
+        const isActive = activeModuleId === mod.id
+        const isHovered = hoveredModule === mod.id
 
-            // Initial state (no selection) is cleaner without heavy dims
-            const isInitialState = !activeModuleId
-
-            return (
+        return (
+          <div
+            key={mod.id}
+            className="absolute transform -translate-x-1/2 -translate-y-1/2 z-30"
+            style={{
+              left: '50%',
+              top: '50%',
+              transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+            }}
+          >
+            <div
+              className="group cursor-pointer flex flex-col items-center justify-center relative"
+              onClick={() => onModuleSelect(mod.id)}
+              onMouseEnter={() => setHoveredModule(mod.id)}
+              onMouseLeave={() => setHoveredModule(null)}
+            >
+              {/* Icon Circle */}
               <div
-                key={modId}
-                ref={(el) => {
-                  moduleRefs.current[modId] = el
+                className={cn(
+                  'rounded-full flex items-center justify-center border transition-all duration-300 relative bg-black z-10',
+                  isActive
+                    ? 'border-white shadow-[0_0_30px_rgba(59,130,246,0.6)] scale-110'
+                    : isHovered
+                      ? 'border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-110'
+                      : 'border-white/10 hover:border-white/30',
+                )}
+                style={{
+                  width: 64 * scale,
+                  height: 64 * scale,
                 }}
-                className="absolute w-auto h-auto cursor-pointer pointer-events-auto will-change-transform group"
-                onClick={() => onModuleSelect(modId)}
-                onMouseEnter={() => setHoveredModule(modId)}
-                onMouseLeave={() => setHoveredModule(null)}
               >
-                <div className="flex flex-col items-center justify-center">
-                  {/* Module Icon Circle */}
-                  <div
-                    className={cn(
-                      'rounded-full flex items-center justify-center border bg-black transition-all duration-300 relative',
-                      isActive
-                        ? 'border-white shadow-[0_0_30px_rgba(59,130,246,0.5)] bg-zinc-900'
-                        : module.borderColor,
-                      isHovered && !isActive
-                        ? 'border-white scale-105 bg-zinc-900'
-                        : isInitialState
-                          ? 'shadow-lg shadow-black/80 hover:border-white/50'
-                          : 'shadow-lg shadow-black/80',
-                    )}
-                    style={{
-                      // Increased size for visibility (was 48)
-                      width: 64 * scale,
-                      height: 64 * scale,
-                    }}
-                  >
-                    <module.icon
-                      className={cn(
-                        'transition-colors duration-300',
-                        isActive || isHovered ? 'text-white' : module.color,
-                      )}
-                      style={{
-                        // Significantly larger icon (was 20)
-                        width: 32 * scale,
-                        height: 32 * scale,
-                      }}
-                    />
-                  </div>
-
-                  {/* Module Label - Upright & Responsive */}
-                  <div
-                    className={cn(
-                      'absolute top-full mt-3 flex flex-col items-center text-center transition-all duration-300 min-w-[100px]',
-                      isActive || isHovered
-                        ? 'opacity-100 translate-y-0 scale-100'
-                        : isInitialState
-                          ? 'opacity-80 translate-y-0.5 scale-95'
-                          : 'opacity-60 translate-y-1 scale-90',
-                    )}
-                  >
-                    <span className="text-white font-bold text-[10px] md:text-xs tracking-tight leading-none mb-1 drop-shadow-md whitespace-nowrap bg-black/50 px-2 py-0.5 rounded backdrop-blur-sm">
-                      {module.title}
-                    </span>
-                  </div>
-                </div>
+                <mod.icon
+                  className={cn(
+                    'transition-all duration-300',
+                    isActive || isHovered ? 'text-white' : mod.color,
+                  )}
+                  style={{
+                    width: 28 * scale,
+                    height: 28 * scale,
+                  }}
+                />
               </div>
-            )
-          })}
-        </div>
-      ))}
+
+              {/* Label */}
+              <div
+                className={cn(
+                  'absolute top-full mt-3 px-3 py-1 rounded-full border backdrop-blur-md transition-all duration-300 whitespace-nowrap pointer-events-none z-20',
+                  isActive || isHovered
+                    ? 'bg-blue-950/80 border-blue-500/50 opacity-100 translate-y-0'
+                    : 'bg-black/50 border-white/5 opacity-70 translate-y-[-5px]',
+                )}
+              >
+                <span
+                  className={cn(
+                    'text-[10px] md:text-xs font-bold tracking-wide uppercase',
+                    isActive || isHovered ? 'text-white' : 'text-gray-400',
+                  )}
+                >
+                  {mod.title}
+                </span>
+              </div>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

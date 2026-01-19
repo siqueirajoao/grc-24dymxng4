@@ -27,20 +27,19 @@ export interface ModuleData {
 }
 
 export const modules: ModuleData[] = [
-  // Orbit 1 (Governance Core)
   {
     id: 'risks',
     title: 'Gestão de Riscos',
     subtitle: 'ENTERPRISE RISK MANAGEMENT',
     description:
-      'Estrutura completa para identificação e mitigação de riscos (RCSA), alinhada às melhores práticas como ISO 31000.',
+      'Estrutura completa para identificação e mitigação de riscos (RCSA), alinhada às melhores práticas globais.',
     features: [
       'Matrizes de Risco Dinâmicas',
       'Heatmaps Interativos',
       'Monitoramento de KRIs',
       'Gestão de Incidentes',
     ],
-    regulation: ['ISO 31000', 'COSO', 'Resolução 4.557'],
+    regulation: ['ISO 31000', 'COSO ERM', 'Boas Práticas'],
     icon: ShieldAlert,
     color: 'text-red-500',
     borderColor: 'border-red-500/50',
@@ -60,7 +59,7 @@ export const modules: ModuleData[] = [
       'Planos de Remediação',
       'Certificação SOX',
     ],
-    regulation: ['COSO', 'SOX', 'ISO 27001'],
+    regulation: ['COSO ICIF', 'SOX', 'ISO 27001'],
     icon: ShieldCheck,
     color: 'text-emerald-500',
     borderColor: 'border-emerald-500/50',
@@ -88,8 +87,6 @@ export const modules: ModuleData[] = [
     glow: 'shadow-amber-500/20',
     relatedIds: ['risks', 'controls'],
   },
-
-  // Orbit 2 (Regulation & Governance)
   {
     id: 'policies',
     title: 'Políticas',
@@ -142,7 +139,7 @@ export const modules: ModuleData[] = [
       'Calendário Regulatório',
       'Gestão de Versões',
     ],
-    regulation: ['Layouts Específicos', 'Obrigações Fiscais'],
+    regulation: ['Obrigações Regulatórias', 'Fisco', 'Layouts'],
     icon: FileSpreadsheet,
     color: 'text-indigo-500',
     borderColor: 'border-indigo-500/50',
@@ -170,8 +167,6 @@ export const modules: ModuleData[] = [
     glow: 'shadow-purple-500/20',
     relatedIds: ['third-party', 'bia'],
   },
-
-  // Orbit 3 (Sustainability & Resilience)
   {
     id: 'third-party',
     title: 'Gestão de Terceiros',
@@ -184,7 +179,7 @@ export const modules: ModuleData[] = [
       'Monitoramento Contínuo',
       'Contratos & SLAs',
     ],
-    regulation: ['Resoluções de Terceiros', 'Compliance da Cadeia'],
+    regulation: ['Compliance na Cadeia', 'Due Diligence'],
     icon: Users,
     color: 'text-pink-500',
     borderColor: 'border-pink-500/50',
@@ -204,7 +199,7 @@ export const modules: ModuleData[] = [
       'Testes de Recuperação',
       'Gestão de Crises',
     ],
-    regulation: ['ISO 22301', 'Boas Práticas'],
+    regulation: ['ISO 22301', 'Resiliência Operacional'],
     icon: Activity,
     color: 'text-rose-500',
     borderColor: 'border-rose-500/50',

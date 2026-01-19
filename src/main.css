@@ -169,39 +169,25 @@
     animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
-  /* Orbital Animations */
-  .animate-orbit {
-    animation: orbit 60s linear infinite;
-  }
-  .animate-orbit-reverse {
-    animation: orbit-reverse 60s linear infinite;
-  }
-  .animate-orbit-slow {
-    animation: orbit 90s linear infinite;
-  }
-  .animate-orbit-slow-reverse {
-    animation: orbit-reverse 90s linear infinite;
+  /* Circuit Flow Animation */
+  .animate-circuit-flow {
+    animation: circuitFlow 3s infinite linear;
   }
 
-  .animation-paused {
-    animation-play-state: paused;
-  }
-
-  @keyframes orbit {
-    from {
-      transform: rotate(0deg);
+  @keyframes circuitFlow {
+    0% {
+      stroke-dashoffset: 100;
+      opacity: 0;
     }
-    to {
-      transform: rotate(360deg);
+    10% {
+      opacity: 1;
     }
-  }
-
-  @keyframes orbit-reverse {
-    from {
-      transform: rotate(0deg);
+    90% {
+      opacity: 1;
     }
-    to {
-      transform: rotate(-360deg);
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0;
     }
   }
 
