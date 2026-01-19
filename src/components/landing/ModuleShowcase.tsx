@@ -11,53 +11,56 @@ export function ModuleShowcase() {
   const { ref, isVisible } = useScrollObserver({ threshold: 0.1 })
 
   return (
-    <section id="features" className="py-24 bg-black relative overflow-hidden">
-      {/* Global Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-900/30 to-transparent" />
-      <div className="absolute bottom-0 right-0 w-full h-px bg-gradient-to-r from-transparent via-blue-900/30 to-transparent" />
+    <section
+      id="features"
+      className="py-24 bg-black relative overflow-hidden flex flex-col justify-center min-h-[900px]"
+    >
+      {/* Global Background Elements for True Black Aesthetic */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-50" />
+      <div className="absolute bottom-0 right-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-50" />
 
-      {/* Subtle Glows */}
-      <div className="absolute -left-[10%] top-[20%] w-[40%] h-[40%] bg-blue-900/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute -right-[10%] bottom-[20%] w-[40%] h-[40%] bg-indigo-900/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Subtle Ambient Glows - reduced opacity for cleaner black look */}
+      <div className="absolute -left-[20%] top-[10%] w-[600px] h-[600px] bg-blue-900/5 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute -right-[20%] bottom-[10%] w-[600px] h-[600px] bg-indigo-900/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10" ref={ref}>
         {/* Section Header */}
         <div
           className={cn(
-            'text-center max-w-3xl mx-auto mb-20 transition-all duration-700',
+            'text-center max-w-3xl mx-auto mb-16 md:mb-24 transition-all duration-1000 ease-out',
             isVisible
               ? 'opacity-100 translate-y-0'
               : 'opacity-0 translate-y-10',
           )}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-blue-400 text-sm font-medium mb-6 hover:border-blue-500/30 transition-colors cursor-default">
-            <Cpu className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-blue-300 text-sm font-medium mb-6 hover:bg-white/10 transition-colors cursor-default backdrop-blur-sm">
+            <Cpu className="w-3.5 h-3.5" />
             <span>Ecossistema Integrado</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 tracking-tight leading-[1.1]">
             Uma Plataforma, <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
-              Conexões Infinitas
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-200 to-indigo-400">
+              Conexões Inteligentes
             </span>
           </h2>
           <p className="text-zinc-400 text-lg leading-relaxed max-w-2xl mx-auto">
-            Navegue pelo nosso ecossistema regulatório. Cada módulo é uma peça
-            fundamental que se conecta para formar uma governança robusta.
+            Navegue pelo nosso ecossistema regulatório. Cada módulo atua como um
+            nó inteligente que processa, conecta e fortalece sua governança.
           </p>
         </div>
 
         {/* Interactive Area */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Interactive Graph */}
           <div
             className={cn(
-              'lg:col-span-6 flex justify-center lg:justify-end transition-all duration-1000 delay-100',
+              'lg:col-span-7 flex justify-center lg:justify-center transition-all duration-1000 delay-200',
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 -translate-x-10',
             )}
           >
-            <div className="w-full max-w-[500px] aspect-square relative">
+            <div className="w-full max-w-[550px] aspect-square relative">
               <EcosystemGraph activeId={activeTab} onSelect={setActiveTab} />
             </div>
           </div>
@@ -65,7 +68,7 @@ export function ModuleShowcase() {
           {/* Right Column: Detailed View */}
           <div
             className={cn(
-              'lg:col-span-6 transition-all duration-1000 delay-300 min-h-[500px] lg:h-[600px] flex flex-col justify-center',
+              'lg:col-span-5 transition-all duration-1000 delay-400 min-h-[500px] flex flex-col justify-center',
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 translate-x-10',

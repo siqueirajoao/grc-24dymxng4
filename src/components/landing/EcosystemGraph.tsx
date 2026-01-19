@@ -11,90 +11,80 @@ interface EcosystemGraphProps {
 export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
-  // Use a slightly smaller radius to ensure labels have room within the container
-  const radius = 34 // percentage of container size (0-50)
-  const total = modules.length
+  // Configuration for layout
+  const radius = 42 // Percentage 0-50
+  const center = 50
 
-  // Calculate node positions with corrected geometry
+  // Calculate node positions securely to prevent overlap
   const nodes = useMemo(() => {
     return modules.map((module, index) => {
-      // -90 degrees puts the first item at the top (12 o'clock)
-      const angleDeg = (index * 360) / total - 90
-      const angleRad = angleDeg * (Math.PI / 180)
+      // Offset angle to start from top (-90 degrees)
+      const angleDeg = (index * 360) / modules.length - 90
+      const angleRad = (angleDeg * Math.PI) / 180
 
-      // Center is 50, 50
-      const x = 50 + radius * Math.cos(angleRad)
-      const y = 50 + radius * Math.sin(angleRad)
+      const x = center + radius * Math.cos(angleRad)
+      const y = center + radius * Math.sin(angleRad)
 
       return {
         ...module,
         x,
         y,
         angleDeg,
-        angleRad,
       }
     })
-  }, [total])
+  }, [])
 
-  // Determine which node is currently the "focus" (hovered takes precedence over active)
   const currentFocusId = hoveredId || activeId
 
-  // Helper to determine label positioning based on angle
-  const getLabelStyle = (angleDeg: number) => {
-    // Normalize angle to 0-360
-    const normalizedAngle = (angleDeg + 360) % 360
+  // Determine label position based on angle to push them outwards
+  const getLabelPosition = (angle: number) => {
+    // Normalize angle to 0-360 positive
+    const normalized = (angle + 360) % 360
 
-    // Determine translation direction to push label away from center
-    // We add extra offset for specific quadrants to avoid overlapping
-    const isTop = normalizedAngle > 200 && normalizedAngle < 340
-    const isBottom = normalizedAngle > 20 && normalizedAngle < 160
-    const isRight = normalizedAngle >= 340 || normalizedAngle <= 20
-    const isLeft = normalizedAngle >= 160 && normalizedAngle <= 200
+    if (normalized >= 300 || normalized <= 60)
+      return 'left-8 md:left-10 origin-left' // Right side
+    if (normalized >= 120 && normalized <= 240)
+      return 'right-8 md:right-10 origin-right' // Left side
+    if (normalized > 60 && normalized < 120)
+      return 'top-8 md:top-10 -translate-x-1/2 origin-top' // Bottom
+    return 'bottom-8 md:bottom-10 -translate-x-1/2 origin-bottom' // Top
+  }
 
-    if (isTop) return 'bottom-full mb-3 left-1/2 -translate-x-1/2'
-    if (isBottom) return 'top-full mt-3 left-1/2 -translate-x-1/2'
-    if (isRight) return 'left-full ml-3 top-1/2 -translate-y-1/2'
-    if (isLeft) return 'right-full mr-3 top-1/2 -translate-y-1/2'
-
-    return 'top-full mt-2 left-1/2 -translate-x-1/2' // Fallback
+  // Get alignment classes for text inside the label container
+  const getLabelAlignment = (angle: number) => {
+    const normalized = (angle + 360) % 360
+    if (normalized >= 300 || normalized <= 60) return 'items-start text-left'
+    if (normalized >= 120 && normalized <= 240) return 'items-end text-right'
+    return 'items-center text-center'
   }
 
   return (
-    <div className="relative w-full h-full select-none p-4 md:p-8">
-      {/* Background Decor: Rotating Rings */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-        <div className="w-[65%] h-[65%] border border-dashed border-blue-500/30 rounded-full animate-spin-slow" />
-        <div className="absolute w-[45%] h-[45%] border border-dotted border-white/40 rounded-full animate-reverse-spin-slow" />
-        <div className="absolute w-[80%] h-[80%] border border-white/5 rounded-full" />
+    <div className="relative w-full h-full select-none">
+      {/* Background Rings - Static */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[60%] h-[60%] rounded-full border border-white/5" />
+        <div className="w-[84%] h-[84%] rounded-full border border-white/5 border-dashed opacity-50" />
       </div>
 
-      {/* Connection Lines Layer (SVG) */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
+      {/* SVG Layer for Connections */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
         <defs>
-          <linearGradient
-            id="activeLineGradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.1)" />
-            <stop offset="50%" stopColor="rgba(59, 130, 246, 0.6)" />
-            <stop offset="100%" stopColor="rgba(59, 130, 246, 0.1)" />
+          <linearGradient id="lineGradient" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.0)" />
+            <stop offset="50%" stopColor="rgba(59, 130, 246, 0.4)" />
+            <stop offset="100%" stopColor="rgba(59, 130, 246, 0.0)" />
           </linearGradient>
-          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="2" result="blur" />
+          <filter id="glow-line" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1.5" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
         </defs>
 
-        {/* 1. Draw connections between nodes (The web) */}
+        {/* 1. Inter-module connections */}
         {nodes.map((node) => {
           return node.relatedIds.map((targetId) => {
             const targetNode = nodes.find((n) => n.id === targetId)
-            if (!targetNode) return null
-            // Ensure unique key for connection (draw line only once per pair)
-            if (node.id > targetId) return null
+            if (!targetNode || node.id > targetId) return null
 
             const isRelatedActive =
               (currentFocusId === node.id &&
@@ -102,91 +92,95 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
               (currentFocusId === targetId &&
                 targetNode.relatedIds.includes(node.id))
 
+            // Use straight lines for clean look, crossing behind center
             return (
-              <line
-                key={`rel-${node.id}-${targetId}`}
-                x1={`${node.x}%`}
-                y1={`${node.y}%`}
-                x2={`${targetNode.x}%`}
-                y2={`${targetNode.y}%`}
-                stroke={
-                  isRelatedActive
-                    ? 'url(#activeLineGradient)'
-                    : 'rgba(255,255,255,0.05)'
-                }
-                strokeWidth={isRelatedActive ? '1.5' : '0.5'}
-                className={cn(
-                  'transition-all duration-500',
-                  isRelatedActive ? 'opacity-100' : 'opacity-40',
+              <g key={`${node.id}-${targetId}`}>
+                <line
+                  x1={`${node.x}%`}
+                  y1={`${node.y}%`}
+                  x2={`${targetNode.x}%`}
+                  y2={`${targetNode.y}%`}
+                  stroke={
+                    isRelatedActive
+                      ? 'url(#lineGradient)'
+                      : 'rgba(255,255,255,0.03)'
+                  }
+                  strokeWidth={isRelatedActive ? '1.5' : '1'}
+                  className={cn(
+                    'transition-all duration-500',
+                    isRelatedActive ? 'opacity-100' : 'opacity-0', // Hide non-active lines to reduce clutter
+                  )}
+                />
+                {/* Data flow particle for active connections */}
+                {isRelatedActive && (
+                  <circle r="1.5" fill="#60A5FA" filter="url(#glow-line)">
+                    <animateMotion
+                      dur="1.5s"
+                      repeatCount="indefinite"
+                      path={`M ${node.x * 5} ${node.y * 5} L ${targetNode.x * 5} ${targetNode.y * 5}`} // Assuming 500px coordinate system scaling for SVG ease
+                      // Actually for % coordinates we can't use path directly in some browsers easily without viewBox match
+                      // So we use standard calcMode linear
+                    >
+                      <mpath />
+                    </animateMotion>
+                    {/* SVG animateMotion with percentage coords is tricky. Let's use CSS on the line or just simple JS. 
+                        Actually simpler: Draw a second path on top with stroke-dasharray animation */}
+                  </circle>
                 )}
-              />
+              </g>
             )
           })
         })}
 
-        {/* 2. Draw connections to Center */}
+        {/* 2. Center connections (Star Topology) */}
         {nodes.map((node) => {
-          const isFocused = node.id === currentFocusId
-          const isRelatedToFocus = nodes
+          const isActive = node.id === currentFocusId
+          const isRelated = nodes
             .find((n) => n.id === currentFocusId)
             ?.relatedIds.includes(node.id)
-
-          const isActiveLine =
-            isFocused || (isRelatedToFocus && currentFocusId !== null)
+          const isHighlight = isActive || (currentFocusId && isRelated)
 
           return (
-            <g key={`center-${node.id}`}>
-              <line
-                x1="50%"
-                y1="50%"
-                x2={`${node.x}%`}
-                y2={`${node.y}%`}
-                stroke={
-                  isActiveLine
-                    ? 'url(#activeLineGradient)'
-                    : 'rgba(255,255,255,0.08)'
-                }
-                strokeWidth={isFocused ? '2' : isActiveLine ? '1' : '0.5'}
-                className={cn(
-                  'transition-all duration-500',
-                  isActiveLine ? 'opacity-100' : 'opacity-20',
-                )}
-              />
-              {/* Particle flow animation on active lines */}
-              {isFocused && (
-                <circle r="3" fill="#60A5FA" filter="url(#glow)">
-                  <animateMotion
-                    dur="1.5s"
-                    repeatCount="indefinite"
-                    path={`M 50 50 L ${node.x} ${node.y}`}
-                    keyPoints="0;1"
-                    keyTimes="0;1"
-                    calcMode="linear"
-                  />
-                </circle>
+            <line
+              key={`center-${node.id}`}
+              x1="50%"
+              y1="50%"
+              x2={`${node.x}%`}
+              y2={`${node.y}%`}
+              stroke={
+                isHighlight
+                  ? 'rgba(96, 165, 250, 0.4)'
+                  : 'rgba(255,255,255,0.05)'
+              }
+              strokeWidth={isHighlight ? '1.5' : '1'}
+              className={cn(
+                'transition-all duration-500',
+                isHighlight ? 'opacity-100' : 'opacity-30',
               )}
-            </g>
+            />
           )
         })}
       </svg>
 
-      {/* Central Core Hub */}
+      {/* Central Hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <div className="relative group cursor-default">
-          <div className="absolute inset-0 bg-blue-600/20 blur-2xl rounded-full animate-pulse-slow" />
-          <div className="relative w-20 h-20 md:w-24 md:h-24 bg-black border border-blue-500/30 rounded-full flex flex-col items-center justify-center shadow-[0_0_40px_rgba(37,99,235,0.15)] z-10 transition-transform duration-500 hover:scale-105">
-            <Building2 className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mb-1" />
-            <span className="text-[9px] md:text-[10px] font-bold text-white tracking-widest">
-              LAWYN
-            </span>
-            <span className="text-[7px] md:text-[8px] text-blue-400 font-medium">
-              GRC CORE
+        <div className="relative flex items-center justify-center">
+          {/* Pulsing Core Effects */}
+          <div className="absolute w-32 h-32 bg-blue-600/10 blur-2xl rounded-full animate-pulse-glow" />
+          <div className="absolute w-24 h-24 border border-blue-500/20 rounded-full animate-spin-slow" />
+          <div className="absolute w-20 h-20 border border-blue-400/10 rounded-full animate-reverse-spin-slow" />
+
+          {/* Core Content */}
+          <div className="relative w-16 h-16 bg-black border border-white/10 rounded-full flex flex-col items-center justify-center shadow-2xl z-10">
+            <Building2 className="w-5 h-5 text-blue-500 mb-0.5" />
+            <span className="text-[8px] font-bold text-white tracking-widest">
+              CORE
             </span>
           </div>
         </div>
       </div>
 
-      {/* Interactive Nodes */}
+      {/* Module Nodes */}
       {nodes.map((node) => {
         const isActive = node.id === activeId
         const isHovered = node.id === hoveredId
@@ -194,9 +188,9 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
           .find((n) => n.id === currentFocusId)
           ?.relatedIds.includes(node.id)
 
-        // Calculate opacity/dimming for non-focused items
-        const isDimmed =
-          hoveredId && !isHovered && !isRelated && hoveredId !== node.id
+        // Visual states
+        const isFocus = isActive || isHovered
+        const isDimmed = currentFocusId && !isFocus && !isRelated
 
         return (
           <button
@@ -205,58 +199,67 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
             onMouseEnter={() => setHoveredId(node.id)}
             onMouseLeave={() => setHoveredId(null)}
             className={cn(
-              'absolute z-30 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 outline-none group',
-              isActive || isHovered
-                ? 'scale-110 z-50'
-                : 'scale-100 hover:scale-105',
-              isDimmed ? 'opacity-40 blur-[1px] scale-90' : 'opacity-100',
+              'absolute z-30 flex items-center justify-center outline-none transition-all duration-500 group',
+              isDimmed
+                ? 'opacity-30 scale-90 blur-[0.5px]'
+                : 'opacity-100 scale-100',
             )}
             style={{
               left: `${node.x}%`,
               top: `${node.y}%`,
+              transform: 'translate(-50%, -50%)',
             }}
-            aria-label={`Select ${node.title} module`}
           >
-            <div className="relative flex flex-col items-center justify-center">
-              {/* Glow Effect */}
+            {/* Icon Circle */}
+            <div
+              className={cn(
+                'relative w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 border backdrop-blur-md overflow-hidden',
+                isFocus
+                  ? `bg-zinc-900 border-${node.color.split('-')[1]}-500/50 shadow-[0_0_20px_rgba(0,0,0,0.5)] scale-110`
+                  : 'bg-black border-white/10 hover:border-white/30 hover:bg-zinc-900',
+              )}
+            >
+              {/* Internal Glow on Active */}
               <div
                 className={cn(
-                  'absolute inset-0 blur-xl rounded-full transition-all duration-500',
-                  isActive || isHovered
-                    ? `opacity-60 ${node.color.replace('text-', 'bg-')}`
-                    : 'opacity-0',
+                  'absolute inset-0 opacity-0 transition-opacity duration-300',
+                  isFocus &&
+                    `bg-gradient-to-tr from-transparent to-${node.color.split('-')[1]}-500/20 opacity-100`,
                 )}
               />
 
-              {/* Icon Container */}
-              <div
+              <node.icon
                 className={cn(
-                  'w-12 h-12 md:w-16 md:h-16 rounded-full border flex items-center justify-center transition-all duration-300 backdrop-blur-md shadow-lg z-20',
-                  isActive || isHovered
-                    ? `bg-black border-${node.color.split('-')[1]}-500/50 ${node.color} shadow-[0_0_25px_rgba(0,0,0,0.5)] ring-1 ring-${node.color.split('-')[1]}-500/30`
-                    : `bg-zinc-950 border-white/10 text-gray-500 hover:border-white/20 hover:text-gray-300`,
+                  'w-5 h-5 md:w-6 md:h-6 transition-all duration-300 relative z-10',
+                  isFocus
+                    ? node.color
+                    : 'text-zinc-500 group-hover:text-zinc-300',
                 )}
-              >
-                <node.icon
-                  className={cn(
-                    'w-5 h-5 md:w-7 md:h-7 transition-transform duration-300',
-                    (isActive || isHovered) && 'scale-110',
-                  )}
-                />
-              </div>
+              />
+            </div>
 
-              {/* Label - Positioned radially away from center to avoid overlaps */}
-              <div
+            {/* Floating Label */}
+            <div
+              className={cn(
+                'absolute flex flex-col min-w-[120px] pointer-events-none transition-all duration-300 z-40',
+                getLabelPosition(node.angleDeg),
+                getLabelAlignment(node.angleDeg),
+                isFocus
+                  ? 'opacity-100 translate-y-0 scale-100'
+                  : 'opacity-0 translate-y-2 scale-95',
+              )}
+            >
+              <span className="text-xs md:text-sm font-bold text-white whitespace-nowrap drop-shadow-md">
+                {node.title}
+              </span>
+              <span
                 className={cn(
-                  'absolute whitespace-nowrap text-[10px] md:text-xs font-semibold px-3 py-1.5 rounded-full border backdrop-blur-md transition-all duration-300 z-30 pointer-events-none',
-                  getLabelStyle(node.angleDeg),
-                  isActive || isHovered
-                    ? 'bg-zinc-900/95 border-white/20 text-white opacity-100 shadow-xl scale-100'
-                    : 'bg-black/60 border-transparent text-gray-500 opacity-0 scale-90',
+                  'text-[10px] uppercase tracking-wider font-medium mt-0.5',
+                  node.color,
                 )}
               >
-                {node.title}
-              </div>
+                {node.subtitle}
+              </span>
             </div>
           </button>
         )
