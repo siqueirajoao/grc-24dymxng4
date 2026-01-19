@@ -1,58 +1,64 @@
-import { Cpu } from 'lucide-react'
+import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useScrollObserver } from '@/hooks/use-scroll-observer'
 import { EcosystemGraph } from './EcosystemGraph'
+import { ModuleDetail } from './ModuleDetail'
 
 export function ModuleShowcase() {
   const { ref, isVisible } = useScrollObserver({ threshold: 0.1 })
+  const [selectedModuleId, setSelectedModuleId] = useState('audit')
 
   return (
     <section
-      id="features"
-      className="py-16 md:py-24 bg-black relative overflow-hidden flex flex-col justify-center min-h-[900px]"
+      id="ecosystem"
+      className="py-12 md:py-20 bg-black relative overflow-hidden flex flex-col min-h-screen"
     >
-      {/* True Black Aesthetic - No strong gradients */}
+      {/* Background Ambience */}
       <div className="absolute inset-0 bg-black z-0" />
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-950/20 blur-[150px] rounded-full pointer-events-none opacity-50" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-950/20 blur-[120px] rounded-full pointer-events-none opacity-30" />
 
-      {/* Very subtle ambient glow - Deep Space Blue */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-blue-950/10 blur-[120px] rounded-full pointer-events-none" />
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_100%)] pointer-events-none" />
 
-      {/* Grid Overlay - Very Faint */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_100%)] pointer-events-none" />
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10" ref={ref}>
-        {/* Section Header */}
+      <div
+        className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col justify-center"
+        ref={ref}
+      >
         <div
           className={cn(
-            'text-center max-w-3xl mx-auto mb-8 transition-all duration-1000 ease-out',
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4',
+            'flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 transition-all duration-1000',
+            isVisible ? 'opacity-100' : 'opacity-0',
           )}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-medium mb-6 backdrop-blur-sm">
-            <Cpu className="w-3 h-3" />
-            <span>Ecossistema Vivo</span>
+          {/* Interactive Graph (Left/Top) */}
+          <div className="w-full lg:w-[60%] order-2 lg:order-1 relative">
+            <div
+              className={cn(
+                'relative transition-all duration-1000 delay-200',
+                isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
+              )}
+            >
+              <EcosystemGraph
+                activeModuleId={selectedModuleId}
+                onModuleSelect={setSelectedModuleId}
+              />
+            </div>
           </div>
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6 tracking-tight leading-tight">
-            Arquitetura Integrada
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-b from-blue-200 to-blue-600">
-              Governança em Órbita
-            </span>
-          </h2>
-          <p className="text-zinc-500 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            Uma visão sistêmica onde cada módulo orbita para garantir
-            conformidade contínua. Navegue pelo ecossistema Lawyn.
-          </p>
-        </div>
 
-        {/* Interactive Orbital Graph */}
-        <div
-          className={cn(
-            'flex justify-center items-center relative transition-all duration-1000 delay-200 w-full',
-            isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
-          )}
-        >
-          <EcosystemGraph />
+          {/* Detail Panel (Right/Bottom) */}
+          <div className="w-full lg:w-[40%] order-1 lg:order-2">
+            <div
+              className={cn(
+                'transition-all duration-1000 delay-300',
+                isVisible
+                  ? 'opacity-100 translate-x-0'
+                  : 'opacity-0 translate-x-10',
+              )}
+            >
+              <ModuleDetail moduleId={selectedModuleId} />
+            </div>
+          </div>
         </div>
       </div>
     </section>
