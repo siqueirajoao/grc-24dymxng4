@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Menu, Building2, X } from 'lucide-react'
+import { Menu, Building2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
@@ -37,10 +37,10 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
           <a
-            href="#features"
+            href="#ecosystem"
             className="hover:text-blue-400 transition-colors relative group"
           >
-            Soluções
+            Ecossistema
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-400 transition-all group-hover:w-full" />
           </a>
           <a
@@ -81,10 +81,10 @@ export function Navbar() {
             >
               <div className="flex flex-col gap-6 mt-10">
                 <a
-                  href="#features"
+                  href="#ecosystem"
                   className="text-lg font-medium hover:text-blue-400"
                 >
-                  Soluções
+                  Ecossistema
                 </a>
                 <a
                   href="#segments"
