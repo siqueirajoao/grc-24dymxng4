@@ -5,6 +5,7 @@ import { ModuleShowcase } from '@/components/landing/ModuleShowcase'
 import { SegmentsSection } from '@/components/landing/SegmentsSection'
 import { ComplianceSection } from '@/components/landing/ComplianceSection'
 import { LandingFooter } from '@/components/landing/LandingFooter'
+import { FAQSection } from '@/components/landing/FAQSection'
 
 export default function LandingPage() {
   return (
@@ -27,6 +28,9 @@ export default function LandingPage() {
 
         {/* Regulatory & Dashboard Preview */}
         <ComplianceSection />
+
+        {/* FAQ Section */}
+        <FAQSection />
       </main>
 
       {/* Footer */}
