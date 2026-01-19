@@ -28,7 +28,7 @@ export function ComplianceSection() {
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
               Conformidade Garantida com{' '}
-              <span className="text-blue-500">BACEN e CVM</span>
+              <span className="text-blue-500">Seus Reguladores</span>
             </h2>
 
             <div className="grid grid-cols-2 gap-6 my-8">
@@ -36,22 +36,24 @@ export function ComplianceSection() {
                 <div className="text-3xl font-bold text-blue-400 mb-1">
                   <CountUp end={100} suffix="%" />
                 </div>
-                <div className="text-sm text-gray-400">Compliance</div>
+                <div className="text-sm text-gray-400">Visibilidade</div>
               </div>
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <div className="text-3xl font-bold text-blue-400 mb-1">
                   <CountUp end={50} prefix="+" />
                 </div>
-                <div className="text-sm text-gray-400">Relatórios Auto</div>
+                <div className="text-sm text-gray-400">
+                  Processos Automatizados
+                </div>
               </div>
             </div>
 
             <div className="space-y-4">
               {[
-                'Matriz de Riscos 5x5 ajustável',
-                'Automação de CADOCs 2061, 4010 e 5011',
+                'Matriz de Riscos flexível (ISO 31000)',
+                'Automação de reportes e obrigações',
                 'Trilhas de auditoria imutáveis',
-                'Gestão de incidentes e perdas operacionais',
+                'Gestão integrada de incidentes',
               ].map((item, i) => (
                 <div
                   key={i}
@@ -119,7 +121,7 @@ export function ComplianceSection() {
 
               {/* Overlay Badge */}
               <div className="absolute bottom-8 right-8 bg-blue-600 text-white px-5 py-3 rounded-lg font-bold shadow-lg shadow-blue-900/50 animate-float">
-                Score: 98/100
+                Status: Regular
               </div>
             </div>
 

@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Layers, LayoutGrid, Shield, Zap } from 'lucide-react'
+import { ArrowRight, Layers, LayoutGrid, Shield } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function HeroSection() {
@@ -23,33 +23,21 @@ export function HeroSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
 
       <div className="container relative z-10 flex flex-col items-center text-center px-4">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-950/40 border border-blue-500/30 text-blue-300 text-sm font-medium mb-8 backdrop-blur-md animate-fade-in-up opacity-0">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-          </span>
-          <span className="tracking-wide uppercase text-xs font-bold">
-            Regulatory OS v2.0
-          </span>
-        </div>
-
         {/* Headline */}
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 text-white max-w-6xl mx-auto leading-[1.1]">
           <span className="block animate-fade-in-up [animation-delay:200ms] opacity-0">
-            O Ecossistema
+            A Plataforma de
           </span>
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block">
-            Regulatório Definitivo
+            Ambientes Regulatórios
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="text-xl md:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in-up [animation-delay:600ms] opacity-0 font-light">
           Lawyn é a plataforma GRC que unifica Governança, Riscos e Compliance
-          em um único{' '}
-          <span className="text-blue-300 font-medium">Regulatory OS</span>{' '}
-          projetado para o futuro do sistema financeiro.
+          em um único sistema operacional projetado para lidar com a
+          complexidade regulatória de qualquer setor.
         </p>
 
         {/* CTAs */}
@@ -77,19 +65,13 @@ export function HeroSection() {
           <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/5 bg-white/5 backdrop-blur-sm">
             <Shield className="w-4 h-4 text-blue-400" />
             <span className="text-gray-300 text-sm font-medium">
-              Compliance BACEN & CVM
+              Compliance & Governança
             </span>
           </div>
           <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/5 bg-white/5 backdrop-blur-sm">
             <LayoutGrid className="w-4 h-4 text-blue-400" />
             <span className="text-gray-300 text-sm font-medium">
               Estrutura Modular
-            </span>
-          </div>
-          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/5 bg-white/5 backdrop-blur-sm">
-            <Zap className="w-4 h-4 text-blue-400" />
-            <span className="text-gray-300 text-sm font-medium">
-              Deploy em 48h
             </span>
           </div>
         </div>

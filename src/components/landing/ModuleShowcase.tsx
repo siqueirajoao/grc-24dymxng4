@@ -6,7 +6,7 @@ import { ModuleDetail } from './ModuleDetail'
 
 export function ModuleShowcase() {
   const { ref, isVisible } = useScrollObserver({ threshold: 0.1 })
-  const [selectedModuleId, setSelectedModuleId] = useState('audit')
+  const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
 
   return (
     <section
@@ -31,8 +31,13 @@ export function ModuleShowcase() {
             isVisible ? 'opacity-100' : 'opacity-0',
           )}
         >
-          {/* Interactive Graph (Left/Top) */}
-          <div className="w-full lg:w-[60%] order-2 lg:order-1 relative">
+          {/* Interactive Graph (Left/Top or Center when nothing selected) */}
+          <div
+            className={cn(
+              'order-2 lg:order-1 relative transition-all duration-700 ease-in-out',
+              selectedModuleId ? 'w-full lg:w-[60%]' : 'w-full lg:w-full',
+            )}
+          >
             <div
               className={cn(
                 'relative transition-all duration-1000 delay-200',
@@ -44,20 +49,37 @@ export function ModuleShowcase() {
                 onModuleSelect={setSelectedModuleId}
               />
             </div>
+
+            {!selectedModuleId && (
+              <div className="text-center mt-8 animate-fade-in-up delay-500">
+                <p className="text-gray-400 text-sm">
+                  Clique em um módulo para ver detalhes
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* Detail Panel (Right/Bottom) */}
-          <div className="w-full lg:w-[40%] order-1 lg:order-2">
-            <div
-              className={cn(
-                'transition-all duration-1000 delay-300',
-                isVisible
-                  ? 'opacity-100 translate-x-0'
-                  : 'opacity-0 translate-x-10',
-              )}
-            >
-              <ModuleDetail moduleId={selectedModuleId} />
-            </div>
+          {/* Detail Panel (Right/Bottom) - Only visible when selected */}
+          <div
+            className={cn(
+              'w-full lg:w-[40%] order-1 lg:order-2 overflow-hidden transition-all duration-700 ease-in-out',
+              selectedModuleId
+                ? 'opacity-100 translate-x-0 max-h-[800px]'
+                : 'opacity-0 translate-x-10 max-h-0 lg:max-h-full lg:w-0',
+            )}
+          >
+            {selectedModuleId && (
+              <div
+                className={cn(
+                  'transition-all duration-1000 delay-300',
+                  isVisible
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-0 translate-x-10',
+                )}
+              >
+                <ModuleDetail moduleId={selectedModuleId} />
+              </div>
+            )}
           </div>
         </div>
       </div>

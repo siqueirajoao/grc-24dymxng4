@@ -10,7 +10,7 @@ interface OrbitConfig {
 }
 
 interface EcosystemGraphProps {
-  activeModuleId: string
+  activeModuleId: string | null
   onModuleSelect: (id: string) => void
 }
 
@@ -130,6 +130,11 @@ export function EcosystemGraph({
           let opacity = 0.5 + ((sin + 1) / 2) * 0.5
           if (isActive || isHovered) opacity = 1
 
+          // Force higher opacity if no module is active (initial state) so everything looks balanced
+          if (!activeModuleId && !hoveredModule) {
+            opacity = 0.7 + ((sin + 1) / 2) * 0.3
+          }
+
           // Apply Styles
           element.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${finalScale})`
           element.style.opacity = opacity.toFixed(2)
@@ -248,6 +253,9 @@ export function EcosystemGraph({
             const isActive = activeModuleId === modId
             const isHovered = hoveredModule === modId
 
+            // Initial state (no selection) is cleaner without heavy dims
+            const isInitialState = !activeModuleId
+
             return (
               <div
                 key={modId}
@@ -269,7 +277,9 @@ export function EcosystemGraph({
                         : module.borderColor,
                       isHovered && !isActive
                         ? 'border-white scale-105 bg-zinc-900'
-                        : 'shadow-lg shadow-black/80',
+                        : isInitialState
+                          ? 'shadow-lg shadow-black/80 hover:border-white/50'
+                          : 'shadow-lg shadow-black/80',
                     )}
                     style={{
                       // Increased size for visibility (was 48)
@@ -296,7 +306,9 @@ export function EcosystemGraph({
                       'absolute top-full mt-3 flex flex-col items-center text-center transition-all duration-300 min-w-[100px]',
                       isActive || isHovered
                         ? 'opacity-100 translate-y-0 scale-100'
-                        : 'opacity-60 translate-y-1 scale-90',
+                        : isInitialState
+                          ? 'opacity-80 translate-y-0.5 scale-95'
+                          : 'opacity-60 translate-y-1 scale-90',
                     )}
                   >
                     <span className="text-white font-bold text-[10px] md:text-xs tracking-tight leading-none mb-1 drop-shadow-md whitespace-nowrap bg-black/50 px-2 py-0.5 rounded backdrop-blur-sm">

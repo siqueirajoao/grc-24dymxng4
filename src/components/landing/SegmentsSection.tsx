@@ -3,18 +3,18 @@ import { cn } from '@/lib/utils'
 
 const segments = [
   {
-    title: 'Bancos (S1 a S4)',
-    desc: 'Estrutura completa para gestão de riscos de mercado, crédito e operacional conforme Basileia.',
+    title: 'Instituições Reguladas',
+    desc: 'Bancos, Fintechs, Seguradoras e empresas de capital aberto sujeitas a regulações rigorosas (BACEN, CVM, SUSEP).',
     gradient: 'from-blue-900/20 to-indigo-900/20',
   },
   {
-    title: 'Instituições de Pagamento',
-    desc: 'Conformidade simplificada com as circulares do BACEN para IPs e Fintechs.',
+    title: 'Empresas de Tecnologia',
+    desc: 'Startups e Scale-ups que precisam estruturar governança e compliance para crescimento sustentável e IPO.',
     gradient: 'from-indigo-900/20 to-violet-900/20',
   },
   {
-    title: 'Financeiras & SCD/SEP',
-    desc: 'Controles robustos para operações de crédito e reportes regulatórios.',
+    title: 'Indústria e Serviços',
+    desc: 'Grandes corporações com complexidade operacional, riscos de cadeia de suprimentos e requisitos de auditoria.',
     gradient: 'from-violet-900/20 to-purple-900/20',
   },
 ]
@@ -37,7 +37,7 @@ export function SegmentsSection() {
           )}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center text-white">
-            Feito para o Mercado Financeiro
+            Para Ambientes de Alta Complexidade
           </h2>
         </div>
         <div className="grid md:grid-cols-3 gap-8">

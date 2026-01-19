@@ -27,45 +27,45 @@ const features = [
   },
   {
     icon: FileSpreadsheet,
-    title: 'CADOCs e Relatórios',
+    title: 'Reportes Regulatórios',
     description:
-      'Gerencie os documentos obrigatórios enviados ao banco central. Acompanhe documentos pendentes, atrasados e enviados e sua periodicidade.',
+      'Gerencie os documentos obrigatórios e relatórios de compliance. Acompanhe obrigações pendentes e prazos críticos.',
   },
   {
     icon: Users,
     title: 'Gestão de Terceiros',
     description:
-      'Faça a gestão de riscos de fornecedores, parceiros e terceiros críticos. Acompanhe a visão geral, cadastro de terceiros, due diligente, contratos e monitoramento constante.',
+      'Faça a gestão de riscos de fornecedores e parceiros críticos. Due diligence, contratos e monitoramento constante.',
   },
   {
     icon: Activity,
-    title: 'BIA & Continuidade',
+    title: 'Continuidade',
     description:
-      'Analise de impacto no negócio e continuidade operacional. Tenha uma visão geral da sua empresa e identifique os processos por criticidade e status das análises.',
+      'Análise de impacto no negócio e continuidade operacional. Identifique processos críticos e garanta resiliência.',
   },
   {
     icon: Scale,
     title: 'Regulatório',
     description:
-      'Realize o acompanhamento regulatório. Monitore atualizações normativas e gerencie a conformidade.',
+      'Realize o acompanhamento regulatório. Monitore atualizações normativas de qualquer órgão e gerencie a conformidade.',
   },
   {
     icon: Lock,
-    title: 'Privacy & LGPD',
+    title: 'Privacidade de Dados',
     description:
-      'Governança de dados pessoais, risco regulatório e accountability. Tenha acesso ao Registro de Operações de Tratamento (ROPA), acompanhe os Relatórios de Impacto (RIPD) e o catálogo de riscos de privacidade em desenvolvimento.',
+      'Governança de dados pessoais e accountability. Gestão de inventário de dados, riscos e direitos dos titulares.',
   },
   {
     icon: FileSearch,
     title: 'Auditorias',
     description:
-      'Planejamento e acompanhamento de auditorias. Visão completa das autorias em andamento, planejadas e sua taxa de êxito. Cadastre requerimentos e apontamentos feitos durante as auditorias.',
+      'Planejamento e acompanhamento de auditorias. Visão completa das auditorias em andamento e taxas de resolução.',
   },
   {
     icon: ScrollText,
     title: 'Políticas',
     description:
-      'Tenha uma biblioteca de políticas internas com controle de aceite e versionamento. Cadastre novas políticas e seus status.',
+      'Biblioteca de políticas internas com controle de aceite e versionamento. Garanta a ciência dos colaboradores.',
   },
 ]
 
@@ -84,7 +84,7 @@ export function FeaturesSection() {
           )}
         >
           <span className="text-blue-500 text-xs font-bold tracking-widest uppercase">
-            FUNÇÕES
+            FUNCIONALIDADES
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
             Conheça as funcionalidades da Lawyn
@@ -99,22 +99,24 @@ export function FeaturesSection() {
             <div
               key={i}
               className={cn(
-                'group p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:bg-white/10 hover:border-blue-500/30 hover:-translate-y-1',
+                'transition-all duration-500 ease-out',
                 isVisible
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-20',
               )}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-6 text-white group-hover:border-blue-400 group-hover:text-blue-400 transition-all duration-300 shadow-lg shadow-transparent group-hover:shadow-blue-900/20">
-                <feature.icon className="w-5 h-5" />
+              <div className="h-full p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-blue-500/30 hover:-translate-y-1 group cursor-default">
+                <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-6 text-white group-hover:border-blue-400 group-hover:text-blue-400 transition-all duration-300 shadow-lg shadow-transparent group-hover:shadow-blue-900/20">
+                  <feature.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-100 transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-100 transition-colors">
-                {feature.title}
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
-                {feature.description}
-              </p>
             </div>
           ))}
         </div>
