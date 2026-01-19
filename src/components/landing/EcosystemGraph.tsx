@@ -23,18 +23,20 @@ export function EcosystemGraph({
   const [hoveredModule, setHoveredModule] = useState<string | null>(null)
 
   // Scale Factors
-  const [scale, setScale] = useState(0.85) // Default ORBIT_SCALE
-  const [radii, setRadii] = useState([100, 170, 240])
+  const [scale, setScale] = useState(0.85)
+  // Adjusted radii to accommodate larger icons and prevent overlap
+  const [radii, setRadii] = useState([130, 210, 290])
 
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth
       if (w < 768) {
         setScale(0.75) // Mobile Scale
-        setRadii([80, 140, 200])
+        // Increased mobile radii to prevent core overlap with larger icons
+        setRadii([95, 160, 225])
       } else {
         setScale(0.85) // Desktop Scale
-        setRadii([120, 200, 280]) // Base radii to be scaled
+        setRadii([130, 210, 290])
       }
     }
     handleResize()
@@ -42,20 +44,16 @@ export function EcosystemGraph({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Animation angles
-  const anglesRef = useRef<{ [key: number]: number }>({
-    1: 0,
-    2: 1.5,
-    3: 3.0,
-  })
+  // Store angles per module for independent movement
+  const moduleAnglesRef = useRef<{ [key: string]: number }>({})
 
   // Configuration for Orbits
   const orbits: OrbitConfig[] = useMemo(
     () => [
       {
-        id: 1, // Core (4 nodes as per AC)
+        id: 1, // Core
         speed: 0.001,
-        moduleIds: ['risks', 'controls', 'audit', 'policies'], // Added policies to make it 4
+        moduleIds: ['risks', 'controls', 'audit', 'policies'],
         direction: 1,
       },
       {
@@ -80,26 +78,35 @@ export function EcosystemGraph({
 
   useEffect(() => {
     const animate = () => {
-      // 1. Update Angles (Pause if hovered)
-      if (!hoveredModule) {
-        orbits.forEach((orbit) => {
-          anglesRef.current[orbit.id] += orbit.speed * orbit.direction
-        })
-      }
-
-      // 2. Position Modules
+      // 1. Update Angles & Position Modules
       orbits.forEach((orbit, orbitIndex) => {
         const radius = radii[orbitIndex] * scale
-        const { moduleIds, id: orbitId } = orbit
-        const currentOrbitAngle = anglesRef.current[orbitId]
+        const { moduleIds, id: orbitId, speed, direction } = orbit
+
+        // Base spacing for initialization
+        const spacing = (Math.PI * 2) / moduleIds.length
+        // Initial phase offset based on orbit ID
+        const startPhase = { 1: 0, 2: 1.5, 3: 3.0 }[orbitId] || 0
 
         moduleIds.forEach((modId, index) => {
+          // Initialize angle if needed
+          if (typeof moduleAnglesRef.current[modId] === 'undefined') {
+            moduleAnglesRef.current[modId] = startPhase + spacing * index
+          }
+
+          // Check if we should pause this specific module
+          // Pauses if module is hovered OR selected (active)
+          const isPaused = modId === hoveredModule || modId === activeModuleId
+
+          // Update angle if not paused
+          if (!isPaused) {
+            moduleAnglesRef.current[modId] += speed * direction
+          }
+
+          // Get current angle
+          const angle = moduleAnglesRef.current[modId]
           const element = moduleRefs.current[modId]
           if (!element) return
-
-          // Even spacing
-          const spacing = (Math.PI * 2) / moduleIds.length
-          const angle = currentOrbitAngle + spacing * index
 
           // Polar to Cartesian with tilt
           const tilt = 0.6
@@ -126,7 +133,9 @@ export function EcosystemGraph({
           // Apply Styles
           element.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${finalScale})`
           element.style.opacity = opacity.toFixed(2)
-          element.style.zIndex = (isActive ? 200 : zIndex).toString()
+          element.style.zIndex = (
+            isActive || isHovered ? 200 : zIndex
+          ).toString()
 
           // Update Lines
           const coreLine = coreLineRefs.current[modId]
@@ -263,8 +272,9 @@ export function EcosystemGraph({
                         : 'shadow-lg shadow-black/80',
                     )}
                     style={{
-                      width: 48 * scale,
-                      height: 48 * scale,
+                      // Increased size for visibility (was 48)
+                      width: 64 * scale,
+                      height: 64 * scale,
                     }}
                   >
                     <module.icon
@@ -273,8 +283,9 @@ export function EcosystemGraph({
                         isActive || isHovered ? 'text-white' : module.color,
                       )}
                       style={{
-                        width: 20 * scale,
-                        height: 20 * scale,
+                        // Significantly larger icon (was 20)
+                        width: 32 * scale,
+                        height: 32 * scale,
                       }}
                     />
                   </div>
