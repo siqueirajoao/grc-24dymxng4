@@ -1,58 +1,68 @@
-import { Binoculars, Calendar, FileText, Target } from 'lucide-react'
+import {
+  Activity,
+  FileSearch,
+  FileSpreadsheet,
+  ListTodo,
+  Lock,
+  Scale,
+  ScrollText,
+  ShieldAlert,
+  Users,
+} from 'lucide-react'
 import { useScrollObserver } from '@/hooks/use-scroll-observer'
 import { cn } from '@/lib/utils'
 
 const features = [
   {
-    icon: Binoculars,
+    icon: ListTodo,
     title: 'Controle de Tarefas',
     description:
       'Gerencie seus planos de ação e pendências. Defina responsáveis e datas limite para sempre priorizar o que for necessário.',
   },
   {
-    icon: Calendar,
+    icon: ShieldAlert,
     title: 'Gestão de Riscos',
     description:
       'Cadastre e monitore os riscos organizacionais. Acompanhe os riscos em aberto e sua severidade (crítico, alto, médio e baixo).',
   },
   {
-    icon: FileText,
-    title: 'CADOCs e RelatóriosCs',
+    icon: FileSpreadsheet,
+    title: 'CADOCs e Relatórios',
     description:
       'Gerencie os documentos obrigatórios enviados ao banco central. Acompanhe documentos pendentes, atrasados e enviados e sua periodicidade.',
   },
   {
-    icon: FileText,
+    icon: Users,
     title: 'Gestão de Terceiros',
     description:
       'Faça a gestão de riscos de fornecedores, parceiros e terceiros críticos. Acompanhe a visão geral, cadastro de terceiros, due diligente, contratos e monitoramento constante.',
   },
   {
-    icon: FileText,
+    icon: Activity,
     title: 'BIA & Continuidade',
     description:
       'Analise de impacto no negócio e continuidade operacional. Tenha uma visão geral da sua empresa e identifique os processos por criticidade e status das análises.',
   },
   {
-    icon: FileText,
+    icon: Scale,
     title: 'Regulatório',
     description:
       'Realize o acompanhamento regulatório. Monitore atualizações normativas e gerencie a conformidade.',
   },
   {
-    icon: FileText,
+    icon: Lock,
     title: 'Privacy & LGPD',
     description:
       'Governança de dados pessoais, risco regulatório e accountability. Tenha acesso ao Registro de Operações de Tratamento (ROPA), acompanhe os Relatórios de Impacto (RIPD) e o catálogo de riscos de privacidade em desenvolvimento.',
   },
   {
-    icon: Target,
+    icon: FileSearch,
     title: 'Auditorias',
     description:
       'Planejamento e acompanhamento de auditorias. Visão completa das autorias em andamento, planejadas e sua taxa de êxito. Cadastre requerimentos e apontamentos feitos durante as auditorias.',
   },
   {
-    icon: FileText,
+    icon: ScrollText,
     title: 'Políticas',
     description:
       'Tenha uma biblioteca de políticas internas com controle de aceite e versionamento. Cadastre novas políticas e seus status.',
@@ -73,7 +83,7 @@ export function FeaturesSection() {
               : 'opacity-0 translate-y-10',
           )}
         >
-          <span className="text-gray-500 text-xs font-bold tracking-widest uppercase">
+          <span className="text-blue-500 text-xs font-bold tracking-widest uppercase">
             FUNÇÕES
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
@@ -89,20 +99,20 @@ export function FeaturesSection() {
             <div
               key={i}
               className={cn(
-                'group p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:bg-white/10 hover:border-white/20',
+                'group p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:bg-white/10 hover:border-blue-500/30 hover:-translate-y-1',
                 isVisible
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-20',
               )}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-6 text-white group-hover:border-white/40 transition-colors">
+              <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-6 text-white group-hover:border-blue-400 group-hover:text-blue-400 transition-all duration-300 shadow-lg shadow-transparent group-hover:shadow-blue-900/20">
                 <feature.icon className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">
+              <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-100 transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
                 {feature.description}
               </p>
             </div>
