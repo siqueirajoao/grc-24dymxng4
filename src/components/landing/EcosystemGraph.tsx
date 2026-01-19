@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Building2 } from 'lucide-react'
+import { Building2, Landmark, Scale, Shield, ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { modules } from './modules-data'
 import { useIsMobile } from '@/hooks/use-mobile'
@@ -12,251 +12,418 @@ interface EcosystemGraphProps {
 export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const isMobile = useIsMobile()
+  const currentId = hoveredId || activeId
 
-  // Layout Configuration
-  // Desktop: Wider radius for labels. Mobile: Tighter radius, labels only on active.
-  const radius = isMobile ? 36 : 40
-  const center = 50
+  // --- Configuration ---
+  const VIEWBOX_SIZE = 600
+  const CENTER = VIEWBOX_SIZE / 2
+  const RADIUS = 180 // Radius for modules
+  const REGULATOR_RADIUS = 260 // Radius for regulators
 
-  // Fixed angular positions for 6 modules to ensure symmetry
-  // -90 is top (12 o'clock). 60 degree increments.
-  const nodeAngles = [-90, -30, 30, 90, 150, 210]
+  // --- Regulator Nodes Data ---
+  const regulators = [
+    {
+      id: 'reg-bacen',
+      label: 'BACEN',
+      icon: Landmark,
+      angle: 225, // Top-Leftish
+      connectsTo: ['risks', 'third-party', 'regulatory'],
+      color: 'text-blue-400',
+    },
+    {
+      id: 'reg-cvm',
+      label: 'CVM / Aud',
+      icon: Scale,
+      angle: 315, // Top-Rightish
+      connectsTo: ['controls', 'audit', 'regulatory'],
+      color: 'text-emerald-400',
+    },
+    {
+      id: 'reg-lgpd',
+      label: 'ANPD',
+      icon: Shield,
+      angle: 90, // Bottom
+      connectsTo: ['lgpd', 'third-party'],
+      color: 'text-purple-400',
+    },
+  ]
 
-  const nodes = useMemo(() => {
+  // --- Calculate Positions ---
+  const moduleNodes = useMemo(() => {
     return modules.map((module, index) => {
-      // Use fixed angles if available, otherwise calculate
-      const angleDeg = nodeAngles[index] ?? (index * 360) / modules.length - 90
+      // Start from -90deg (Top) and go clockwise
+      const angleDeg = -90 + index * (360 / modules.length)
       const angleRad = (angleDeg * Math.PI) / 180
-
-      const x = center + radius * Math.cos(angleRad)
-      const y = center + radius * Math.sin(angleRad)
-
       return {
         ...module,
-        x,
-        y,
+        x: CENTER + RADIUS * Math.cos(angleRad),
+        y: CENTER + RADIUS * Math.sin(angleRad),
         angleDeg,
       }
     })
-  }, [radius])
+  }, [])
 
-  const currentFocusId = hoveredId || activeId
+  const regulatorNodes = useMemo(() => {
+    return regulators.map((reg) => {
+      const angleRad = (reg.angle * Math.PI) / 180
+      return {
+        ...reg,
+        x: CENTER + REGULATOR_RADIUS * Math.cos(angleRad),
+        y: CENTER + REGULATOR_RADIUS * Math.sin(angleRad),
+      }
+    })
+  }, [])
 
-  // Determine label styles based on angle
-  const getLabelStyles = (angle: number) => {
-    // Normalize angle to 0-360
+  // --- Helper for Label Position ---
+  const getLabelStyle = (angle: number) => {
+    // Normalize angle
     const norm = (angle + 360) % 360
 
-    // Top (around 270/-90)
-    if (norm > 240 && norm < 300) {
+    // Determine quadrant for transform origin
+    let className =
+      'absolute whitespace-nowrap text-sm font-medium transition-all duration-300 pointer-events-none '
+    const offset = 40 // distance from node center
+
+    if (norm > 315 || norm <= 45) {
+      // Top/Right-ish -> Push Right
       return {
-        container:
-          'bottom-full mb-4 left-1/2 -translate-x-1/2 items-center text-center origin-bottom',
-        animation: 'slide-up',
+        className: cn(className, 'left-1/2 ml-10 origin-left'),
+        style: { transform: 'translateY(-50%)' },
       }
-    }
-    // Bottom (around 90)
-    if (norm > 60 && norm < 120) {
+    } else if (norm > 45 && norm <= 135) {
+      // Bottom -> Push Down
       return {
-        container:
-          'top-full mt-4 left-1/2 -translate-x-1/2 items-center text-center origin-top',
-        animation: 'slide-down',
+        className: cn(
+          className,
+          'top-1/2 mt-10 origin-top text-center left-1/2',
+        ),
+        style: { transform: 'translateX(-50%)' },
       }
-    }
-    // Right Side (around 0)
-    if (norm >= 300 || norm <= 60) {
+    } else if (norm > 135 && norm <= 225) {
+      // Left -> Push Left
       return {
-        container:
-          'left-full ml-4 top-1/2 -translate-y-1/2 items-start text-left origin-left',
-        animation: 'slide-right',
+        className: cn(className, 'right-1/2 mr-10 origin-right text-right'),
+        style: { transform: 'translateY(-50%)' },
       }
-    }
-    // Left Side (around 180)
-    return {
-      container:
-        'right-full mr-4 top-1/2 -translate-y-1/2 items-end text-right origin-right',
-      animation: 'slide-left',
+    } else {
+      // Top -> Push Up
+      return {
+        className: cn(
+          className,
+          'bottom-1/2 mb-10 origin-bottom text-center left-1/2',
+        ),
+        style: { transform: 'translateX(-50%)' },
+      }
     }
   }
 
-  return (
-    <div className="relative w-full h-full select-none aspect-square">
-      {/* Background Rings */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        {/* Outer Ring */}
-        <div className="w-[85%] h-[85%] rounded-full border border-white/5 opacity-50" />
-        {/* Inner Ring */}
-        <div className="w-[55%] h-[55%] rounded-full border border-white/5 border-dashed opacity-30" />
-        {/* Core Glow */}
-        <div className="absolute w-[30%] h-[30%] bg-blue-900/10 blur-3xl rounded-full animate-pulse-slow" />
-      </div>
+  // --- Mobile Layout Render ---
+  if (isMobile) {
+    return (
+      <div className="w-full flex flex-col items-center py-8 relative">
+        {/* Mobile Core */}
+        <div className="relative z-10 mb-8 p-4 rounded-full bg-blue-950/30 border border-blue-500/50 shadow-[0_0_20px_rgba(37,99,235,0.2)]">
+          <Building2 className="w-8 h-8 text-blue-400" />
+        </div>
 
-      {/* Connection Lines Layer */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
+        {/* Connecting Line Spine */}
+        <div className="absolute top-16 bottom-10 left-[2.25rem] w-px bg-gradient-to-b from-blue-500/50 via-white/10 to-transparent" />
+
+        {/* Modules List */}
+        <div className="w-full space-y-6 pl-16 pr-4">
+          {modules.map((module) => {
+            const isActive = module.id === activeId
+            return (
+              <button
+                key={module.id}
+                onClick={() => onSelect(module.id)}
+                className={cn(
+                  'w-full text-left relative group transition-all duration-300 rounded-xl border p-4 flex items-center gap-4',
+                  isActive
+                    ? 'bg-zinc-900 border-blue-500/50 shadow-lg shadow-blue-900/10 translate-x-2'
+                    : 'bg-black border-white/10 hover:border-white/20',
+                )}
+              >
+                {/* Horizontal Connector */}
+                <div
+                  className={cn(
+                    'absolute top-1/2 -left-12 h-px w-8 transition-colors',
+                    isActive ? 'bg-blue-500' : 'bg-white/10',
+                  )}
+                />
+                <div
+                  className={cn(
+                    'absolute top-1/2 -left-[3.25rem] w-2 h-2 rounded-full border transition-colors',
+                    isActive
+                      ? 'bg-blue-500 border-blue-400'
+                      : 'bg-black border-white/20',
+                  )}
+                />
+
+                <div
+                  className={cn(
+                    'p-2 rounded-lg transition-colors',
+                    isActive ? 'bg-blue-500/10' : 'bg-white/5',
+                  )}
+                >
+                  <module.icon className={cn('w-5 h-5', module.color)} />
+                </div>
+                <div>
+                  <div
+                    className={cn(
+                      'font-bold text-sm',
+                      isActive ? 'text-white' : 'text-zinc-400',
+                    )}
+                  >
+                    {module.title}
+                  </div>
+                  <div className="text-[10px] text-zinc-600 uppercase tracking-wider font-semibold">
+                    {module.subtitle}
+                  </div>
+                </div>
+
+                {isActive && (
+                  <ArrowUpRight className="ml-auto w-4 h-4 text-blue-500 animate-pulse" />
+                )}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  // --- Desktop Layout Render ---
+  return (
+    <div className="w-full h-full relative aspect-square max-w-[600px] mx-auto select-none">
+      {/* SVG Container for Lines */}
+      <svg
+        viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
+        className="absolute inset-0 w-full h-full pointer-events-none"
+      >
         <defs>
-          <linearGradient
-            id="activeLineGradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.2)" />
+          <radialGradient id="core-glow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.3)" />
+            <stop offset="100%" stopColor="rgba(59, 130, 246, 0)" />
+          </radialGradient>
+          <linearGradient id="line-active" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.1)" />
             <stop offset="50%" stopColor="rgba(59, 130, 246, 1)" />
-            <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
+            <stop offset="100%" stopColor="rgba(59, 130, 246, 0.1)" />
           </linearGradient>
         </defs>
 
-        {/* Center to Node Connections */}
-        {nodes.map((node) => {
-          const isActive = node.id === currentFocusId
-          const isRelated = nodes
-            .find((n) => n.id === currentFocusId)
-            ?.relatedIds.includes(node.id)
-          const isHighlight = isActive || (currentFocusId && isRelated)
+        {/* Core Glow */}
+        <circle
+          cx={CENTER}
+          cy={CENTER}
+          r={RADIUS * 0.8}
+          fill="url(#core-glow)"
+          className="opacity-50 animate-pulse-slow"
+        />
 
+        {/* Rings */}
+        <circle
+          cx={CENTER}
+          cy={CENTER}
+          r={RADIUS}
+          fill="none"
+          stroke="rgba(255,255,255,0.05)"
+          strokeDasharray="4 4"
+        />
+        <circle
+          cx={CENTER}
+          cy={CENTER}
+          r={REGULATOR_RADIUS}
+          fill="none"
+          stroke="rgba(255,255,255,0.03)"
+          strokeWidth="1"
+        />
+
+        {/* 1. Core to Modules Connections */}
+        {moduleNodes.map((node) => {
+          const isActive = node.id === currentId
           return (
-            <g key={`connection-${node.id}`}>
+            <line
+              key={`core-${node.id}`}
+              x1={CENTER}
+              y1={CENTER}
+              x2={node.x}
+              y2={node.y}
+              stroke={isActive ? 'url(#line-active)' : 'rgba(255,255,255,0.05)'}
+              strokeWidth={isActive ? 2 : 1}
+              className="transition-all duration-500"
+            />
+          )
+        })}
+
+        {/* 2. Module to Module Connections (Chords) */}
+        {moduleNodes.map((source) => {
+          return source.relatedIds.map((targetId) => {
+            const target = moduleNodes.find((m) => m.id === targetId)
+            if (!target) return null
+            // Avoid duplicate lines (draw only if source index < target index)
+            // But here we want to highlight if either is active
+            const isRelatedActive =
+              source.id === currentId || target.id === currentId
+
+            return (
               <line
-                x1="50%"
-                y1="50%"
-                x2={`${node.x}%`}
-                y2={`${node.y}%`}
+                key={`link-${source.id}-${target.id}`}
+                x1={source.x}
+                y1={source.y}
+                x2={target.x}
+                y2={target.y}
                 stroke={
-                  isHighlight
-                    ? 'url(#activeLineGradient)'
-                    : 'rgba(255, 255, 255, 0.05)'
+                  isRelatedActive
+                    ? 'rgba(59, 130, 246, 0.4)'
+                    : 'rgba(255,255,255,0.03)'
                 }
-                strokeWidth={isHighlight ? '1.5' : '1'}
+                strokeWidth={1}
+                className="transition-all duration-500"
+              />
+            )
+          })
+        })}
+
+        {/* 3. Module to Regulator Connections */}
+        {regulatorNodes.map((reg) => {
+          return reg.connectsTo.map((modId) => {
+            const mod = moduleNodes.find((m) => m.id === modId)
+            if (!mod) return null
+            const isActive = mod.id === currentId
+
+            return (
+              <path
+                key={`reg-${reg.id}-${modId}`}
+                d={`M ${reg.x} ${reg.y} L ${mod.x} ${mod.y}`}
+                stroke={
+                  isActive ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.05)'
+                }
+                strokeDasharray={isActive ? '2 2' : 'none'}
                 className={cn(
                   'transition-all duration-500',
-                  isHighlight ? 'opacity-100' : 'opacity-20',
+                  isActive && 'animate-pulse',
                 )}
+                fill="none"
               />
-              {isActive && (
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="2"
-                  fill="#60A5FA"
-                  className="animate-ping"
-                />
-              )}
-            </g>
-          )
+            )
+          })
         })}
       </svg>
 
-      {/* Central Core Hub */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <div className="relative group cursor-default">
-          <div className="absolute inset-0 bg-blue-600/20 blur-xl rounded-full group-hover:bg-blue-600/30 transition-all duration-500" />
-          <div className="relative w-16 h-16 md:w-20 md:h-20 bg-black border border-white/10 rounded-full flex flex-col items-center justify-center shadow-2xl z-10 transition-transform duration-500 hover:scale-105 hover:border-blue-500/50">
-            <Building2 className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mb-1" />
-            <span className="text-[9px] md:text-[10px] font-bold text-white tracking-widest">
-              CORE
-            </span>
+      {/* HTML Layer for Nodes (Accessibility & Interaction) */}
+
+      {/* Core Node */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
+        style={{ width: 80, height: 80 }}
+      >
+        <div className="w-full h-full rounded-full bg-black border border-blue-500/30 shadow-[0_0_30px_rgba(37,99,235,0.3)] flex items-center justify-center relative group cursor-default">
+          <Building2 className="w-8 h-8 text-blue-500" />
+          <div className="absolute -bottom-6 text-[10px] font-bold tracking-widest text-blue-500/80">
+            CORE
           </div>
-          {/* Orbit rings around core */}
-          <div className="absolute inset-[-10px] border border-blue-500/10 rounded-full animate-spin-slow pointer-events-none" />
-          <div className="absolute inset-[-6px] border border-blue-400/10 rounded-full animate-reverse-spin-slow pointer-events-none" />
         </div>
       </div>
 
       {/* Module Nodes */}
-      {nodes.map((node) => {
+      {moduleNodes.map((node) => {
         const isActive = node.id === activeId
         const isHovered = node.id === hoveredId
         const isFocus = isActive || isHovered
-
-        // Label logic
-        const labelStyle = getLabelStyles(node.angleDeg)
-        // On mobile, show label only if active/hovered to prevent clutter
-        const showLabel = isMobile ? isFocus : true
-
-        // Dim logic: if something is focused, dim others unless related
-        const isRelated = nodes
-          .find((n) => n.id === currentFocusId)
-          ?.relatedIds.includes(node.id)
-        const isDimmed = currentFocusId && !isFocus && !isRelated
+        const labelStyle = getLabelStyle(node.angleDeg)
 
         return (
-          <button
+          <div
             key={node.id}
-            onClick={() => onSelect(node.id)}
-            onMouseEnter={() => setHoveredId(node.id)}
-            onMouseLeave={() => setHoveredId(null)}
-            className={cn(
-              'absolute z-30 group outline-none',
-              isDimmed
-                ? 'opacity-40 scale-95 blur-[0.5px]'
-                : 'opacity-100 scale-100',
-            )}
+            className="absolute z-30"
             style={{
-              left: `${node.x}%`,
-              top: `${node.y}%`,
-              transform: 'translate(-50%, -50%)', // Center the button on the coordinate
-              transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+              left: node.x / (VIEWBOX_SIZE / 100) + '%',
+              top: node.y / (VIEWBOX_SIZE / 100) + '%',
             }}
           >
-            {/* Icon Container */}
-            <div
-              className={cn(
-                'relative flex items-center justify-center rounded-full transition-all duration-300 border backdrop-blur-md',
-                isFocus
-                  ? `w-14 h-14 md:w-16 md:h-16 bg-zinc-950 border-${node.color.split('-')[1]}-500 shadow-[0_0_30px_rgba(0,0,0,0.6)] scale-110`
-                  : 'w-12 h-12 md:w-14 md:h-14 bg-black border-white/10 hover:border-white/30 hover:bg-zinc-900',
-              )}
+            <button
+              onClick={() => onSelect(node.id)}
+              onMouseEnter={() => setHoveredId(node.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              className="absolute -translate-x-1/2 -translate-y-1/2 outline-none group"
             >
-              {/* Inner Glow for Active State */}
               <div
                 className={cn(
-                  'absolute inset-0 rounded-full opacity-0 transition-opacity duration-500',
-                  isFocus &&
-                    `opacity-100 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-${node.color.split('-')[1]}-500/20 to-transparent`,
-                )}
-              />
-
-              <node.icon
-                className={cn(
-                  'relative z-10 transition-all duration-300',
+                  'rounded-full border flex items-center justify-center transition-all duration-300 relative',
                   isFocus
-                    ? `w-6 h-6 md:w-7 md:h-7 ${node.color}`
-                    : 'w-5 h-5 md:w-6 md:h-6 text-zinc-500 group-hover:text-zinc-300',
+                    ? 'w-16 h-16 bg-zinc-900 border-white shadow-[0_0_20px_rgba(255,255,255,0.2)] scale-110'
+                    : 'w-12 h-12 bg-black border-white/20 hover:border-white/50 hover:bg-zinc-900',
                 )}
-              />
-            </div>
+              >
+                {/* Ping animation for active */}
+                {isActive && (
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-20 animate-ping"></span>
+                )}
+                <node.icon
+                  className={cn(
+                    'transition-all duration-300',
+                    isFocus
+                      ? 'w-7 h-7 text-white'
+                      : cn('w-5 h-5 opacity-70', node.color),
+                  )}
+                />
+              </div>
+            </button>
 
-            {/* Smart Label Positioning */}
+            {/* Label */}
             <div
               className={cn(
-                'absolute flex flex-col min-w-max pointer-events-none transition-all duration-300 z-40',
-                labelStyle.container,
-                showLabel
-                  ? 'opacity-100 scale-100 translate-y-0'
-                  : 'opacity-0 scale-90 translate-y-2',
+                labelStyle.className,
+                isFocus ? 'opacity-100 scale-100' : 'opacity-60 scale-90',
               )}
+              style={labelStyle.style}
             >
-              <span
+              <div
                 className={cn(
-                  'text-sm font-bold text-white whitespace-nowrap drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
-                  isFocus ? 'text-white' : 'text-zinc-300',
+                  'text-base font-bold',
+                  isFocus ? 'text-white' : 'text-zinc-400',
                 )}
               >
                 {node.title}
-              </span>
-              <span
+              </div>
+              <div
                 className={cn(
-                  'text-[10px] uppercase tracking-wider font-semibold',
+                  'text-[10px] uppercase tracking-wider',
                   node.color,
                 )}
               >
                 {node.subtitle}
-              </span>
+              </div>
             </div>
-          </button>
+          </div>
         )
       })}
+
+      {/* Regulator Nodes (Satellite) */}
+      {regulatorNodes.map((reg) => (
+        <div
+          key={reg.id}
+          className="absolute z-10"
+          style={{
+            left: reg.x / (VIEWBOX_SIZE / 100) + '%',
+            top: reg.y / (VIEWBOX_SIZE / 100) + '%',
+          }}
+        >
+          <div
+            className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity cursor-help"
+            title="Regulador / Entidade Externa"
+          >
+            <div className="w-10 h-10 rounded-full border border-white/10 bg-black flex items-center justify-center">
+              <reg.icon className={cn('w-4 h-4', reg.color)} />
+            </div>
+            <span className="text-[10px] font-mono text-zinc-500 font-bold">
+              {reg.label}
+            </span>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
