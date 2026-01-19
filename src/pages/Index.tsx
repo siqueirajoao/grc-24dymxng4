@@ -6,6 +6,7 @@ import { SegmentsSection } from '@/components/landing/SegmentsSection'
 import { ComplianceSection } from '@/components/landing/ComplianceSection'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { FAQSection } from '@/components/landing/FAQSection'
+import { FeaturesSection } from '@/components/landing/FeaturesSection'
 
 export default function LandingPage() {
   return (
@@ -20,8 +21,11 @@ export default function LandingPage() {
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Modules Interactive Showcase (Replaces FeaturesSection) */}
+        {/* Modules Interactive Showcase */}
         <ModuleShowcase />
+
+        {/* Detailed Features Grid */}
+        <FeaturesSection />
 
         {/* Target Audience */}
         <SegmentsSection />
