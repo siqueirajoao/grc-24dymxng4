@@ -27,11 +27,11 @@ export interface ModuleData {
 }
 
 export const modules: ModuleData[] = [
-  // Orbit 1 (Core Governance)
+  // Orbit 1 (Governance Core)
   {
     id: 'risks',
     title: 'Gestão de Riscos',
-    subtitle: 'Risk Management',
+    subtitle: 'ENTERPRISE RISK MANAGEMENT',
     description:
       'Estrutura completa para identificação e mitigação de riscos (RCSA), alinhada às melhores práticas de Basileia e ISO 31000.',
     features: [
@@ -51,7 +51,7 @@ export const modules: ModuleData[] = [
   {
     id: 'controls',
     title: 'Controles Internos',
-    subtitle: 'Internal Controls',
+    subtitle: 'INTERNAL CONTROLS',
     description:
       'Fortaleça a primeira e segunda linhas de defesa com testes de controles, planos de ação e certificações periódicas.',
     features: [
@@ -71,7 +71,7 @@ export const modules: ModuleData[] = [
   {
     id: 'audit',
     title: 'Auditoria Interna',
-    subtitle: 'Audit Management',
+    subtitle: 'INTERNAL AUDIT',
     description:
       'Digitalize o ciclo de auditoria, do planejamento anual ao follow-up dos apontamentos, com trilhas imutáveis.',
     features: [
@@ -88,11 +88,12 @@ export const modules: ModuleData[] = [
     glow: 'shadow-amber-500/20',
     relatedIds: ['risks', 'controls'],
   },
+
   // Orbit 2 (Regulation & Governance)
   {
     id: 'policies',
     title: 'Políticas',
-    subtitle: 'Policy Management',
+    subtitle: 'POLICY MANAGEMENT',
     description:
       'Ciclo de vida completo das políticas corporativas: criação, revisão, aprovação e publicação com controle de versão.',
     features: [
@@ -112,7 +113,7 @@ export const modules: ModuleData[] = [
   {
     id: 'regulatory',
     title: 'Regulatório',
-    subtitle: 'Regulatory Compliance',
+    subtitle: 'REGULATORY COMPLIANCE',
     description:
       'Gestão automatizada do inventário regulatório, com captura de normas e controle de prazos de obrigações.',
     features: [
@@ -131,8 +132,8 @@ export const modules: ModuleData[] = [
   },
   {
     id: 'cadocs',
-    title: 'CADOCs',
-    subtitle: 'Regulatory Reporting',
+    title: 'CADOCs & Relatórios',
+    subtitle: 'REGULATORY REPORTING',
     description:
       'Automação e validação da geração de arquivos XML para remessa de informações ao Banco Central (CADOCs).',
     features: [
@@ -152,7 +153,7 @@ export const modules: ModuleData[] = [
   {
     id: 'lgpd',
     title: 'Proteção de Dados',
-    subtitle: 'Data Privacy',
+    subtitle: 'DATA PRIVACY',
     description:
       'Conformidade total com a LGPD através de mapeamento de dados (ROPA), gestão de consentimento e portal do titular.',
     features: [
@@ -169,11 +170,12 @@ export const modules: ModuleData[] = [
     glow: 'shadow-purple-500/20',
     relatedIds: ['third-party', 'bia'],
   },
-  // Orbit 3 (Support & Resilience)
+
+  // Orbit 3 (Sustainability & Resilience)
   {
     id: 'third-party',
     title: 'Gestão de Terceiros',
-    subtitle: 'Vendor Risk',
+    subtitle: 'VENDOR RISK',
     description:
       'Avaliação e monitoramento contínuo de riscos de fornecedores e parceiros, integrando Due Diligence e contratos.',
     features: [
@@ -193,7 +195,7 @@ export const modules: ModuleData[] = [
   {
     id: 'bia',
     title: 'BIA & Continuidade',
-    subtitle: 'Business Continuity',
+    subtitle: 'BUSINESS CONTINUITY',
     description:
       'Análise de Impacto no Negócio (BIA) e Planos de Continuidade de Negócios (PCN) para garantir resiliência operacional.',
     features: [
