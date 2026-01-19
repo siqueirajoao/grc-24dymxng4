@@ -13,22 +13,19 @@ export function EcosystemGraph({
   onModuleSelect,
 }: EcosystemGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [hoveredModule, setHoveredModule] = useState<string | null>(null)
-  const [radius, setRadius] = useState(260)
   const [scale, setScale] = useState(1)
+  const [hoveredModuleId, setHoveredModuleId] = useState<string | null>(null)
 
+  // Responsive scaling
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth
       if (w < 640) {
-        setRadius(130)
-        setScale(0.7)
+        setScale(0.55)
       } else if (w < 1024) {
-        setRadius(200)
-        setScale(0.85)
+        setScale(0.75)
       } else {
-        setRadius(280)
-        setScale(1)
+        setScale(1) // Base scale for desktop
       }
     }
     handleResize()
@@ -36,197 +33,181 @@ export function EcosystemGraph({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Orbit Configuration
+  // Distributing 9 modules across 3 orbits
+  const orbits = [
+    { radius: 170, duration: 45, reverse: false, moduleIndices: [0, 1, 2] },
+    { radius: 280, duration: 70, reverse: true, moduleIndices: [3, 4, 5] },
+    { radius: 390, duration: 95, reverse: false, moduleIndices: [6, 7, 8] },
+  ]
+
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[500px] md:h-[700px] flex items-center justify-center select-none overflow-visible"
+      className="relative w-full h-[550px] md:h-[750px] flex items-center justify-center select-none overflow-visible perspective-1000"
     >
-      {/* Background Decorative Rings (The Circuit Base) */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div
-          className="rounded-full border border-blue-900/20"
-          style={{ width: radius * 2.8, height: radius * 2.8 }}
-        />
-        <div
-          className="absolute rounded-full border border-dashed border-blue-900/30 animate-spin-slow"
-          style={{ width: radius * 2.2, height: radius * 2.2 }}
-        />
-        <div
-          className="absolute rounded-full border border-blue-900/10"
-          style={{ width: radius * 1.5, height: radius * 1.5 }}
-        />
-      </div>
-
-      {/* Connection Lines (Circuit Traces) */}
-      <div className="absolute inset-0 pointer-events-none">
-        <svg
-          className="w-full h-full overflow-visible"
-          style={{ transform: 'rotate(0deg)' }}
-        >
-          <g className="translate-[50%_50%]">
-            {modules.map((mod, index) => {
-              const angle = (index / modules.length) * 2 * Math.PI - Math.PI / 2
-              const x = Math.cos(angle) * radius
-              const y = Math.sin(angle) * radius
-
-              const isActive = activeModuleId === mod.id
-              const isHovered = hoveredModule === mod.id
-              const isHighlighted = isActive || isHovered
-
-              return (
-                <g key={`connection-${mod.id}`}>
-                  {/* Base Line */}
-                  <line
-                    x1="0"
-                    y1="0"
-                    x2={x}
-                    y2={y}
-                    className={cn(
-                      'transition-all duration-500',
-                      isHighlighted
-                        ? 'stroke-blue-400 stroke-[2px] opacity-100'
-                        : 'stroke-blue-800/30 stroke-[1px] opacity-50',
-                    )}
-                  />
-
-                  {/* Active Data Flow Pulse (Animated Circle) */}
-                  {(isHighlighted || !activeModuleId) && (
-                    <circle r="3" fill="#60A5FA">
-                      <animateMotion
-                        dur={isHighlighted ? '1.5s' : '4s'}
-                        repeatCount="indefinite"
-                        path={`M 0 0 L ${x} ${y}`}
-                        keyPoints="0;1"
-                        keyTimes="0;1"
-                      />
-                    </circle>
-                  )}
-
-                  {/* Node Connector Dot at the hub */}
-                  <circle
-                    cx="0"
-                    cy="0"
-                    r="4"
-                    className="fill-blue-950 stroke-blue-500 stroke-1"
-                  />
-                  {/* Node Connector Dot at the module */}
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r="4"
-                    className={cn(
-                      'transition-colors duration-300',
-                      isHighlighted
-                        ? 'fill-blue-400 stroke-white'
-                        : 'fill-black stroke-blue-800',
-                    )}
-                  />
-                </g>
-              )
-            })}
-          </g>
-        </svg>
-      </div>
-
-      {/* Central Hub (Lawyn Core) */}
+      {/* Container for the Solar System, scaled */}
       <div
-        className="absolute z-20 flex flex-col items-center justify-center bg-black rounded-full border border-blue-500/30 shadow-[0_0_50px_rgba(37,99,235,0.3)] backdrop-blur-md transition-all duration-500 hover:scale-110 hover:border-blue-400/50 group"
-        style={{ width: 120 * scale, height: 120 * scale }}
+        className="relative flex items-center justify-center transition-transform duration-500 ease-out"
+        style={{
+          transform: `scale(${scale})`,
+          width: '800px',
+          height: '800px',
+        }}
       >
-        <div className="absolute inset-0 rounded-full border border-blue-400/20 animate-pulse-glow" />
-        <div className="absolute -inset-2 rounded-full border border-blue-500/10 animate-spin-slow" />
-
-        {/* Logo/Icon */}
-        <div className="bg-gradient-to-tr from-blue-700 to-blue-500 p-3 rounded-xl shadow-lg shadow-blue-900/50 mb-1 relative z-10">
-          <Building2
-            className="text-white"
-            style={{ width: 32 * scale, height: 32 * scale }}
-          />
-        </div>
-
-        {/* Brand Name */}
-        <div className="text-white font-bold tracking-widest text-[10px] md:text-xs mt-1">
-          LAWYN
-        </div>
-        <div className="text-blue-400 text-[8px] font-medium tracking-wider uppercase">
-          Regulatory Hub
-        </div>
-      </div>
-
-      {/* Module Nodes */}
-      {modules.map((mod, index) => {
-        const angle = (index / modules.length) * 2 * Math.PI - Math.PI / 2
-        const x = Math.cos(angle) * radius
-        const y = Math.sin(angle) * radius
-
-        const isActive = activeModuleId === mod.id
-        const isHovered = hoveredModule === mod.id
-
-        return (
-          <div
-            key={mod.id}
-            className="absolute transform -translate-x-1/2 -translate-y-1/2 z-30"
-            style={{
-              left: '50%',
-              top: '50%',
-              transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
-            }}
-          >
+        {/* Orbital Paths (Visual Lines) */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          {orbits.map((orbit, i) => (
             <div
-              className="group cursor-pointer flex flex-col items-center justify-center relative"
-              onClick={() => onModuleSelect(mod.id)}
-              onMouseEnter={() => setHoveredModule(mod.id)}
-              onMouseLeave={() => setHoveredModule(null)}
-            >
-              {/* Icon Circle */}
-              <div
-                className={cn(
-                  'rounded-full flex items-center justify-center border transition-all duration-300 relative bg-black z-10',
-                  isActive
-                    ? 'border-white shadow-[0_0_30px_rgba(59,130,246,0.6)] scale-110'
-                    : isHovered
-                      ? 'border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-110'
-                      : 'border-white/10 hover:border-white/30',
-                )}
-                style={{
-                  width: 64 * scale,
-                  height: 64 * scale,
-                }}
-              >
-                <mod.icon
-                  className={cn(
-                    'transition-all duration-300',
-                    isActive || isHovered ? 'text-white' : mod.color,
-                  )}
-                  style={{
-                    width: 28 * scale,
-                    height: 28 * scale,
-                  }}
-                />
-              </div>
+              key={`orbit-line-${i}`}
+              className="absolute rounded-full border border-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)]"
+              style={{
+                width: orbit.radius * 2,
+                height: orbit.radius * 2,
+              }}
+            />
+          ))}
+        </div>
 
-              {/* Label */}
-              <div
-                className={cn(
-                  'absolute top-full mt-3 px-3 py-1 rounded-full border backdrop-blur-md transition-all duration-300 whitespace-nowrap pointer-events-none z-20',
-                  isActive || isHovered
-                    ? 'bg-blue-950/80 border-blue-500/50 opacity-100 translate-y-0'
-                    : 'bg-black/50 border-white/5 opacity-70 translate-y-[-5px]',
-                )}
-              >
-                <span
-                  className={cn(
-                    'text-[10px] md:text-xs font-bold tracking-wide uppercase',
-                    isActive || isHovered ? 'text-white' : 'text-gray-400',
-                  )}
-                >
-                  {mod.title}
-                </span>
-              </div>
+        {/* Central Hub (Sun) */}
+        <div className="absolute z-10 flex flex-col items-center justify-center">
+          <div className="relative flex items-center justify-center w-32 h-32 bg-black rounded-full border border-blue-500/50 shadow-[0_0_60px_rgba(37,99,235,0.5)] z-20 group cursor-default transition-all duration-500 hover:scale-105 hover:shadow-[0_0_80px_rgba(37,99,235,0.7)]">
+            {/* Animated Aura */}
+            <div className="absolute inset-0 rounded-full border border-blue-400/30 animate-pulse-glow" />
+            <div className="absolute -inset-1 rounded-full border border-blue-500/20 animate-spin-slow" />
+            <div className="absolute -inset-4 bg-blue-600/10 rounded-full blur-xl animate-pulse" />
+
+            {/* Icon */}
+            <div className="bg-gradient-to-tr from-blue-700 to-blue-500 p-3.5 rounded-xl shadow-lg shadow-blue-900/50 relative z-10">
+              <Building2 className="w-8 h-8 text-white" />
             </div>
           </div>
-        )
-      })}
+
+          {/* Hub Label */}
+          <div className="absolute top-full mt-4 flex flex-col items-center gap-1 z-20">
+            <span className="text-white font-bold tracking-[0.2em] text-sm text-shadow-sm">
+              LAWYN
+            </span>
+            <span className="text-blue-400 text-[10px] font-bold tracking-widest uppercase bg-blue-950/30 px-2 py-0.5 rounded-full border border-blue-500/20 backdrop-blur-sm">
+              Regulatory Hub
+            </span>
+          </div>
+        </div>
+
+        {/* Modules (Planets) */}
+        {orbits.map((orbit, orbitIndex) =>
+          orbit.moduleIndices.map((modIndex, i) => {
+            const module = modules[modIndex]
+            if (!module) return null
+
+            const itemCount = orbit.moduleIndices.length
+            // Distribute evenly along the orbit
+            const angleOffset = (360 / itemCount) * i
+            // Calculate delay to position them at the correct angle initially
+            // animation-delay is negative time.
+            // Full circle is 'duration'. angle/360 * duration = time offset
+            const delay = -(angleOffset / 360) * orbit.duration
+
+            const isActive = activeModuleId === module.id
+            const isHovered = hoveredModuleId === module.id
+            const isPaused = isActive || isHovered
+
+            return (
+              <div
+                key={module.id}
+                className="absolute top-1/2 left-1/2 pointer-events-none"
+                style={{
+                  width: orbit.radius * 2,
+                  height: orbit.radius * 2,
+                  marginLeft: -orbit.radius,
+                  marginTop: -orbit.radius,
+                  animation: `spin ${orbit.duration}s linear infinite`,
+                  animationDirection: orbit.reverse ? 'reverse' : 'normal',
+                  animationDelay: `${delay}s`,
+                  animationPlayState: isPaused ? 'paused' : 'running',
+                }}
+              >
+                {/* The Planet Wrapper - Positioned at 12 o'clock (top center) of the ring */}
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 pointer-events-auto"
+                  style={{
+                    top: -24, // Offset by half height (approx) to center on line
+                    // Counter-rotate to keep upright
+                    animation: `spin ${orbit.duration}s linear infinite`,
+                    animationDirection: orbit.reverse ? 'normal' : 'reverse',
+                    animationDelay: `${delay}s`,
+                    animationPlayState: isPaused ? 'paused' : 'running',
+                  }}
+                >
+                  <div
+                    className="group relative flex flex-col items-center gap-2 cursor-pointer"
+                    onMouseEnter={() => setHoveredModuleId(module.id)}
+                    onMouseLeave={() => setHoveredModuleId(null)}
+                    onClick={() => onModuleSelect(module.id)}
+                  >
+                    {/* Module Bubble */}
+                    <div
+                      className={cn(
+                        'relative flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full border transition-all duration-300 z-30',
+                        isActive
+                          ? 'bg-blue-600 border-white shadow-[0_0_30px_rgba(37,99,235,0.6)] scale-110'
+                          : isHovered
+                            ? 'bg-zinc-900 border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-110'
+                            : 'bg-black/60 border-white/20 hover:border-blue-400/50 backdrop-blur-md',
+                      )}
+                    >
+                      <module.icon
+                        className={cn(
+                          'w-5 h-5 md:w-6 md:h-6 transition-colors duration-300',
+                          isActive || isHovered ? 'text-white' : module.color,
+                        )}
+                      />
+
+                      {/* Ripple effect when active */}
+                      {isActive && (
+                        <div className="absolute inset-0 rounded-full border border-white/50 animate-ping opacity-20" />
+                      )}
+                    </div>
+
+                    {/* Module Label */}
+                    <div
+                      className={cn(
+                        'px-3 py-1 rounded-full border backdrop-blur-md transition-all duration-300 max-w-[150px] text-center',
+                        isActive || isHovered
+                          ? 'bg-blue-950/90 border-blue-500/50 translate-y-0 opacity-100'
+                          : 'bg-black/40 border-white/10 translate-y-1 opacity-70 group-hover:opacity-100 group-hover:translate-y-0',
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          'text-[10px] md:text-xs font-bold tracking-wide uppercase whitespace-nowrap',
+                          isActive || isHovered
+                            ? 'text-white'
+                            : 'text-gray-300',
+                        )}
+                      >
+                        {module.title}
+                      </span>
+                    </div>
+
+                    {/* Connecting Line to Center (Optional visual flair only visible on hover) */}
+                    {isHovered && !isActive && (
+                      <div
+                        className="absolute top-1/2 left-1/2 w-0.5 bg-gradient-to-b from-blue-500/0 via-blue-500/20 to-blue-500/0 -z-10"
+                        style={{
+                          height: orbit.radius,
+                          transformOrigin: 'top center',
+                          transform: `rotate(${orbit.reverse ? '180deg' : '0deg'})`, // Simplified, purely decorative
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            )
+          }),
+        )}
+      </div>
     </div>
   )
 }
