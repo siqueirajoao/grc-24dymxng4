@@ -169,6 +169,42 @@
     animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
+  /* Orbital Animations */
+  .animate-orbit {
+    animation: orbit 60s linear infinite;
+  }
+  .animate-orbit-reverse {
+    animation: orbit-reverse 60s linear infinite;
+  }
+  .animate-orbit-slow {
+    animation: orbit 90s linear infinite;
+  }
+  .animate-orbit-slow-reverse {
+    animation: orbit-reverse 90s linear infinite;
+  }
+
+  .animation-paused {
+    animation-play-state: paused;
+  }
+
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes orbit-reverse {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
   @keyframes fadeInUp {
     from {
       opacity: 0;

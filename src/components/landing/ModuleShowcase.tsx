@@ -29,10 +29,8 @@ export function ModuleShowcase() {
         {/* Section Header */}
         <div
           className={cn(
-            'text-center max-w-3xl mx-auto mb-16 md:mb-24 transition-all duration-1000 ease-out',
-            isVisible
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-10',
+            'text-center max-w-3xl mx-auto mb-16 md:mb-12 transition-all duration-1000 ease-out',
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1',
           )}
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/50 border border-zinc-800 text-zinc-400 text-sm font-medium mb-6 backdrop-blur-sm">
@@ -45,13 +43,13 @@ export function ModuleShowcase() {
           </h2>
           <p className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
             Nossa plataforma unifica os pilares de GRC em uma estrutura viva,
-            onde cada módulo se comunica para garantir conformidade contínua.
+            onde cada módulo orbita para garantir conformidade contínua.
           </p>
         </div>
 
         {/* Interactive Area */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-start">
-          {/* Left Column: Interactive Graph */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Interactive Orbital Graph */}
           <div
             className={cn(
               'lg:col-span-7 flex justify-center items-center relative transition-all duration-1000 delay-200',
@@ -60,10 +58,7 @@ export function ModuleShowcase() {
                 : 'opacity-0 -translate-x-10',
             )}
           >
-            {/* Graph Container */}
-            <div className="w-full relative min-h-[500px] lg:min-h-[600px] flex items-center justify-center">
-              <EcosystemGraph activeId={activeTab} onSelect={setActiveTab} />
-            </div>
+            <EcosystemGraph activeId={activeTab} onSelect={setActiveTab} />
           </div>
 
           {/* Right Column: Detailed View */}
@@ -75,7 +70,7 @@ export function ModuleShowcase() {
                 : 'opacity-0 translate-x-10',
             )}
           >
-            <div className="bg-zinc-900/20 border border-white/5 rounded-3xl p-6 md:p-8 backdrop-blur-sm relative overflow-hidden">
+            <div className="bg-zinc-900/20 border border-white/5 rounded-3xl p-6 md:p-8 backdrop-blur-sm relative overflow-hidden min-h-[400px] flex flex-col justify-center">
               {/* Decorative highlight */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full" />
 
