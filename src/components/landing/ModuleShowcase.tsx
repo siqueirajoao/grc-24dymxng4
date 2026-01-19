@@ -13,7 +13,7 @@ export function ModuleShowcase() {
   return (
     <section
       id="features"
-      className="py-24 bg-black relative overflow-hidden flex flex-col justify-center min-h-[900px]"
+      className="py-16 md:py-24 bg-black relative overflow-hidden flex flex-col justify-center min-h-[800px]"
     >
       {/* Global Background Elements for True Black Aesthetic */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-50" />
@@ -27,7 +27,7 @@ export function ModuleShowcase() {
         {/* Section Header */}
         <div
           className={cn(
-            'text-center max-w-3xl mx-auto mb-16 md:mb-24 transition-all duration-1000 ease-out',
+            'text-center max-w-3xl mx-auto mb-12 md:mb-20 transition-all duration-1000 ease-out',
             isVisible
               ? 'opacity-100 translate-y-0'
               : 'opacity-0 translate-y-10',
@@ -37,30 +37,32 @@ export function ModuleShowcase() {
             <Cpu className="w-3.5 h-3.5" />
             <span>Ecossistema Integrado</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 tracking-tight leading-[1.1]">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 tracking-tight leading-[1.1]">
             Uma Plataforma, <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-200 to-indigo-400">
               Conexões Inteligentes
             </span>
           </h2>
-          <p className="text-zinc-400 text-lg leading-relaxed max-w-2xl mx-auto">
+          <p className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
             Navegue pelo nosso ecossistema regulatório. Cada módulo atua como um
             nó inteligente que processa, conecta e fortalece sua governança.
           </p>
         </div>
 
         {/* Interactive Area */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Interactive Graph */}
+          {/* Adjusted sizing and spacing for responsive layouts */}
           <div
             className={cn(
-              'lg:col-span-7 flex justify-center lg:justify-center transition-all duration-1000 delay-200',
+              'lg:col-span-7 flex justify-center items-center relative min-h-[400px] md:min-h-[500px] transition-all duration-1000 delay-200',
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 -translate-x-10',
             )}
           >
-            <div className="w-full max-w-[550px] aspect-square relative">
+            {/* Aspect Ratio Container to maintain circular shape properly */}
+            <div className="w-full max-w-[400px] md:max-w-[550px] aspect-square relative">
               <EcosystemGraph activeId={activeTab} onSelect={setActiveTab} />
             </div>
           </div>
@@ -68,7 +70,7 @@ export function ModuleShowcase() {
           {/* Right Column: Detailed View */}
           <div
             className={cn(
-              'lg:col-span-5 transition-all duration-1000 delay-400 min-h-[500px] flex flex-col justify-center',
+              'lg:col-span-5 transition-all duration-1000 delay-400 min-h-[400px] md:min-h-[500px] flex flex-col justify-center',
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 translate-x-10',

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Building2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { modules } from './modules-data'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface EcosystemGraphProps {
   activeId: string
@@ -10,16 +11,21 @@ interface EcosystemGraphProps {
 
 export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const isMobile = useIsMobile()
 
-  // Configuration for layout
-  const radius = 42 // Percentage 0-50
+  // Layout Configuration
+  // Desktop: Wider radius for labels. Mobile: Tighter radius, labels only on active.
+  const radius = isMobile ? 36 : 40
   const center = 50
 
-  // Calculate node positions securely to prevent overlap
+  // Fixed angular positions for 6 modules to ensure symmetry
+  // -90 is top (12 o'clock). 60 degree increments.
+  const nodeAngles = [-90, -30, 30, 90, 150, 210]
+
   const nodes = useMemo(() => {
     return modules.map((module, index) => {
-      // Offset angle to start from top (-90 degrees)
-      const angleDeg = (index * 360) / modules.length - 90
+      // Use fixed angles if available, otherwise calculate
+      const angleDeg = nodeAngles[index] ?? (index * 360) / modules.length - 90
       const angleRad = (angleDeg * Math.PI) / 180
 
       const x = center + radius * Math.cos(angleRad)
@@ -32,107 +38,76 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
         angleDeg,
       }
     })
-  }, [])
+  }, [radius])
 
   const currentFocusId = hoveredId || activeId
 
-  // Determine label position based on angle to push them outwards
-  const getLabelPosition = (angle: number) => {
-    // Normalize angle to 0-360 positive
-    const normalized = (angle + 360) % 360
+  // Determine label styles based on angle
+  const getLabelStyles = (angle: number) => {
+    // Normalize angle to 0-360
+    const norm = (angle + 360) % 360
 
-    if (normalized >= 300 || normalized <= 60)
-      return 'left-8 md:left-10 origin-left' // Right side
-    if (normalized >= 120 && normalized <= 240)
-      return 'right-8 md:right-10 origin-right' // Left side
-    if (normalized > 60 && normalized < 120)
-      return 'top-8 md:top-10 -translate-x-1/2 origin-top' // Bottom
-    return 'bottom-8 md:bottom-10 -translate-x-1/2 origin-bottom' // Top
-  }
-
-  // Get alignment classes for text inside the label container
-  const getLabelAlignment = (angle: number) => {
-    const normalized = (angle + 360) % 360
-    if (normalized >= 300 || normalized <= 60) return 'items-start text-left'
-    if (normalized >= 120 && normalized <= 240) return 'items-end text-right'
-    return 'items-center text-center'
+    // Top (around 270/-90)
+    if (norm > 240 && norm < 300) {
+      return {
+        container:
+          'bottom-full mb-4 left-1/2 -translate-x-1/2 items-center text-center origin-bottom',
+        animation: 'slide-up',
+      }
+    }
+    // Bottom (around 90)
+    if (norm > 60 && norm < 120) {
+      return {
+        container:
+          'top-full mt-4 left-1/2 -translate-x-1/2 items-center text-center origin-top',
+        animation: 'slide-down',
+      }
+    }
+    // Right Side (around 0)
+    if (norm >= 300 || norm <= 60) {
+      return {
+        container:
+          'left-full ml-4 top-1/2 -translate-y-1/2 items-start text-left origin-left',
+        animation: 'slide-right',
+      }
+    }
+    // Left Side (around 180)
+    return {
+      container:
+        'right-full mr-4 top-1/2 -translate-y-1/2 items-end text-right origin-right',
+      animation: 'slide-left',
+    }
   }
 
   return (
-    <div className="relative w-full h-full select-none">
-      {/* Background Rings - Static */}
+    <div className="relative w-full h-full select-none aspect-square">
+      {/* Background Rings */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[60%] h-[60%] rounded-full border border-white/5" />
-        <div className="w-[84%] h-[84%] rounded-full border border-white/5 border-dashed opacity-50" />
+        {/* Outer Ring */}
+        <div className="w-[85%] h-[85%] rounded-full border border-white/5 opacity-50" />
+        {/* Inner Ring */}
+        <div className="w-[55%] h-[55%] rounded-full border border-white/5 border-dashed opacity-30" />
+        {/* Core Glow */}
+        <div className="absolute w-[30%] h-[30%] bg-blue-900/10 blur-3xl rounded-full animate-pulse-slow" />
       </div>
 
-      {/* SVG Layer for Connections */}
+      {/* Connection Lines Layer */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
         <defs>
-          <linearGradient id="lineGradient" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.0)" />
-            <stop offset="50%" stopColor="rgba(59, 130, 246, 0.4)" />
-            <stop offset="100%" stopColor="rgba(59, 130, 246, 0.0)" />
+          <linearGradient
+            id="activeLineGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+          >
+            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.2)" />
+            <stop offset="50%" stopColor="rgba(59, 130, 246, 1)" />
+            <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
           </linearGradient>
-          <filter id="glow-line" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="1.5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
         </defs>
 
-        {/* 1. Inter-module connections */}
-        {nodes.map((node) => {
-          return node.relatedIds.map((targetId) => {
-            const targetNode = nodes.find((n) => n.id === targetId)
-            if (!targetNode || node.id > targetId) return null
-
-            const isRelatedActive =
-              (currentFocusId === node.id &&
-                node.relatedIds.includes(targetId)) ||
-              (currentFocusId === targetId &&
-                targetNode.relatedIds.includes(node.id))
-
-            // Use straight lines for clean look, crossing behind center
-            return (
-              <g key={`${node.id}-${targetId}`}>
-                <line
-                  x1={`${node.x}%`}
-                  y1={`${node.y}%`}
-                  x2={`${targetNode.x}%`}
-                  y2={`${targetNode.y}%`}
-                  stroke={
-                    isRelatedActive
-                      ? 'url(#lineGradient)'
-                      : 'rgba(255,255,255,0.03)'
-                  }
-                  strokeWidth={isRelatedActive ? '1.5' : '1'}
-                  className={cn(
-                    'transition-all duration-500',
-                    isRelatedActive ? 'opacity-100' : 'opacity-0', // Hide non-active lines to reduce clutter
-                  )}
-                />
-                {/* Data flow particle for active connections */}
-                {isRelatedActive && (
-                  <circle r="1.5" fill="#60A5FA" filter="url(#glow-line)">
-                    <animateMotion
-                      dur="1.5s"
-                      repeatCount="indefinite"
-                      path={`M ${node.x * 5} ${node.y * 5} L ${targetNode.x * 5} ${targetNode.y * 5}`} // Assuming 500px coordinate system scaling for SVG ease
-                      // Actually for % coordinates we can't use path directly in some browsers easily without viewBox match
-                      // So we use standard calcMode linear
-                    >
-                      <mpath />
-                    </animateMotion>
-                    {/* SVG animateMotion with percentage coords is tricky. Let's use CSS on the line or just simple JS. 
-                        Actually simpler: Draw a second path on top with stroke-dasharray animation */}
-                  </circle>
-                )}
-              </g>
-            )
-          })
-        })}
-
-        {/* 2. Center connections (Star Topology) */}
+        {/* Center to Node Connections */}
         {nodes.map((node) => {
           const isActive = node.id === currentFocusId
           const isRelated = nodes
@@ -141,42 +116,50 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
           const isHighlight = isActive || (currentFocusId && isRelated)
 
           return (
-            <line
-              key={`center-${node.id}`}
-              x1="50%"
-              y1="50%"
-              x2={`${node.x}%`}
-              y2={`${node.y}%`}
-              stroke={
-                isHighlight
-                  ? 'rgba(96, 165, 250, 0.4)'
-                  : 'rgba(255,255,255,0.05)'
-              }
-              strokeWidth={isHighlight ? '1.5' : '1'}
-              className={cn(
-                'transition-all duration-500',
-                isHighlight ? 'opacity-100' : 'opacity-30',
+            <g key={`connection-${node.id}`}>
+              <line
+                x1="50%"
+                y1="50%"
+                x2={`${node.x}%`}
+                y2={`${node.y}%`}
+                stroke={
+                  isHighlight
+                    ? 'url(#activeLineGradient)'
+                    : 'rgba(255, 255, 255, 0.05)'
+                }
+                strokeWidth={isHighlight ? '1.5' : '1'}
+                className={cn(
+                  'transition-all duration-500',
+                  isHighlight ? 'opacity-100' : 'opacity-20',
+                )}
+              />
+              {isActive && (
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="2"
+                  fill="#60A5FA"
+                  className="animate-ping"
+                />
               )}
-            />
+            </g>
           )
         })}
       </svg>
 
-      {/* Central Hub */}
+      {/* Central Core Hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <div className="relative flex items-center justify-center">
-          {/* Pulsing Core Effects */}
-          <div className="absolute w-32 h-32 bg-blue-600/10 blur-2xl rounded-full animate-pulse-glow" />
-          <div className="absolute w-24 h-24 border border-blue-500/20 rounded-full animate-spin-slow" />
-          <div className="absolute w-20 h-20 border border-blue-400/10 rounded-full animate-reverse-spin-slow" />
-
-          {/* Core Content */}
-          <div className="relative w-16 h-16 bg-black border border-white/10 rounded-full flex flex-col items-center justify-center shadow-2xl z-10">
-            <Building2 className="w-5 h-5 text-blue-500 mb-0.5" />
-            <span className="text-[8px] font-bold text-white tracking-widest">
+        <div className="relative group cursor-default">
+          <div className="absolute inset-0 bg-blue-600/20 blur-xl rounded-full group-hover:bg-blue-600/30 transition-all duration-500" />
+          <div className="relative w-16 h-16 md:w-20 md:h-20 bg-black border border-white/10 rounded-full flex flex-col items-center justify-center shadow-2xl z-10 transition-transform duration-500 hover:scale-105 hover:border-blue-500/50">
+            <Building2 className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mb-1" />
+            <span className="text-[9px] md:text-[10px] font-bold text-white tracking-widest">
               CORE
             </span>
           </div>
+          {/* Orbit rings around core */}
+          <div className="absolute inset-[-10px] border border-blue-500/10 rounded-full animate-spin-slow pointer-events-none" />
+          <div className="absolute inset-[-6px] border border-blue-400/10 rounded-full animate-reverse-spin-slow pointer-events-none" />
         </div>
       </div>
 
@@ -184,12 +167,17 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
       {nodes.map((node) => {
         const isActive = node.id === activeId
         const isHovered = node.id === hoveredId
+        const isFocus = isActive || isHovered
+
+        // Label logic
+        const labelStyle = getLabelStyles(node.angleDeg)
+        // On mobile, show label only if active/hovered to prevent clutter
+        const showLabel = isMobile ? isFocus : true
+
+        // Dim logic: if something is focused, dim others unless related
         const isRelated = nodes
           .find((n) => n.id === currentFocusId)
           ?.relatedIds.includes(node.id)
-
-        // Visual states
-        const isFocus = isActive || isHovered
         const isDimmed = currentFocusId && !isFocus && !isRelated
 
         return (
@@ -199,62 +187,67 @@ export function EcosystemGraph({ activeId, onSelect }: EcosystemGraphProps) {
             onMouseEnter={() => setHoveredId(node.id)}
             onMouseLeave={() => setHoveredId(null)}
             className={cn(
-              'absolute z-30 flex items-center justify-center outline-none transition-all duration-500 group',
+              'absolute z-30 group outline-none',
               isDimmed
-                ? 'opacity-30 scale-90 blur-[0.5px]'
+                ? 'opacity-40 scale-95 blur-[0.5px]'
                 : 'opacity-100 scale-100',
             )}
             style={{
               left: `${node.x}%`,
               top: `${node.y}%`,
-              transform: 'translate(-50%, -50%)',
+              transform: 'translate(-50%, -50%)', // Center the button on the coordinate
+              transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           >
-            {/* Icon Circle */}
+            {/* Icon Container */}
             <div
               className={cn(
-                'relative w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 border backdrop-blur-md overflow-hidden',
+                'relative flex items-center justify-center rounded-full transition-all duration-300 border backdrop-blur-md',
                 isFocus
-                  ? `bg-zinc-900 border-${node.color.split('-')[1]}-500/50 shadow-[0_0_20px_rgba(0,0,0,0.5)] scale-110`
-                  : 'bg-black border-white/10 hover:border-white/30 hover:bg-zinc-900',
+                  ? `w-14 h-14 md:w-16 md:h-16 bg-zinc-950 border-${node.color.split('-')[1]}-500 shadow-[0_0_30px_rgba(0,0,0,0.6)] scale-110`
+                  : 'w-12 h-12 md:w-14 md:h-14 bg-black border-white/10 hover:border-white/30 hover:bg-zinc-900',
               )}
             >
-              {/* Internal Glow on Active */}
+              {/* Inner Glow for Active State */}
               <div
                 className={cn(
-                  'absolute inset-0 opacity-0 transition-opacity duration-300',
+                  'absolute inset-0 rounded-full opacity-0 transition-opacity duration-500',
                   isFocus &&
-                    `bg-gradient-to-tr from-transparent to-${node.color.split('-')[1]}-500/20 opacity-100`,
+                    `opacity-100 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-${node.color.split('-')[1]}-500/20 to-transparent`,
                 )}
               />
 
               <node.icon
                 className={cn(
-                  'w-5 h-5 md:w-6 md:h-6 transition-all duration-300 relative z-10',
+                  'relative z-10 transition-all duration-300',
                   isFocus
-                    ? node.color
-                    : 'text-zinc-500 group-hover:text-zinc-300',
+                    ? `w-6 h-6 md:w-7 md:h-7 ${node.color}`
+                    : 'w-5 h-5 md:w-6 md:h-6 text-zinc-500 group-hover:text-zinc-300',
                 )}
               />
             </div>
 
-            {/* Floating Label */}
+            {/* Smart Label Positioning */}
             <div
               className={cn(
-                'absolute flex flex-col min-w-[120px] pointer-events-none transition-all duration-300 z-40',
-                getLabelPosition(node.angleDeg),
-                getLabelAlignment(node.angleDeg),
-                isFocus
-                  ? 'opacity-100 translate-y-0 scale-100'
-                  : 'opacity-0 translate-y-2 scale-95',
+                'absolute flex flex-col min-w-max pointer-events-none transition-all duration-300 z-40',
+                labelStyle.container,
+                showLabel
+                  ? 'opacity-100 scale-100 translate-y-0'
+                  : 'opacity-0 scale-90 translate-y-2',
               )}
             >
-              <span className="text-xs md:text-sm font-bold text-white whitespace-nowrap drop-shadow-md">
+              <span
+                className={cn(
+                  'text-sm font-bold text-white whitespace-nowrap drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                  isFocus ? 'text-white' : 'text-zinc-300',
+                )}
+              >
                 {node.title}
               </span>
               <span
                 className={cn(
-                  'text-[10px] uppercase tracking-wider font-medium mt-0.5',
+                  'text-[10px] uppercase tracking-wider font-semibold',
                   node.color,
                 )}
               >

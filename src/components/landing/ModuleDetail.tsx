@@ -11,13 +11,13 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
   const module = modules.find((m) => m.id === moduleId) || modules[0]
 
   return (
-    <div className="h-full w-full flex flex-col justify-center">
+    <div className="h-full w-full flex flex-col justify-center px-4 md:px-0">
       <div key={module.id} className="animate-fade-in group">
         {/* Module ID Badge */}
         <div className="mb-6 inline-flex items-center gap-2">
           <div
             className={cn(
-              'w-1.5 h-6 rounded-full',
+              'w-1.5 h-6 rounded-full shadow-[0_0_10px_currentColor]',
               module.color.replace('text-', 'bg-'),
             )}
           />
@@ -27,7 +27,7 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
         </div>
 
         {/* Title & Subtitle */}
-        <h3 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">
+        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 tracking-tight">
           {module.title}
         </h3>
         <p
@@ -40,7 +40,7 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
         </p>
 
         {/* Description */}
-        <p className="text-zinc-400 leading-relaxed text-lg mb-8 max-w-xl">
+        <p className="text-zinc-400 leading-relaxed text-base md:text-lg mb-8 max-w-xl">
           {module.description}
         </p>
 
@@ -49,7 +49,7 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
           {module.regulation.map((reg, i) => (
             <div
               key={i}
-              className="px-3 py-1 rounded-full border border-white/5 bg-white/[0.02] text-xs font-medium text-zinc-400 hover:text-white hover:border-white/10 transition-colors cursor-default"
+              className="px-3 py-1 rounded-full border border-white/5 bg-white/[0.02] text-xs font-medium text-zinc-400 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all cursor-default"
             >
               {reg}
             </div>
@@ -62,13 +62,13 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
             <div key={i} className="flex items-center gap-3 group/item">
               <div
                 className={cn(
-                  'w-5 h-5 rounded-full flex items-center justify-center border border-white/10 bg-black transition-colors group-hover/item:border-white/20',
+                  'w-5 h-5 rounded-full flex items-center justify-center border border-white/10 bg-black transition-all group-hover/item:border-white/20 group-hover/item:bg-white/5',
                   module.color.replace('text-', 'text-').replace('400', '500'),
                 )}
               >
                 <Check className="w-3 h-3" />
               </div>
-              <span className="text-zinc-300 group-hover/item:text-white transition-colors">
+              <span className="text-zinc-300 text-sm md:text-base group-hover/item:text-white transition-colors">
                 {feat}
               </span>
             </div>
@@ -76,10 +76,10 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
         </div>
 
         {/* CTA Actions */}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Button
             size="lg"
-            className="bg-white text-black hover:bg-zinc-200 border-0 rounded-full font-semibold px-8 h-12 transition-transform hover:-translate-y-0.5"
+            className="bg-white text-black hover:bg-zinc-200 border-0 rounded-full font-semibold px-8 h-12 transition-all hover:scale-105 hover:-translate-y-0.5 shadow-lg shadow-white/10"
           >
             Explorar Módulo
             <ArrowRight className="ml-2 w-4 h-4" />
@@ -87,7 +87,7 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
           <Button
             variant="outline"
             size="lg"
-            className="border-white/10 text-white hover:bg-white/5 rounded-full h-12 px-8 bg-transparent"
+            className="border-white/10 text-white hover:bg-white/5 rounded-full h-12 px-8 bg-transparent transition-all hover:border-white/20"
           >
             <ShieldCheck className="mr-2 w-4 h-4" />
             Ver Requisitos
