@@ -4,16 +4,16 @@ import { cn } from '@/lib/utils'
 import { useScrollObserver } from '@/hooks/use-scroll-observer'
 import { EcosystemGraph } from './EcosystemGraph'
 import { ModuleDetail } from './ModuleDetail'
-import { modules } from './modules-data'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
 
 export function ModuleShowcase() {
-  const [activeTab, setActiveTab] = useState(modules[0].id)
+  const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
   const { ref, isVisible } = useScrollObserver({ threshold: 0.1 })
 
   return (
     <section
       id="features"
-      className="py-16 md:py-24 bg-black relative overflow-hidden flex flex-col justify-center min-h-[900px]"
+      className="py-16 md:py-24 bg-black relative overflow-hidden flex flex-col justify-center min-h-[800px]"
     >
       {/* True Black Aesthetic - Minimal Ambient Light */}
       <div className="absolute inset-0 bg-black z-0" />
@@ -29,7 +29,7 @@ export function ModuleShowcase() {
         {/* Section Header */}
         <div
           className={cn(
-            'text-center max-w-3xl mx-auto mb-16 md:mb-12 transition-all duration-1000 ease-out',
+            'text-center max-w-3xl mx-auto mb-10 transition-all duration-1000 ease-out',
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1',
           )}
         >
@@ -42,43 +42,37 @@ export function ModuleShowcase() {
             <span className="text-zinc-500">Conectada ao Core</span>
           </h2>
           <p className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            Nossa plataforma unifica os pilares de GRC em uma estrutura viva,
-            onde cada módulo orbita para garantir conformidade contínua.
+            Nossa plataforma unifica os pilares de GRC em uma estrutura viva.
+            Clique nos módulos para explorar.
           </p>
         </div>
 
-        {/* Interactive Area */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Interactive Orbital Graph */}
-          <div
-            className={cn(
-              'lg:col-span-7 flex justify-center items-center relative transition-all duration-1000 delay-200',
-              isVisible
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 -translate-x-10',
-            )}
-          >
-            <EcosystemGraph activeId={activeTab} onSelect={setActiveTab} />
-          </div>
-
-          {/* Right Column: Detailed View */}
-          <div
-            className={cn(
-              'lg:col-span-5 transition-all duration-1000 delay-400 flex flex-col justify-center h-full pt-4 lg:pt-0',
-              isVisible
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 translate-x-10',
-            )}
-          >
-            <div className="bg-zinc-900/20 border border-white/5 rounded-3xl p-6 md:p-8 backdrop-blur-sm relative overflow-hidden min-h-[400px] flex flex-col justify-center">
-              {/* Decorative highlight */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full" />
-
-              <ModuleDetail moduleId={activeTab} />
-            </div>
-          </div>
+        {/* Interactive Orbital Graph */}
+        <div
+          className={cn(
+            'flex justify-center items-center relative transition-all duration-1000 delay-200 w-full',
+            isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
+          )}
+        >
+          <EcosystemGraph onModuleClick={setSelectedModuleId} />
         </div>
       </div>
+
+      {/* Detail Sheet */}
+      <Sheet
+        open={!!selectedModuleId}
+        onOpenChange={(open) => !open && setSelectedModuleId(null)}
+      >
+        <SheetContent className="bg-zinc-950 border-zinc-800 text-white p-0 sm:max-w-md w-full overflow-y-auto">
+          {selectedModuleId && (
+            <div className="p-6 h-full">
+              <div className="mt-8">
+                <ModuleDetail moduleId={selectedModuleId} />
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
     </section>
   )
 }

@@ -5,6 +5,9 @@ import {
   BookOpen,
   Lock,
   Users,
+  ScrollText,
+  FileSpreadsheet,
+  Activity,
   LucideIcon,
 } from 'lucide-react'
 
@@ -24,10 +27,11 @@ export interface ModuleData {
 }
 
 export const modules: ModuleData[] = [
+  // Orbit 1 (Core Governance)
   {
     id: 'risks',
     title: 'Gestão de Riscos',
-    subtitle: 'Enterprise Risk Management',
+    subtitle: 'Risk Management',
     description:
       'Estrutura completa para identificação e mitigação de riscos (RCSA), alinhada às melhores práticas de Basileia e ISO 31000.',
     features: [
@@ -47,7 +51,7 @@ export const modules: ModuleData[] = [
   {
     id: 'controls',
     title: 'Controles Internos',
-    subtitle: 'Internal Controls (ICS)',
+    subtitle: 'Internal Controls',
     description:
       'Fortaleça a primeira e segunda linhas de defesa com testes de controles, planos de ação e certificações periódicas.',
     features: [
@@ -84,17 +88,38 @@ export const modules: ModuleData[] = [
     glow: 'shadow-amber-500/20',
     relatedIds: ['risks', 'controls'],
   },
+  // Orbit 2 (Regulation & Governance)
+  {
+    id: 'policies',
+    title: 'Políticas',
+    subtitle: 'Policy Management',
+    description:
+      'Ciclo de vida completo das políticas corporativas: criação, revisão, aprovação e publicação com controle de versão.',
+    features: [
+      'Workflow de Aprovação',
+      'Controle de Versão',
+      'Portal de Políticas',
+      'Attestation de Leitura',
+    ],
+    regulation: ['ISO 9001', 'Governança Corporativa'],
+    icon: ScrollText,
+    color: 'text-cyan-400',
+    borderColor: 'border-cyan-400',
+    bg: 'bg-cyan-500/10',
+    glow: 'shadow-cyan-500/20',
+    relatedIds: ['regulatory', 'controls'],
+  },
   {
     id: 'regulatory',
-    title: 'Compliance & Normas',
+    title: 'Regulatório',
     subtitle: 'Regulatory Compliance',
     description:
-      'Gestão automatizada do inventário regulatório, com captura de normas e controle de prazos de obrigações (CADOCs).',
+      'Gestão automatizada do inventário regulatório, com captura de normas e controle de prazos de obrigações.',
     features: [
       'Feed Regulatório (IA)',
       'Obrigações e Prazos',
       'Inventário de Normas',
-      'Gestão de CADOCs',
+      'Gestão de Ofícios',
     ],
     regulation: ['BACEN', 'CVM', 'ANBIMA'],
     icon: BookOpen,
@@ -102,11 +127,31 @@ export const modules: ModuleData[] = [
     borderColor: 'border-blue-400',
     bg: 'bg-blue-500/10',
     glow: 'shadow-blue-500/20',
-    relatedIds: ['risks', 'controls', 'lgpd'],
+    relatedIds: ['risks', 'controls', 'cadocs'],
+  },
+  {
+    id: 'cadocs',
+    title: 'CADOCs',
+    subtitle: 'Regulatory Reporting',
+    description:
+      'Automação e validação da geração de arquivos XML para remessa de informações ao Banco Central (CADOCs).',
+    features: [
+      'Validador de XML',
+      'Geração 2061/4010/5011',
+      'Calendário Regulatório',
+      'Gestão de Versões',
+    ],
+    regulation: ['Circular 3.644', 'Leiautes BACEN'],
+    icon: FileSpreadsheet,
+    color: 'text-indigo-400',
+    borderColor: 'border-indigo-400',
+    bg: 'bg-indigo-500/10',
+    glow: 'shadow-indigo-500/20',
+    relatedIds: ['regulatory', 'risks'],
   },
   {
     id: 'lgpd',
-    title: 'Privacidade & LGPD',
+    title: 'Proteção de Dados',
     subtitle: 'Data Privacy',
     description:
       'Conformidade total com a LGPD através de mapeamento de dados (ROPA), gestão de consentimento e portal do titular.',
@@ -122,8 +167,9 @@ export const modules: ModuleData[] = [
     borderColor: 'border-purple-400',
     bg: 'bg-purple-500/10',
     glow: 'shadow-purple-500/20',
-    relatedIds: ['regulatory', 'third-party'],
+    relatedIds: ['third-party', 'bia'],
   },
+  // Orbit 3 (Support & Resilience)
   {
     id: 'third-party',
     title: 'Gestão de Terceiros',
@@ -143,5 +189,25 @@ export const modules: ModuleData[] = [
     bg: 'bg-pink-500/10',
     glow: 'shadow-pink-500/20',
     relatedIds: ['risks', 'lgpd'],
+  },
+  {
+    id: 'bia',
+    title: 'BIA & Continuidade',
+    subtitle: 'Business Continuity',
+    description:
+      'Análise de Impacto no Negócio (BIA) e Planos de Continuidade de Negócios (PCN) para garantir resiliência operacional.',
+    features: [
+      'Análise de Impacto (BIA)',
+      'Planos de Continuidade (PCN)',
+      'Testes de Recuperação',
+      'Gestão de Crises',
+    ],
+    regulation: ['Resolução 4.557', 'ISO 22301'],
+    icon: Activity,
+    color: 'text-rose-400',
+    borderColor: 'border-rose-400',
+    bg: 'bg-rose-500/10',
+    glow: 'shadow-rose-500/20',
+    relatedIds: ['risks', 'third-party'],
   },
 ]
