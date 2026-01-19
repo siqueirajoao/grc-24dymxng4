@@ -7,12 +7,16 @@ import { ComplianceSection } from '@/components/landing/ComplianceSection'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { FAQSection } from '@/components/landing/FAQSection'
 import { FeaturesSection } from '@/components/landing/FeaturesSection'
+import { MouseFollower } from '@/components/landing/MouseFollower'
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-blue-500/30 selection:text-white">
       {/* Background Canvas Layer */}
       <AnimatedBackground />
+
+      {/* Mouse Follower Glow Effect */}
+      <MouseFollower />
 
       {/* Navigation */}
       <Navbar />
