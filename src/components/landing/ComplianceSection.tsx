@@ -27,8 +27,8 @@ export function ComplianceSection() {
             )}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-              Conformidade Garantida com{' '}
-              <span className="text-blue-500">Seus Reguladores</span>
+              Esteja em Conformidade{' '}
+              <span className="text-blue-500">desde o 1º dia</span>
             </h2>
 
             <div className="grid grid-cols-2 gap-6 my-8">

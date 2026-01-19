@@ -26,10 +26,10 @@ export function HeroSection() {
         {/* Headline */}
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 text-white max-w-6xl mx-auto leading-[1.1]">
           <span className="block animate-fade-in-up [animation-delay:200ms] opacity-0">
-            A Plataforma de
+            Seu Ecossistema para
           </span>
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block">
-            Ambientes Regulatórios
+            Ambientes Regulados
           </span>
         </h1>
 
