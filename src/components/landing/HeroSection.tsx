@@ -53,23 +53,24 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative min-h-[95vh] flex items-center justify-center overflow-hidden py-24 lg:py-0">
+    <section className="relative min-h-[95vh] w-full flex items-center justify-center overflow-hidden py-20 lg:py-0 bg-black">
       {/* Background Gradients and Orbits */}
       <div className="absolute inset-0 bg-black/40 z-0" />
 
       {/* Orbital Rings - Decorative */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-blue-500/10 rounded-full animate-spin-slow pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] border border-blue-500/5 rounded-full animate-reverse-spin-slow pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-blue-500/10 rounded-full animate-spin-slow pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] border border-blue-500/5 rounded-full animate-reverse-spin-slow pointer-events-none z-0" />
 
       {/* Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow z-0" />
 
-      <div className="container relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center px-4 md:px-6">
+      {/* Content Container */}
+      <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 px-4 md:px-6 w-full">
         {/* Left Column: Text Content */}
-        {/* Removed order classes to ensure natural DOM order (Text first, then Cards) on mobile and desktop */}
-        <div className="flex flex-col text-left space-y-6 md:space-y-8 w-full">
+        {/* z-index ensures text is above any background elements. flex-1 allows text to take distinct space without overlap. */}
+        <div className="flex flex-col text-left space-y-8 w-full lg:flex-1 lg:max-w-[650px] z-10 order-1">
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-7xl font-bold tracking-tight text-white leading-[1.1] max-w-3xl">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-7xl font-bold tracking-tight text-white leading-[1.1]">
             <span className="block animate-fade-in-up [animation-delay:200ms] opacity-0">
               Sua Solução para
             </span>
@@ -79,14 +80,14 @@ export function HeroSection() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 max-w-xl leading-relaxed animate-fade-in-up [animation-delay:600ms] opacity-0 font-light">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 leading-relaxed animate-fade-in-up [animation-delay:600ms] opacity-0 font-light max-w-xl">
             Lawyn é a plataforma GRC que unifica Governança, Riscos e Compliance
             em um único sistema operacional projetado para lidar com a
             complexidade regulatória de qualquer setor.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-in-up [animation-delay:800ms] opacity-0 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-in-up [animation-delay:800ms] opacity-0 w-full sm:w-auto pt-2">
             <Button
               size="lg"
               className="h-12 sm:h-14 px-8 text-base bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all hover:scale-105 w-full sm:w-auto"
@@ -107,31 +108,42 @@ export function HeroSection() {
         </div>
 
         {/* Right Column: Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full animate-fade-in-up [animation-delay:1000ms] opacity-0">
-          {cards.map((card, index) => (
-            <div
-              key={index}
-              className={cn(
-                'group p-6 rounded-2xl border bg-white/5 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:bg-white/10',
-                card.border,
-              )}
-            >
+        {/* Order 2 on mobile (below text), but flex-row puts it to the right on desktop */}
+        <div className="w-full lg:flex-1 flex justify-center lg:justify-end z-10 order-2 animate-fade-in-up [animation-delay:1000ms] opacity-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full max-w-[600px]">
+            {cards.map((card, index) => (
               <div
+                key={index}
                 className={cn(
-                  'w-12 h-12 rounded-lg flex items-center justify-center mb-4 transition-colors',
-                  card.bg,
+                  'group p-6 rounded-2xl border bg-white/5 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:bg-white/10 hover:shadow-2xl hover:shadow-blue-900/20 relative overflow-hidden',
+                  card.border,
                 )}
               >
-                <card.icon className={cn('w-6 h-6', card.color)} />
+                {/* Gradient background effect on hover */}
+                <div
+                  className={cn(
+                    'absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500',
+                    card.color.replace('text-', 'from-'),
+                  )}
+                />
+
+                <div
+                  className={cn(
+                    'w-12 h-12 rounded-lg flex items-center justify-center mb-4 transition-colors relative z-10',
+                    card.bg,
+                  )}
+                >
+                  <card.icon className={cn('w-6 h-6', card.color)} />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-100 transition-colors relative z-10">
+                  {card.title}
+                </h3>
+                <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors relative z-10">
+                  {card.description}
+                </p>
               </div>
-              <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-100 transition-colors">
-                {card.title}
-              </h3>
-              <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
-                {card.description}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
