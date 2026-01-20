@@ -53,7 +53,7 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative min-h-[95vh] flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-[95vh] flex items-center justify-center overflow-hidden py-24 lg:py-0">
       {/* Background Gradients and Orbits */}
       <div className="absolute inset-0 bg-black/40 z-0" />
 
@@ -64,31 +64,32 @@ export function HeroSection() {
       {/* Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
 
-      <div className="container relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center px-4">
+      <div className="container relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center px-4 md:px-6">
         {/* Left Column: Text Content */}
-        <div className="flex flex-col text-left space-y-8 order-2 lg:order-1">
+        {/* Removed order classes to ensure natural DOM order (Text first, then Cards) on mobile and desktop */}
+        <div className="flex flex-col text-left space-y-6 md:space-y-8 w-full">
           {/* Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-7xl font-bold tracking-tight text-white leading-[1.1] max-w-3xl">
             <span className="block animate-fade-in-up [animation-delay:200ms] opacity-0">
               Sua Solução para
             </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block pb-2 whitespace-nowrap">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block pb-2 whitespace-normal xl:whitespace-nowrap">
               Ambientes Regulados
             </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl md:text-2xl text-gray-400 max-w-2xl leading-relaxed animate-fade-in-up [animation-delay:600ms] opacity-0 font-light">
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 max-w-xl leading-relaxed animate-fade-in-up [animation-delay:600ms] opacity-0 font-light">
             Lawyn é a plataforma GRC que unifica Governança, Riscos e Compliance
             em um único sistema operacional projetado para lidar com a
             complexidade regulatória de qualquer setor.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-5 animate-fade-in-up [animation-delay:800ms] opacity-0 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-in-up [animation-delay:800ms] opacity-0 w-full sm:w-auto">
             <Button
               size="lg"
-              className="h-14 px-8 text-base bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all hover:scale-105 w-full sm:w-auto"
+              className="h-12 sm:h-14 px-8 text-base bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all hover:scale-105 w-full sm:w-auto"
             >
               Solicitar Demo
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -97,7 +98,7 @@ export function HeroSection() {
               variant="outline"
               size="lg"
               onClick={scrollToEcosystem}
-              className="h-14 px-8 text-base border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-full backdrop-blur-md transition-all hover:scale-105 w-full sm:w-auto"
+              className="h-12 sm:h-14 px-8 text-base border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-full backdrop-blur-md transition-all hover:scale-105 w-full sm:w-auto"
             >
               Explorar Ecossistema
               <Layers className="ml-2 w-5 h-5" />
@@ -106,7 +107,7 @@ export function HeroSection() {
         </div>
 
         {/* Right Column: Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 order-1 lg:order-2 animate-fade-in-up [animation-delay:1000ms] opacity-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full animate-fade-in-up [animation-delay:1000ms] opacity-0">
           {cards.map((card, index) => (
             <div
               key={index}
