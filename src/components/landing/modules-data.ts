@@ -39,7 +39,8 @@ export const modules: ModuleData[] = [
       'Monitoramento de KRIs',
       'Gestão de Incidentes',
     ],
-    regulation: ['ISO 31000', 'COSO ERM', 'Boas Práticas'],
+    // REMOVED: ISO 31000
+    regulation: ['COSO ERM', 'Boas Práticas'],
     icon: ShieldAlert,
     color: 'text-red-500',
     borderColor: 'border-red-500/50',
@@ -151,8 +152,9 @@ export const modules: ModuleData[] = [
     id: 'lgpd',
     title: 'Proteção de Dados',
     subtitle: 'DATA PRIVACY',
+    // UPDATED: Description text
     description:
-      'Conformidade total com a LGPD através de mapeamento de dados (ROPA), gestão de consentimento e portal do titular.',
+      'Esteja em conformidade total com a LGPD através de mapeamento de dados (ROPA), gestão de consentimento e portal do titular.',
     features: [
       'Data Mapping (ROPA)',
       'Avaliação de Impacto (DPIA)',

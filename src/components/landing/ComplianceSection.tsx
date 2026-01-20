@@ -50,7 +50,8 @@ export function ComplianceSection() {
 
             <div className="space-y-4">
               {[
-                'Matriz de Riscos flexível (ISO 31000)',
+                // REMOVED: (ISO 31000) suffix
+                'Matriz de Riscos flexível',
                 'Automação de reportes e obrigações',
                 'Trilhas de auditoria imutáveis',
                 'Gestão integrada de incidentes',

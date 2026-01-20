@@ -89,8 +89,11 @@ export function FeaturesSection() {
           <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
             Conheça as funcionalidades da Lawyn
           </h2>
-          <p className="text-gray-400 text-lg">
-            E veja como podemos mudar seu fluxo de trabalho
+          {/* UPDATED: Description Text */}
+          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+            Tudo que você precisa em um só lugar. Módulos integrados que cobrem
+            todo o ciclo de governança, riscos e compliance para instituições
+            financeiras.
           </p>
         </div>
 
