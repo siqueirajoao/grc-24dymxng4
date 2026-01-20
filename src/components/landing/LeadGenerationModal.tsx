@@ -71,136 +71,144 @@ export function LeadGenerationModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] bg-zinc-950 border-zinc-800 text-white animate-pulse-glow shadow-[0_0_50px_-12px_rgba(59,130,246,0.5)]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-white">
-            Falar com Especialista
-          </DialogTitle>
-          <DialogDescription className="text-zinc-400">
-            Preencha o formulário abaixo e nossa equipe entrará em contato para
-            entender sua necessidade.
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="sm:max-w-[500px] p-0 bg-transparent border-none shadow-none [&>button]:text-zinc-400 [&>button]:hover:text-white">
+        {/* 
+          Wrapper for visual styles and pulse animation.
+          Separating this from DialogContent prevents animation conflicts (flickering).
+        */}
+        <div className="w-full h-full bg-zinc-950 border border-zinc-800 text-white animate-pulse-glow shadow-[0_0_50px_-12px_rgba(59,130,246,0.5)] rounded-lg p-6">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-white">
+              Falar com Especialista
+            </DialogTitle>
+            <DialogDescription className="text-zinc-400">
+              Preencha o formulário abaixo e nossa equipe entrará em contato
+              para entender sua necessidade.
+            </DialogDescription>
+          </DialogHeader>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-2"
-          >
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-zinc-300">Nome</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Seu nome"
-                        {...field}
-                        className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="company"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-zinc-300">Empresa</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Sua empresa"
-                        {...field}
-                        className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 mt-4"
+            >
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-zinc-300">Nome</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Seu nome"
+                          {...field}
+                          className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-zinc-300">Empresa</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Sua empresa"
+                          {...field}
+                          className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-zinc-300">
+                        Email Corporativo *
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="nome@empresa.com"
+                          {...field}
+                          className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-zinc-300">
+                        Telefone *
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="(11) 99999-9999"
+                          {...field}
+                          className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
-                name="email"
+                name="message"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-zinc-300">
-                      Email Corporativo *
+                      Mensagem (Opcional)
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="nome@empresa.com"
+                      <Textarea
+                        placeholder="Conte-nos sobre sua necessidade..."
+                        className="resize-none bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500 min-h-[100px]"
                         {...field}
-                        className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-zinc-300">Telefone *</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="(11) 99999-9999"
-                        {...field}
-                        className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
 
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-zinc-300">
-                    Mensagem (Opcional)
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Conte-nos sobre sua necessidade..."
-                      className="resize-none bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500 min-h-[100px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="pt-2">
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold h-11 transition-all"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Enviando...
-                  </>
-                ) : (
-                  'Solicitar Contato'
-                )}
-              </Button>
-            </div>
-          </form>
-        </Form>
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold h-11 transition-all"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    'Solicitar Contato'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </DialogContent>
     </Dialog>
   )
