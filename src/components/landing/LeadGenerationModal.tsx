@@ -22,7 +22,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
-import { insertLead } from '@/lib/supabase'
+import { createLead } from '@/services/leads'
 
 const formSchema = z.object({
   name: z.string().min(2, 'Nome é obrigatório'),
@@ -58,7 +58,11 @@ export function LeadGenerationModal({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
-      await insertLead(values)
+      const { error } = await createLead(values)
+
+      if (error) {
+        throw error
+      }
 
       toast({
         title: 'Solicitação enviada com sucesso!',
@@ -68,6 +72,7 @@ export function LeadGenerationModal({
       onOpenChange(false)
       form.reset()
     } catch (error) {
+      console.error('Lead submission error:', error)
       toast({
         variant: 'destructive',
         title: 'Erro ao enviar',
