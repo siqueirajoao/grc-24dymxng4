@@ -70,7 +70,7 @@ export function HeroSection() {
         {/* z-index ensures text is above any background elements. flex-1 allows text to take distinct space without overlap. */}
         <div className="flex flex-col text-left space-y-8 w-full lg:flex-1 lg:max-w-[650px] xl:max-w-[800px] z-10 order-1 overflow-visible">
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white leading-[1.1] w-full whitespace-normal">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-[3.5rem] font-bold tracking-tight text-white leading-[1.1] w-full whitespace-normal overflow-visible">
             <span className="block animate-fade-in-up [animation-delay:200ms] opacity-0">
               Sua Solução para
             </span>
