@@ -125,9 +125,9 @@ export function SegmentsSection() {
                 </linearGradient>
               </defs>
 
-              {/* Path 1: To Left Card (Approx 16.66% center) */}
+              {/* Path 1: To Left Card (Approx 16.66% center) - Orthogonal */}
               <path
-                d="M 50 0 C 50 50, 16.6 50, 16.6 100"
+                d="M 50 0 L 50 50 L 16.66 50 L 16.66 100"
                 fill="none"
                 stroke="url(#lineGradient)"
                 strokeWidth="0.5"
@@ -143,7 +143,7 @@ export function SegmentsSection() {
                 )}
               />
 
-              {/* Path 2: To Center Card (50% center) */}
+              {/* Path 2: To Center Card (50% center) - Straight */}
               <path
                 d="M 50 0 L 50 100"
                 fill="none"
@@ -162,9 +162,9 @@ export function SegmentsSection() {
                 style={{ animationDelay: '100ms' }}
               />
 
-              {/* Path 3: To Right Card (Approx 83.33% center) */}
+              {/* Path 3: To Right Card (Approx 83.33% center) - Orthogonal */}
               <path
-                d="M 50 0 C 50 50, 83.3 50, 83.3 100"
+                d="M 50 0 L 50 50 L 83.33 50 L 83.33 100"
                 fill="none"
                 stroke="url(#lineGradient)"
                 strokeWidth="0.5"
@@ -185,21 +185,21 @@ export function SegmentsSection() {
               {linesActive && (
                 <>
                   <circle
-                    cx="16.6"
+                    cx="16.66"
                     cy="100"
-                    r="1"
+                    r="1.5"
                     className="fill-blue-500 animate-fade-in"
                   />
                   <circle
                     cx="50"
                     cy="100"
-                    r="1"
+                    r="1.5"
                     className="fill-violet-500 animate-fade-in delay-75"
                   />
                   <circle
-                    cx="83.3"
+                    cx="83.33"
                     cy="100"
-                    r="1"
+                    r="1.5"
                     className="fill-indigo-500 animate-fade-in delay-150"
                   />
                 </>
