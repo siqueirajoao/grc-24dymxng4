@@ -72,7 +72,7 @@ export function HeroSection() {
             <span className="block animate-fade-in-up [animation-delay:200ms] opacity-0">
               Sua Solução para
             </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block pb-2">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block pb-2 whitespace-nowrap">
               Ambientes Regulados
             </span>
           </h1>
