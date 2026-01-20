@@ -58,7 +58,14 @@ export function LeadGenerationModal({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
-      const { error } = await createLead(values)
+      // The data object matches the table columns: name, company, email, phone, message
+      const { error } = await createLead({
+        name: values.name,
+        company: values.company,
+        email: values.email,
+        phone: values.phone,
+        message: values.message || null,
+      })
 
       if (error) {
         throw error
