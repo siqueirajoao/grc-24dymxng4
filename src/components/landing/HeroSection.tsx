@@ -28,8 +28,8 @@ export function HeroSection() {
     },
     {
       icon: FileSpreadsheet,
-      title: 'Cadocs',
-      description: 'Automação total',
+      title: 'CADOCs e Relatórios',
+      description: 'Geração e Validação',
       color: 'text-blue-400',
       bg: 'bg-blue-900/10',
       border: 'border-blue-500/20',
