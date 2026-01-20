@@ -156,6 +156,11 @@
     animation: pulseGlow 3s infinite;
   }
 
+  /* Custom Slow Pulse for Core Component */
+  .animate-core-pulse {
+    animation: corePulse 4s infinite ease-in-out;
+  }
+
   .animate-spin-slow {
     animation: spin 20s linear infinite;
   }
@@ -263,6 +268,16 @@
     }
     100% {
       box-shadow: 0 0 5px rgba(59, 130, 246, 0.2);
+    }
+  }
+
+  @keyframes corePulse {
+    0%,
+    100% {
+      box-shadow: 0 0 15px -2px rgba(37, 99, 235, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 35px 5px rgba(37, 99, 235, 0.5);
     }
   }
 
