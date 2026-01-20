@@ -181,7 +181,8 @@ export const modules: ModuleData[] = [
       'Monitoramento Contínuo',
       'Contratos & SLAs',
     ],
-    regulation: ['Compliance na Cadeia', 'Due Diligence'],
+    // UPDATED: Terminology for clearer industry standard
+    regulation: ['Integridade de Terceiros', 'Due Diligence'],
     icon: Users,
     color: 'text-pink-500',
     borderColor: 'border-pink-500/50',
