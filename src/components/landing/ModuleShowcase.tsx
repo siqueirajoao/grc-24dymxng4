@@ -4,7 +4,11 @@ import { useScrollObserver } from '@/hooks/use-scroll-observer'
 import { EcosystemGraph } from './EcosystemGraph'
 import { ModuleDetail } from './ModuleDetail'
 
-export function ModuleShowcase() {
+interface ModuleShowcaseProps {
+  onOpenDemo: () => void
+}
+
+export function ModuleShowcase({ onOpenDemo }: ModuleShowcaseProps) {
   const { ref, isVisible } = useScrollObserver({ threshold: 0.1 })
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
 
@@ -77,7 +81,10 @@ export function ModuleShowcase() {
                     : 'opacity-0 translate-x-10',
                 )}
               >
-                <ModuleDetail moduleId={selectedModuleId} />
+                <ModuleDetail
+                  moduleId={selectedModuleId}
+                  onOpenDemo={onOpenDemo}
+                />
               </div>
             )}
           </div>

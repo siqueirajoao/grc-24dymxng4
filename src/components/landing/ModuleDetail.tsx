@@ -5,9 +5,10 @@ import { modules } from './modules-data'
 
 interface ModuleDetailProps {
   moduleId: string
+  onOpenDemo: () => void
 }
 
-export function ModuleDetail({ moduleId }: ModuleDetailProps) {
+export function ModuleDetail({ moduleId, onOpenDemo }: ModuleDetailProps) {
   const module = modules.find((m) => m.id === moduleId) || modules[0]
 
   return (
@@ -85,7 +86,10 @@ export function ModuleDetail({ moduleId }: ModuleDetailProps) {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-          <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white rounded-lg h-12 px-8 font-semibold shadow-lg shadow-blue-900/20 transition-all hover:scale-105">
+          <Button
+            onClick={onOpenDemo}
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white rounded-lg h-12 px-8 font-semibold shadow-lg shadow-blue-900/20 transition-all hover:scale-105"
+          >
             Fale com um Especialista
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>

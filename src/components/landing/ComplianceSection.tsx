@@ -4,7 +4,11 @@ import { CountUp } from '@/components/CountUp'
 import { useScrollObserver } from '@/hooks/use-scroll-observer'
 import { cn } from '@/lib/utils'
 
-export function ComplianceSection() {
+interface ComplianceSectionProps {
+  onOpenDemo: () => void
+}
+
+export function ComplianceSection({ onOpenDemo }: ComplianceSectionProps) {
   const { ref, isVisible } = useScrollObserver({ threshold: 0.3 })
 
   return (
@@ -67,6 +71,7 @@ export function ComplianceSection() {
             </div>
             <Button
               size="lg"
+              onClick={onOpenDemo}
               className="mt-6 h-12 px-8 bg-white text-black hover:bg-gray-200 border-0 font-semibold rounded-full transition-transform hover:scale-105"
             >
               Falar com Especialista

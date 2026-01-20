@@ -9,7 +9,11 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-export function HeroSection() {
+interface HeroSectionProps {
+  onOpenDemo: () => void
+}
+
+export function HeroSection({ onOpenDemo }: HeroSectionProps) {
   const scrollToEcosystem = () => {
     const element = document.getElementById('ecosystem')
     if (element) {
@@ -90,6 +94,7 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-in-up [animation-delay:800ms] opacity-0 w-full sm:w-auto pt-2">
             <Button
               size="lg"
+              onClick={onOpenDemo}
               className="h-12 sm:h-14 px-8 text-base bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all hover:scale-105 w-full sm:w-auto"
             >
               Solicitar Demo
