@@ -68,13 +68,13 @@ export function HeroSection() {
       <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 px-4 md:px-6 lg:px-8 w-full overflow-visible">
         {/* Left Column: Text Content */}
         {/* z-index ensures text is above any background elements. flex-1 allows text to take distinct space without overlap. */}
-        <div className="flex flex-col text-left space-y-8 w-full lg:flex-1 lg:max-w-[650px] z-10 order-1 overflow-visible">
+        <div className="flex flex-col text-left space-y-8 w-full lg:flex-1 lg:max-w-[650px] xl:max-w-[800px] z-10 order-1 overflow-visible">
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-7xl font-bold tracking-tight text-white leading-[1.1] w-full whitespace-normal">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white leading-[1.1] w-full whitespace-normal">
             <span className="block animate-fade-in-up [animation-delay:200ms] opacity-0">
               Sua Solução para
             </span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block pb-2 whitespace-normal">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white animate-fade-in-up [animation-delay:400ms] opacity-0 block pb-2 whitespace-normal lg:whitespace-nowrap">
               Ambientes Regulados
             </span>
           </h1>
