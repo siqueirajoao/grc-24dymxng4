@@ -111,10 +111,15 @@ export default {
           },
           to: { height: '0', opacity: '0' },
         },
+        'subtle-glow': {
+          '0%, 100%': { boxShadow: '0 0 40px -10px rgba(37,99,235,0.3)' },
+          '50%': { boxShadow: '0 0 60px -5px rgba(37,99,235,0.6)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.3s ease-in-out',
         'accordion-up': 'accordion-up 0.3s ease-in-out',
+        'subtle-glow': 'subtle-glow 3s infinite ease-in-out',
       },
     },
   },

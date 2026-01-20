@@ -12,6 +12,7 @@ const segments = [
     gradient: 'from-blue-600 to-indigo-600',
     borderEffect: 'group-hover:border-blue-500/50',
     glowColor: 'group-hover:shadow-blue-900/40',
+    syncId: 'REG_ENV_SYNC',
   },
   {
     id: 'tech',
@@ -21,6 +22,7 @@ const segments = [
     gradient: 'from-violet-600 to-purple-600',
     borderEffect: 'group-hover:border-violet-500/50',
     glowColor: 'group-hover:shadow-violet-900/40',
+    syncId: 'TECH_CORE_SYNC',
   },
   {
     id: 'industry',
@@ -30,6 +32,7 @@ const segments = [
     gradient: 'from-indigo-600 to-cyan-600',
     borderEffect: 'group-hover:border-indigo-500/50',
     glowColor: 'group-hover:shadow-indigo-900/40',
+    syncId: 'IND_SVC_SYNC',
   },
 ]
 
@@ -88,7 +91,7 @@ export function SegmentsSection() {
                 : 'opacity-0 translate-y-10 scale-95',
             )}
           >
-            <div className="group relative flex items-center gap-3 px-6 py-3 rounded-full bg-zinc-950 border border-zinc-800 shadow-[0_0_40px_-10px_rgba(37,99,235,0.3)] hover:border-blue-500/50 transition-all duration-500">
+            <div className="group relative flex items-center gap-3 px-6 py-3 rounded-full bg-zinc-950 border border-zinc-800 hover:border-blue-500/50 transition-all duration-500 animate-subtle-glow">
               <div className="absolute inset-0 bg-blue-600/5 rounded-full blur-xl group-hover:bg-blue-600/10 transition-all" />
               <div className="bg-gradient-to-br from-blue-600 to-violet-600 w-8 h-8 rounded-lg flex items-center justify-center shadow-inner">
                 <Shield className="w-4 h-4 text-white fill-white/20" />
@@ -262,7 +265,7 @@ export function SegmentsSection() {
                   {/* Tech Details (Decorations) */}
                   <div className="mt-auto pt-6 flex items-center justify-between border-t border-white/5 opacity-50 group-hover:opacity-100 transition-opacity">
                     <span className="text-[10px] uppercase tracking-widest text-gray-500 font-mono">
-                      SYNC_ID: 0{i + 1}
+                      {seg.syncId}
                     </span>
                     <div className="flex gap-1">
                       <div className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-green-500 transition-colors" />
