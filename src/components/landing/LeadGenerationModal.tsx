@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Loader2 } from 'lucide-react'
+import { Loader2, AlertCircle } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
+import { insertLead } from '@/lib/supabase'
 
 const formSchema = z.object({
   name: z.string().min(2, 'Nome é obrigatório'),
@@ -56,17 +57,27 @@ export function LeadGenerationModal({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      await insertLead(values)
 
-    console.log('Lead Values:', values)
-    toast({
-      title: 'Solicitação enviada!',
-      description: 'Nossa equipe entrará em contato em breve.',
-    })
-    setIsSubmitting(false)
-    onOpenChange(false)
-    form.reset()
+      toast({
+        title: 'Solicitação enviada com sucesso!',
+        description: 'Nossa equipe entrará em contato em breve.',
+        className: 'bg-green-500 text-white border-none',
+      })
+      onOpenChange(false)
+      form.reset()
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Erro ao enviar',
+        description:
+          'Ocorreu um problema ao salvar seus dados. Tente novamente.',
+        action: <AlertCircle className="h-5 w-5" />,
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -103,6 +114,7 @@ export function LeadGenerationModal({
                         <Input
                           placeholder="Seu nome"
                           {...field}
+                          disabled={isSubmitting}
                           className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
                         />
                       </FormControl>
@@ -120,6 +132,7 @@ export function LeadGenerationModal({
                         <Input
                           placeholder="Sua empresa"
                           {...field}
+                          disabled={isSubmitting}
                           className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
                         />
                       </FormControl>
@@ -142,6 +155,7 @@ export function LeadGenerationModal({
                         <Input
                           placeholder="nome@empresa.com"
                           {...field}
+                          disabled={isSubmitting}
                           className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
                         />
                       </FormControl>
@@ -161,6 +175,7 @@ export function LeadGenerationModal({
                         <Input
                           placeholder="(11) 99999-9999"
                           {...field}
+                          disabled={isSubmitting}
                           className="bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500"
                         />
                       </FormControl>
@@ -183,6 +198,7 @@ export function LeadGenerationModal({
                         placeholder="Conte-nos sobre sua necessidade..."
                         className="resize-none bg-zinc-900/50 border-zinc-700 text-white placeholder:text-zinc-600 focus-visible:ring-blue-500 min-h-[100px]"
                         {...field}
+                        disabled={isSubmitting}
                       />
                     </FormControl>
                     <FormMessage />
