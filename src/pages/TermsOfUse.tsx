@@ -1,110 +1,85 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ArrowLeft, Building2, Loader2, AlertCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { Navbar } from '@/components/landing/Navbar'
 import { LandingFooter } from '@/components/landing/LandingFooter'
-import { Card, CardContent } from '@/components/ui/card'
-import { supabase } from '@/lib/supabase/client'
+import { useState } from 'react'
+import { LeadGenerationModal } from '@/components/landing/LeadGenerationModal'
 
 export default function TermsOfUse() {
-  const [content, setContent] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    const fetchTerms = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('policies')
-          .select('content')
-          .eq('title', 'Termos de Uso')
-          .single()
-
-        if (error) throw error
-
-        setContent(data?.content || null)
-      } catch (err) {
-        console.error('Error fetching terms:', err)
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchTerms()
-  }, [])
+  const [isDemoOpen, setIsDemoOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30 selection:text-white flex flex-col">
-      {/* Hidden div to ensure Tailwind generates classes used in dynamic database content */}
-      <div className="hidden text-justify space-y-8 text-zinc-300 leading-relaxed text-lg mb-8 space-y-4 text-zinc-400 font-medium h-px bg-white/10 my-8 text-xl space-y-3 list-disc pl-5 mt-2 space-y-1 text-center font-bold uppercase tracking-wide" />
+    <div className="min-h-screen bg-black text-white">
+      <Navbar onOpenDemo={() => setIsDemoOpen(true)} />
 
-      {/* Header */}
-      <header className="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-gradient-to-tr from-blue-700 to-blue-500 p-1.5 rounded-lg shadow-lg shadow-blue-900/50">
-              <Building2 className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-white">
-              Lawyn GRC
-            </span>
-          </Link>
-          <Link to="/">
-            <Button
-              variant="ghost"
-              className="text-zinc-400 hover:text-white hover:bg-white/10"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Voltar para o Início
-            </Button>
-          </Link>
-        </div>
-      </header>
+      <main className="container px-4 py-24 md:py-32 max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold mb-8">
+          Termos de Uso e Política de Privacidade
+        </h1>
 
-      {/* Main Content */}
-      <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl">
-        <div className="space-y-8 animate-fade-in">
-          <div className="space-y-2">
-            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-              TERMOS DE USO – LAWYN
-            </h1>
-          </div>
+        <div className="prose prose-invert prose-blue max-w-none space-y-8 text-gray-300">
+          <section>
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              1. Introdução
+            </h2>
+            <p>
+              Bem-vindo à Lawyn. Estes Termos de Uso regem seu acesso e uso de
+              nossa plataforma de Governança, Riscos e Compliance. Ao acessar ou
+              usar nossos serviços, você concorda em ficar vinculado a estes
+              termos.
+            </p>
+          </section>
 
-          <Separator className="bg-white/10" />
+          <section>
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              2. Uso da Plataforma
+            </h2>
+            <p>
+              A Lawyn concede a você uma licença limitada, não exclusiva e
+              intransferível para usar a plataforma de acordo com seu plano de
+              assinatura. Você é responsável por manter a confidencialidade de
+              suas credenciais de acesso.
+            </p>
+          </section>
 
-          <Card className="bg-zinc-900/50 border-white/10 text-zinc-300">
-            <CardContent className="p-6 md:p-10">
-              {loading ? (
-                <div className="flex flex-col items-center justify-center py-20 gap-4">
-                  <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-                  <p className="text-zinc-500">Carregando termos de uso...</p>
-                </div>
-              ) : error || !content ? (
-                <div className="flex flex-col items-center justify-center py-20 gap-4 text-red-400">
-                  <AlertCircle className="w-8 h-8" />
-                  <p>Não foi possível carregar os termos de uso no momento.</p>
-                  <Button
-                    variant="outline"
-                    onClick={() => window.location.reload()}
-                    className="mt-4 border-white/10 hover:bg-white/5"
-                  >
-                    Tentar Novamente
-                  </Button>
-                </div>
-              ) : (
-                <div
-                  dangerouslySetInnerHTML={{ __html: content }}
-                  className="terms-content"
-                />
-              )}
-            </CardContent>
-          </Card>
+          <section>
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              3. Proteção de Dados (LGPD)
+            </h2>
+            <p>
+              Levamos a privacidade a sério. Coletamos e processamos dados
+              pessoais estritamente para a prestação de nossos serviços, em
+              conformidade com a Lei Geral de Proteção de Dados (Lei nº
+              13.709/2018).
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              4. Propriedade Intelectual
+            </h2>
+            <p>
+              Todo o conteúdo, software, marcas e tecnologias da plataforma são
+              propriedade exclusiva da Lawyn ou de seus licenciadores.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              5. Contato
+            </h2>
+            <p>
+              Para questões sobre estes termos ou sobre privacidade, entre em
+              contato conosco através de nossos canais oficiais de suporte.
+            </p>
+          </section>
         </div>
       </main>
 
       <LandingFooter />
+
+      <LeadGenerationModal
+        isOpen={isDemoOpen}
+        onClose={() => setIsDemoOpen(false)}
+      />
     </div>
   )
 }

@@ -5,90 +5,111 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card'
-import { Calendar } from '@/components/ui/calendar'
+import { Button } from '@/components/ui/button'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { useState } from 'react'
+import { FileCheck, Plus } from 'lucide-react'
 
 export default function Audits() {
-  const [date, setDate] = useState<Date | undefined>(new Date())
-
   return (
-    <div className="py-6 space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">
-        Auditorias & Achados
-      </h1>
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            <FileCheck className="h-8 w-8 text-warning" />
+            Auditoria Interna
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            Planejamento e execução de trabalhos de auditoria.
+          </p>
+        </div>
+        <Button>
+          <Plus className="mr-2 h-4 w-4" /> Nova Auditoria
+        </Button>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="md:col-span-1">
-          <CardHeader>
-            <CardTitle>Calendário de Auditorias</CardTitle>
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Em Andamento</CardTitle>
           </CardHeader>
           <CardContent>
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="rounded-md border mx-auto"
-            />
+            <div className="text-2xl font-bold">2</div>
           </CardContent>
         </Card>
-
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Auditorias em Andamento</CardTitle>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">
+              Planejadas (Q1)
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
-              {[
-                {
-                  name: 'Auditoria Externa 2025',
-                  scope: 'Demonstrações Financeiras',
-                  status: 'Em Campo',
-                  progress: 65,
-                },
-                {
-                  name: 'Auditoria Interna TI',
-                  scope: 'Segurança da Informação',
-                  status: 'Planejamento',
-                  progress: 10,
-                },
-              ].map((audit, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col gap-2 border-b pb-4 last:border-0"
-                >
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-semibold">{audit.name}</h3>
-                    <Badge>{audit.status}</Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground">{audit.scope}</p>
-                  <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
-                    <div
-                      className="bg-primary h-full transition-all"
-                      style={{ width: `${audit.progress}%` }}
-                    />
-                  </div>
-                  <span className="text-xs text-right text-muted-foreground">
-                    {audit.progress}% concluído
-                  </span>
-                </div>
-              ))}
-            </div>
+            <div className="text-2xl font-bold">5</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">
+              Concluídas (Ano)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12</div>
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Log de Achados (Findings)</CardTitle>
+          <CardTitle>Auditorias Recentes</CardTitle>
           <CardDescription>
-            Pontos de atenção identificados nas últimas auditorias.
+            Acompanhamento dos trabalhos de auditoria.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-sm text-muted-foreground text-center py-8">
-            Nenhum achado crítico pendente.
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Código</TableHead>
+                <TableHead>Título</TableHead>
+                <TableHead>Escopo</TableHead>
+                <TableHead>Período</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Apontamentos</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-medium">AUD-24-01</TableCell>
+                <TableCell>Auditoria de Segurança Cibernética</TableCell>
+                <TableCell>TI / Segurança</TableCell>
+                <TableCell>Jan/24 - Fev/24</TableCell>
+                <TableCell>
+                  <Badge className="bg-blue-500">Em Andamento</Badge>
+                </TableCell>
+                <TableCell className="text-right">--</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">AUD-23-15</TableCell>
+                <TableCell>Revisão de Processos de RH</TableCell>
+                <TableCell>Recursos Humanos</TableCell>
+                <TableCell>Dez/23</TableCell>
+                <TableCell>
+                  <Badge variant="secondary">Concluída</Badge>
+                </TableCell>
+                <TableCell className="text-right text-red-500 font-bold">
+                  3
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
     </div>

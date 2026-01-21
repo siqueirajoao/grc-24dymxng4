@@ -1,92 +1,80 @@
 import { useState } from 'react'
-import { cn } from '@/lib/utils'
-import { useScrollObserver } from '@/hooks/use-scroll-observer'
-import { EcosystemGraph } from './EcosystemGraph'
+import { modules } from './modules-data'
 import { ModuleDetail } from './ModuleDetail'
+import { cn } from '@/lib/utils'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 interface ModuleShowcaseProps {
   onOpenDemo: () => void
 }
 
 export function ModuleShowcase({ onOpenDemo }: ModuleShowcaseProps) {
-  const { ref, isVisible } = useScrollObserver({ threshold: 0.1 })
-  const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
+  const [activeModuleId, setActiveModuleId] = useState(modules[0].id)
 
   return (
     <section
       id="ecosystem"
-      className="py-12 md:py-20 bg-black relative overflow-hidden flex flex-col min-h-screen"
+      className="py-24 bg-zinc-950 relative overflow-hidden"
     >
-      {/* Background Ambience */}
-      <div className="absolute inset-0 bg-black z-0" />
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-950/20 blur-[150px] rounded-full pointer-events-none opacity-50" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-950/20 blur-[120px] rounded-full pointer-events-none opacity-30" />
+      <div className="container px-4 md:px-6 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Ecossistema Integrado
+          </h2>
+          <p className="text-gray-400 text-lg">
+            Navegue pelos módulos e descubra como cada parte da plataforma se
+            conecta para fortalecer sua governança.
+          </p>
+        </div>
 
-      {/* Circuit Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(30,58,138,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(30,58,138,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_100%)] pointer-events-none" />
-
-      <div
-        className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col justify-center"
-        ref={ref}
-      >
-        <div
-          className={cn(
-            'flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 transition-all duration-1000',
-            isVisible ? 'opacity-100' : 'opacity-0',
-          )}
-        >
-          {/* Interactive Graph */}
-          <div
-            className={cn(
-              'order-2 lg:order-1 relative transition-all duration-700 ease-in-out',
-              selectedModuleId ? 'w-full lg:w-[60%]' : 'w-full lg:w-full',
-            )}
-          >
-            <div
-              className={cn(
-                'relative transition-all duration-1000 delay-200',
-                isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
-              )}
-            >
-              <EcosystemGraph
-                activeModuleId={selectedModuleId}
-                onModuleSelect={setSelectedModuleId}
-              />
-            </div>
-
-            {!selectedModuleId && (
-              <div className="text-center mt-4 animate-fade-in-up delay-500">
-                <p className="text-gray-500 text-sm tracking-wide">
-                  Explore o ecossistema regulatório Lawyn
-                </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Module Navigation List */}
+          <div className="lg:col-span-4 lg:sticky lg:top-24">
+            <ScrollArea className="w-full whitespace-nowrap lg:h-[600px] rounded-xl border border-white/5 bg-black/20 p-2">
+              <div className="flex lg:flex-col gap-2 p-2">
+                {modules.map((module) => (
+                  <button
+                    key={module.id}
+                    onClick={() => setActiveModuleId(module.id)}
+                    className={cn(
+                      'flex items-center gap-3 p-4 rounded-lg text-left transition-all duration-300 w-full hover:bg-white/5',
+                      activeModuleId === module.id
+                        ? 'bg-white/10 border border-white/10 shadow-lg'
+                        : 'opacity-60 hover:opacity-100',
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        'w-8 h-8 rounded flex items-center justify-center transition-colors',
+                        activeModuleId === module.id
+                          ? 'text-white'
+                          : 'text-gray-500',
+                      )}
+                    >
+                      <module.icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span
+                        className={cn(
+                          'block font-semibold text-sm transition-colors',
+                          activeModuleId === module.id
+                            ? 'text-white'
+                            : 'text-gray-400',
+                        )}
+                      >
+                        {module.title}
+                      </span>
+                    </div>
+                  </button>
+                ))}
               </div>
-            )}
+              <ScrollBar orientation="horizontal" className="lg:hidden" />
+            </ScrollArea>
           </div>
 
-          {/* Detail Panel */}
-          <div
-            className={cn(
-              'w-full lg:w-[40%] order-1 lg:order-2 overflow-hidden transition-all duration-700 ease-in-out',
-              selectedModuleId
-                ? 'opacity-100 translate-x-0 max-h-[800px]'
-                : 'opacity-0 translate-x-10 max-h-0 lg:max-h-full lg:w-0',
-            )}
-          >
-            {selectedModuleId && (
-              <div
-                className={cn(
-                  'transition-all duration-1000 delay-300',
-                  isVisible
-                    ? 'opacity-100 translate-x-0'
-                    : 'opacity-0 translate-x-10',
-                )}
-              >
-                <ModuleDetail
-                  moduleId={selectedModuleId}
-                  onOpenDemo={onOpenDemo}
-                />
-              </div>
-            )}
+          {/* Module Detail View */}
+          <div className="lg:col-span-8 min-h-[500px]">
+            <ModuleDetail moduleId={activeModuleId} onOpenDemo={onOpenDemo} />
           </div>
         </div>
       </div>

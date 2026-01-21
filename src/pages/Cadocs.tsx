@@ -5,89 +5,86 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { CalendarClock, CheckCircle, AlertTriangle } from 'lucide-react'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Badge } from '@/components/ui/badge'
+import { BookOpen, Download } from 'lucide-react'
 
 export default function Cadocs() {
-  const reports = [
-    {
-      code: '2061',
-      name: 'Demonstrativo de Limites Operacionais',
-      deadline: '20/01/2026',
-      status: 'Pendente',
-      criticality: 'high',
-    },
-    {
-      code: '4010',
-      name: 'Dados Gerais de Riscos',
-      deadline: '30/01/2026',
-      status: 'Em Elaboração',
-      criticality: 'medium',
-    },
-    {
-      code: '5011',
-      name: 'Balancete Patrimonial',
-      deadline: '15/01/2026',
-      status: 'Entregue',
-      criticality: 'low',
-    },
-  ]
-
   return (
-    <div className="py-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">CADOCs & Reports</h1>
-        <p className="text-muted-foreground">
-          Gestão de entregas regulatórias (BACEN).
-        </p>
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            <BookOpen className="h-8 w-8 text-blue-500" />
+            Regulatório e CADOCs
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            Gestão de obrigações regulatórias e envio de documentos.
+          </p>
+        </div>
+        <Button>Gerar Remessa</Button>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {reports.map((report) => (
-          <Card
-            key={report.code}
-            className={
-              report.criticality === 'high' && report.status !== 'Entregue'
-                ? 'border-l-4 border-l-red-500'
-                : ''
-            }
-          >
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-lg">CADOC {report.code}</CardTitle>
-                  <CardDescription className="text-xs mt-1">
-                    {report.name}
-                  </CardDescription>
-                </div>
-                {report.status === 'Entregue' ? (
-                  <CheckCircle className="text-green-500 h-5 w-5" />
-                ) : (
-                  <CalendarClock className="text-yellow-500 h-5 w-5" />
-                )}
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-sm font-medium text-muted-foreground">
-                  Prazo: {report.deadline}
-                </span>
-                <Badge
-                  variant={report.status === 'Entregue' ? 'default' : 'outline'}
-                >
-                  {report.status}
-                </Badge>
-              </div>
-              {report.status !== 'Entregue' && (
-                <Button className="w-full mt-4" variant="secondary" size="sm">
-                  Atualizar Status
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Calendário de Obrigações</CardTitle>
+          <CardDescription>Próximas entregas regulatórias.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Documento</TableHead>
+                <TableHead>Regulador</TableHead>
+                <TableHead>Prazo</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Ações</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-medium">CADOC 2061</TableCell>
+                <TableCell>BACEN</TableCell>
+                <TableCell className="text-red-500 font-bold">Hoje</TableCell>
+                <TableCell>
+                  <Badge
+                    variant="outline"
+                    className="text-yellow-500 border-yellow-500"
+                  >
+                    Pendente
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button variant="ghost" size="icon">
+                    <Download className="w-4 h-4" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">DRLO</TableCell>
+                <TableCell>BACEN</TableCell>
+                <TableCell>31/01/2024</TableCell>
+                <TableCell>
+                  <Badge variant="outline">Em Elaboração</Badge>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button variant="ghost" size="icon">
+                    <Download className="w-4 h-4" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   )
 }

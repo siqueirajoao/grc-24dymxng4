@@ -1,54 +1,56 @@
-import { Building2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export function LandingFooter() {
   return (
-    <footer className="py-12 border-t border-white/10 bg-black text-sm relative z-10">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
-          <div className="col-span-1 md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <Building2 className="w-6 h-6 text-blue-500" />
-              <span className="font-bold text-xl text-white">Lawyn GRC</span>
-            </div>
-            <p className="text-gray-500 leading-relaxed">
-              A plataforma definitiva para gestão de riscos e compliance
-              financeiro. Simplifique a governança da sua instituição.
+    <footer className="bg-black border-t border-white/10 py-12">
+      <div className="container px-4 md:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div className="space-y-4">
+            <h3 className="text-2xl font-bold text-white tracking-tighter">
+              Lawyn<span className="text-blue-500">.</span>
+            </h3>
+            <p className="text-gray-500 text-sm">
+              Sistema Operacional de Governança, Riscos e Compliance para
+              empresas do futuro.
             </p>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-white text-lg">Produto</h4>
-            <ul className="space-y-3 text-gray-500">
+            <h4 className="font-bold text-white mb-4">Produto</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <a
+                  href="#features"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   Funcionalidades
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <a
+                  href="#ecosystem"
+                  className="hover:text-blue-400 transition-colors"
+                >
+                  Módulos
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#compliance"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   Integrações
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Segurança
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Roadmap
                 </a>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-white text-lg">Empresa</h4>
-            <ul className="space-y-3 text-gray-500">
+            <h4 className="font-bold text-white mb-4">Empresa</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
               <li>
                 <a href="#" className="hover:text-blue-400 transition-colors">
-                  Sobre nós
+                  Sobre Nós
                 </a>
               </li>
               <li>
@@ -61,22 +63,12 @@ export function LandingFooter() {
                   Blog
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Contato
-                </a>
-              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-white text-lg">Legal</h4>
-            <ul className="space-y-3 text-gray-500">
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Privacidade
-                </a>
-              </li>
+            <h4 className="font-bold text-white mb-4">Legal</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
               <li>
                 <Link
                   to="/terms"
@@ -86,30 +78,23 @@ export function LandingFooter() {
                 </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Cookies
-                </a>
+                <Link
+                  to="/terms"
+                  className="hover:text-blue-400 transition-colors"
+                >
+                  Privacidade
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 text-gray-600 gap-4">
-          <div>
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-gray-600">
             © {new Date().getFullYear()} Lawyn GRC. Todos os direitos
             reservados.
-          </div>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">
-              LinkedIn
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Twitter
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Instagram
-            </a>
-          </div>
+          </p>
+          <div className="flex gap-4">{/* Social Icons could go here */}</div>
         </div>
       </div>
     </footer>

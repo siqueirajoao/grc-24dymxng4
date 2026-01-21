@@ -1,8 +1,14 @@
-import { supabase } from '@/lib/supabase/client'
-import type { Database } from '@/lib/supabase/types'
+import { supabase } from '@/lib/supabase'
 
-export type LeadInsert = Database['public']['Tables']['leads']['Insert']
+export interface LeadData {
+  name: string
+  email: string
+  company: string
+  role?: string
+  message?: string
+}
 
-export async function createLead(data: LeadInsert) {
-  return await supabase.from('leads').insert(data)
+export const createLead = async (data: LeadData) => {
+  const { error } = await supabase.from('leads').insert([data])
+  return { error }
 }

@@ -1,125 +1,78 @@
-import {
-  Activity,
-  Book,
-  Calendar,
-  ClipboardList,
-  FileSpreadsheet,
-  Lock,
-  Scale,
-  Target,
-  Users,
-} from 'lucide-react'
-import { useScrollObserver } from '@/hooks/use-scroll-observer'
-import { cn } from '@/lib/utils'
+import { Shield, Zap, Lock, Globe, BarChart3, Users } from 'lucide-react'
 
 const features = [
   {
-    icon: ClipboardList,
-    title: 'Controle',
+    icon: Shield,
+    title: 'Governança Unificada',
     description:
-      'Gerencie seus planos de ação e pendências. Defina responsáveis e datas limite para sempre priorizar o que for necessário.',
+      'Centralize todas as políticas, riscos e controles em uma única plataforma integrada e auditável.',
   },
   {
-    icon: Calendar,
-    title: 'Gestão de Riscos',
+    icon: Zap,
+    title: 'Automação Inteligente',
     description:
-      'Cadastre e monitore os riscos organizacionais. Acompanhe os riscos em aberto e sua severidade (crítico, alto, médio e baixo).',
-  },
-  {
-    icon: FileSpreadsheet,
-    title: 'CADOCs e Relatórios',
-    description:
-      'Gerencie os documentos obrigatórios enviados ao banco central. Acompanhe documentos pendentes, atrasados e enviados e sua periodicidade.',
-  },
-  {
-    icon: Users,
-    title: 'Gestão de Terceiros',
-    description:
-      'Faça a gestão de riscos de fornecedores, parceiros e terceiros críticos. Acompanhe a visão geral, cadastro de terceiros, due diligente, contratos e monitoramento constante.',
-  },
-  {
-    icon: Activity,
-    title: 'BIA & Continuidade',
-    description:
-      'Analise de impacto no negócio e continuidade operacional. Tenha uma visão geral da sua empresa e identifique os processos por criticidade e status das análises.',
-  },
-  {
-    icon: Scale,
-    title: 'Regulatório',
-    description:
-      'Realize o acompanhamento regulatório. Monitore atualizações normativas e gerencie a conformidade.',
+      'Automatize fluxos de trabalho, testes de controle e coleta de evidências para reduzir esforço manual.',
   },
   {
     icon: Lock,
-    title: 'Privacy & LGPD',
+    title: 'Segurança de Dados',
     description:
-      'Governança de dados pessoais, risco regulatório e accountability. Tenha acesso ao Registro de Operações de Tratamento (ROPA), acompanhe os Relatórios de Impacto (RIPD) e o catálogo de riscos de privacidade em desenvolvimento.',
+      'Proteção de nível bancário com criptografia de ponta a ponta e gestão granular de acessos.',
   },
   {
-    icon: Target,
-    title: 'Auditorias',
+    icon: Globe,
+    title: 'Monitoramento Regulatório',
     description:
-      'Planejamento e acompanhamento de auditorias. Visão completa das autorias em andamento, planejadas e sua taxa de êxito. Cadastre requerimentos e apontamentos feitos durante as auditorias.',
+      'Acompanhe mudanças nas regulações em tempo real e atualize seus controles automaticamente.',
   },
   {
-    icon: Book,
-    title: 'Políticas',
+    icon: BarChart3,
+    title: 'Dashboards Executivos',
     description:
-      'Tenha uma biblioteca de políticas internas com controle de aceite e versionamento. Cadastre novas políticas e seus status.',
+      'Visão clara da postura de risco e conformidade da organização para tomada de decisão ágil.',
+  },
+  {
+    icon: Users,
+    title: 'Colaboração em Tempo Real',
+    description:
+      'Conecte as três linhas de defesa em um ambiente colaborativo e transparente.',
   },
 ]
 
 export function FeaturesSection() {
-  const { ref, isVisible } = useScrollObserver({ threshold: 0.1 })
-
   return (
-    <section id="features-grid" className="py-24 bg-black relative z-10">
-      <div className="container mx-auto px-4" ref={ref}>
-        <div
-          className={cn(
-            'text-center mb-16 space-y-4 transition-all duration-700',
-            isVisible
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-10',
-          )}
-        >
-          <span className="text-blue-500 text-xs font-bold tracking-widest uppercase">
-            FUNCIONALIDADES
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
-            Conheça as funcionalidades da Lawyn
+    <section id="features" className="py-24 bg-black relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/5 to-transparent pointer-events-none" />
+
+      <div className="container px-4 md:px-6 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+            Tudo o que você precisa para
+            <span className="block text-blue-500">
+              Gestão de GRC de Alta Performance
+            </span>
           </h2>
-          {/* UPDATED: Description Text */}
-          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-            Tudo que você precisa em um só lugar. Módulos integrados que cobrem
-            todo o ciclo de governança, riscos e compliance para instituições
-            financeiras.
+          <p className="text-lg text-gray-400">
+            Recursos avançados projetados para simplificar a complexidade e
+            elevar a maturidade de governança.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
             <div
-              key={i}
-              className={cn(
-                'transition-all duration-500 ease-out',
-                isVisible
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-20',
-              )}
-              style={{ transitionDelay: `${i * 100}ms` }}
+              key={index}
+              className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-300 group"
             >
-              <div className="h-full p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-blue-500/30 hover:-translate-y-1 group cursor-default">
-                <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-6 text-white group-hover:border-blue-400 group-hover:text-blue-400 shadow-lg shadow-transparent group-hover:shadow-blue-900/20">
-                  <feature.icon className="w-5 h-5" />
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-100">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300">
-                  {feature.description}
-                </p>
+              <div className="w-12 h-12 rounded-lg bg-blue-900/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <feature.icon className="w-6 h-6 text-blue-400" />
               </div>
+              <h3 className="text-xl font-bold text-white mb-3">
+                {feature.title}
+              </h3>
+              <p className="text-gray-400 leading-relaxed">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>

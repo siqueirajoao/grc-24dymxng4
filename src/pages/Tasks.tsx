@@ -1,47 +1,56 @@
-import { Card, CardContent } from '@/components/ui/card'
-import { CheckCircle2, Circle } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CheckSquare } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export default function Tasks() {
   return (
-    <div className="py-6 space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">Minhas Tarefas</h1>
+    <div className="space-y-6 animate-fade-in">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+          <CheckSquare className="h-8 w-8 text-primary" />
+          Minhas Tarefas
+        </h1>
+        <p className="text-muted-foreground">
+          Acompanhe suas pendências e planos de ação.
+        </p>
+      </div>
 
-      <div className="space-y-4 max-w-3xl">
-        {[
-          {
-            title: 'Aprovar Evidência de Controle CT-02',
-            due: 'Hoje',
-            type: 'Controle',
-          },
-          {
-            title: 'Revisar Risco R-003 (Segurança)',
-            due: 'Amanhã',
-            type: 'Risco',
-          },
-          {
-            title: 'Preencher Questionário de Due Diligence',
-            due: '22/01',
-            type: 'Terceiros',
-          },
-        ].map((task, i) => (
-          <Card
-            key={i}
-            className="hover:bg-muted/50 transition-colors cursor-pointer group"
-          >
-            <CardContent className="p-4 flex items-center gap-4">
-              <Circle className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
-              <div className="flex-1">
-                <h4 className="font-semibold">{task.title}</h4>
-                <div className="flex gap-2 text-xs text-muted-foreground mt-1">
-                  <span>Vence: {task.due}</span>
-                  <span>•</span>
-                  <span>{task.type}</span>
+      <Card>
+        <CardHeader>
+          <CardTitle>Tarefas Pendentes</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+              >
+                <Checkbox id={`task-${i}`} className="mt-1" />
+                <div className="space-y-1">
+                  <label
+                    htmlFor={`task-${i}`}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
+                    Revisar evidências do controle de backup
+                  </label>
+                  <p className="text-sm text-muted-foreground">
+                    Vencimento: Amanhã às 18:00
+                  </p>
+                  <div className="flex gap-2 mt-2">
+                    <span className="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded dark:bg-red-900 dark:text-red-200">
+                      Alta Prioridade
+                    </span>
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded dark:bg-blue-900 dark:text-blue-200">
+                      Controles
+                    </span>
+                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

@@ -1,60 +1,43 @@
 import { useState } from 'react'
-import { AnimatedBackground } from '@/components/AnimatedBackground'
-import { Navbar } from '@/components/landing/Navbar'
 import { HeroSection } from '@/components/landing/HeroSection'
+import { Navbar } from '@/components/landing/Navbar'
+import { FeaturesSection } from '@/components/landing/FeaturesSection'
 import { ModuleShowcase } from '@/components/landing/ModuleShowcase'
+import { EcosystemGraph } from '@/components/landing/EcosystemGraph'
 import { SegmentsSection } from '@/components/landing/SegmentsSection'
 import { ComplianceSection } from '@/components/landing/ComplianceSection'
-import { LandingFooter } from '@/components/landing/LandingFooter'
 import { FAQSection } from '@/components/landing/FAQSection'
-import { FeaturesSection } from '@/components/landing/FeaturesSection'
-import { MouseFollower } from '@/components/landing/MouseFollower'
+import { LandingFooter } from '@/components/landing/LandingFooter'
 import { LeadGenerationModal } from '@/components/landing/LeadGenerationModal'
+import { MouseFollower } from '@/components/landing/MouseFollower'
+import { AnimatedBackground } from '@/components/AnimatedBackground'
 
-export default function LandingPage() {
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false)
-
-  const handleOpenDemo = () => setIsDemoModalOpen(true)
+export default function Index() {
+  const [isDemoOpen, setIsDemoOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-blue-500/30 selection:text-white">
-      {/* Background Canvas Layer */}
+    <div className="min-h-screen bg-black text-white selection:bg-blue-500/30 overflow-x-hidden">
+      <MouseFollower />
       <AnimatedBackground />
 
-      {/* Mouse Follower Glow Effect */}
-      <MouseFollower />
-
-      {/* Navigation */}
-      <Navbar />
-
-      {/* Lead Gen Modal */}
-      <LeadGenerationModal
-        open={isDemoModalOpen}
-        onOpenChange={setIsDemoModalOpen}
-      />
+      <Navbar onOpenDemo={() => setIsDemoOpen(true)} />
 
       <main>
-        {/* Hero Section */}
-        <HeroSection onOpenDemo={handleOpenDemo} />
-
-        {/* Modules Interactive Showcase */}
-        <ModuleShowcase onOpenDemo={handleOpenDemo} />
-
-        {/* Detailed Features Grid */}
+        <HeroSection onOpenDemo={() => setIsDemoOpen(true)} />
         <FeaturesSection />
-
-        {/* Target Audience */}
+        <ModuleShowcase onOpenDemo={() => setIsDemoOpen(true)} />
+        <EcosystemGraph />
         <SegmentsSection />
-
-        {/* Regulatory & Dashboard Preview */}
-        <ComplianceSection onOpenDemo={handleOpenDemo} />
-
-        {/* FAQ Section */}
+        <ComplianceSection />
         <FAQSection />
       </main>
 
-      {/* Footer */}
       <LandingFooter />
+
+      <LeadGenerationModal
+        isOpen={isDemoOpen}
+        onClose={() => setIsDemoOpen(false)}
+      />
     </div>
   )
 }
