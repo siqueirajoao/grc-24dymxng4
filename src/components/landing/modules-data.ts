@@ -18,6 +18,7 @@ export interface ModuleData {
   description: string
   features: string[]
   regulation: string[]
+  regulationTitle?: string
   icon: LucideIcon
   color: string
   borderColor: string
@@ -37,9 +38,8 @@ export const modules: ModuleData[] = [
       'Matrizes de Risco Dinâmicas',
       'Heatmaps Interativos',
       'Monitoramento de KRIs',
-      'Monitoramento de Riscos',
+      'Tratamento de Riscos',
     ],
-    // REMOVED: ISO 31000
     regulation: ['COSO ERM', 'Boas Práticas'],
     icon: ShieldAlert,
     color: 'text-red-500',
@@ -60,7 +60,7 @@ export const modules: ModuleData[] = [
       'Workflow de Testes',
       'Mapeamento de Riscos',
     ],
-    regulation: ['COSO ICIF', 'SOX', 'ISO 27001'],
+    regulation: ['COSO ICIF', 'ISO 27001'],
     icon: ShieldCheck,
     color: 'text-emerald-500',
     borderColor: 'border-emerald-500/50',
@@ -75,12 +75,12 @@ export const modules: ModuleData[] = [
     description:
       'Digitalize o ciclo de auditoria, do planejamento anual ao follow-up dos apontamentos, com trilhas imutáveis.',
     features: [
-      'Planejamento',
+      'Planejamento de Auditorias',
       'Relatórios Automáticos',
       'Follow-up de Requerimentos',
       'Tratamento de Apontamentos',
     ],
-    regulation: [], // References removed as per requirements
+    regulation: [],
     icon: FileCheck,
     color: 'text-amber-500',
     borderColor: 'border-amber-500/50',
@@ -100,7 +100,7 @@ export const modules: ModuleData[] = [
       'Portal de Políticas',
       'Acompanhamento de Adesão',
     ],
-    regulation: ['ESG', 'Compliance'],
+    regulation: ['Compliance', 'ESG'],
     icon: ScrollText,
     color: 'text-cyan-500',
     borderColor: 'border-cyan-500/50',
@@ -121,6 +121,7 @@ export const modules: ModuleData[] = [
       'Gestão de Ofícios',
     ],
     regulation: ['Banco Central', 'CVM', 'Receita Federal', 'Planalto'],
+    regulationTitle: 'Reguladores',
     icon: BookOpen,
     color: 'text-blue-500',
     borderColor: 'border-blue-500/50',
@@ -153,14 +154,13 @@ export const modules: ModuleData[] = [
     title: 'Proteção de Dados',
     subtitle: 'DATA PRIVACY',
     description:
-      'Esteja em conformidade com a LGPD através de mapeamento de dados (ROPA), gestão de consentimento e portal do titular.',
+      'Garanta a conformidade total com a LGPD através de ferramentas especializadas para proteção de dados pessoais.',
     features: [
       'Relatório de Impacto (RIPD)',
       'Mapeamento de Processos',
       'Gestão de Relatórios',
-      'Portal do Titular',
     ],
-    regulation: ['Lei 13.709 (LGPD)', 'GDPR', 'ANPD'],
+    regulation: ['Lei 13.709 (LGPD)', 'ANPD'],
     icon: Lock,
     color: 'text-purple-500',
     borderColor: 'border-purple-500/50',
@@ -173,7 +173,7 @@ export const modules: ModuleData[] = [
     title: 'Gestão de Terceiros',
     subtitle: 'VENDOR RISK',
     description:
-      'Monitoramento e controle de riscos de fornecedores e parceiros, acompanhamento de prazos de Due Dilligence e Contratos.',
+      'Monitoramento e controle de riscos de fornecedores e parceiros, com acompanhamento de prazos de due diligence e contratos.',
     features: [
       'Avaliação de Riscos',
       'Monitoramento Contínuo',
@@ -193,13 +193,8 @@ export const modules: ModuleData[] = [
     title: 'BIA & Continuidade',
     subtitle: 'BUSINESS CONTINUITY',
     description:
-      'Identifique processos críticos e tenha uma visão geral de atividades críticas para garantir resiliência operacional.',
-    features: [
-      'Análise de Impacto (BIA)',
-      'Identificação de Processos Críticos',
-      'Visão Geral de Atividades Críticas',
-      'Gestão de Crises',
-    ],
+      'Identificação de processos críticos e visão geral das atividades essenciais ao negócio.',
+    features: ['Análise de Impacto (BIA)', 'Gestão de Crises'],
     regulation: ['ISO 22301', 'Resiliência Operacional'],
     icon: Activity,
     color: 'text-rose-500',
