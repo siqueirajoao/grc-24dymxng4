@@ -161,6 +161,11 @@
     animation: corePulse 4s infinite ease-in-out;
   }
 
+  /* Custom Slow Pulse for Connection Lines */
+  .animate-line-pulse {
+    animation: linePulse 3s ease-in-out infinite;
+  }
+
   .animate-spin-slow {
     animation: spin 20s linear infinite;
   }
@@ -278,6 +283,18 @@
     }
     50% {
       box-shadow: 0 0 35px 5px rgba(37, 99, 235, 0.5);
+    }
+  }
+
+  @keyframes linePulse {
+    0%,
+    100% {
+      opacity: 0.3;
+      box-shadow: 0 0 0px rgba(59, 130, 246, 0);
+    }
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
     }
   }
 

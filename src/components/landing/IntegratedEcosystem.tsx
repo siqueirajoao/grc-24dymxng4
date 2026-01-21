@@ -47,7 +47,7 @@ export function IntegratedEcosystem() {
             </div>
 
             {/* Vertical Line from Core */}
-            <div className="h-12 w-px bg-gradient-to-b from-blue-500/50 to-blue-500/20"></div>
+            <div className="h-12 w-px bg-gradient-to-b from-blue-500/50 to-blue-500/20 animate-line-pulse"></div>
           </div>
 
           {/* Level 2: Branching */}
@@ -57,11 +57,14 @@ export function IntegratedEcosystem() {
                 In a 3-column grid, centers are at 1/6 (16.66%), 3/6 (50%), 5/6 (83.33%).
                 Distance from 1st to 3rd is 4/6 = 66.66%.
             */}
-            <div className="w-[66.66%] h-px bg-blue-500/20 relative">
+            <div className="w-[66.66%] h-px relative">
+              {/* Horizontal Line Background with Pulse */}
+              <div className="absolute inset-0 bg-blue-500/20 animate-line-pulse [animation-delay:500ms]"></div>
+
               {/* Vertical drops to cards */}
-              <div className="absolute left-0 top-0 h-12 w-px bg-gradient-to-b from-blue-500/20 to-blue-500/5"></div>
-              <div className="absolute left-1/2 -translate-x-1/2 top-0 h-12 w-px bg-gradient-to-b from-blue-500/20 to-blue-500/5"></div>
-              <div className="absolute right-0 top-0 h-12 w-px bg-gradient-to-b from-blue-500/20 to-blue-500/5"></div>
+              <div className="absolute left-0 top-0 h-12 w-px bg-gradient-to-b from-blue-500/20 to-blue-500/5 animate-line-pulse [animation-delay:1000ms]"></div>
+              <div className="absolute left-1/2 -translate-x-1/2 top-0 h-12 w-px bg-gradient-to-b from-blue-500/20 to-blue-500/5 animate-line-pulse [animation-delay:1000ms]"></div>
+              <div className="absolute right-0 top-0 h-12 w-px bg-gradient-to-b from-blue-500/20 to-blue-500/5 animate-line-pulse [animation-delay:1000ms]"></div>
             </div>
             {/* Spacer to push cards down */}
             <div className="h-12 w-full"></div>
