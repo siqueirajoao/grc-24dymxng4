@@ -38,7 +38,7 @@ export default function TermsOfUse() {
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30 selection:text-white flex flex-col">
       {/* Hidden div to ensure Tailwind generates classes used in dynamic database content */}
-      <div className="hidden text-justify space-y-8 text-zinc-300 leading-relaxed text-lg mb-8 space-y-4 text-zinc-400 font-medium h-px bg-white/10 my-8 text-xl space-y-3" />
+      <div className="hidden text-justify space-y-8 text-zinc-300 leading-relaxed text-lg mb-8 space-y-4 text-zinc-400 font-medium h-px bg-white/10 my-8 text-xl space-y-3 list-disc pl-5 mt-2 space-y-1 text-center font-bold uppercase tracking-wide" />
 
       {/* Header */}
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
@@ -101,16 +101,6 @@ export default function TermsOfUse() {
               )}
             </CardContent>
           </Card>
-
-          {!loading && !error && (
-            <div className="pt-8 border-t border-white/10">
-              <p className="text-sm md:text-base font-bold text-zinc-400 text-center uppercase tracking-wide leading-relaxed">
-                AO UTILIZAR O LAWYN, O USUÁRIO DECLARA CIÊNCIA DE QUE A
-                PLATAFORMA É UMA FERRAMENTA DE APOIO E NÃO GARANTE CONFORMIDADE
-                REGULATÓRIA OU RESULTADOS ESPECÍFICOS.
-              </p>
-            </div>
-          )}
         </div>
       </main>
 
