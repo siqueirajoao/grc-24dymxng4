@@ -3,9 +3,8 @@ import { supabase } from '@/lib/supabase/client'
 export interface LeadData {
   name: string
   email: string
+  phone: string
   company?: string
-  phone?: string
-  role?: string
   message?: string
 }
 
