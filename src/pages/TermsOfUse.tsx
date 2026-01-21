@@ -37,6 +37,9 @@ export default function TermsOfUse() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30 selection:text-white flex flex-col">
+      {/* Hidden div to ensure Tailwind generates classes used in dynamic database content */}
+      <div className="hidden text-justify space-y-8 text-zinc-300 leading-relaxed text-lg mb-8 space-y-4 text-zinc-400 font-medium h-px bg-white/10 my-8 text-xl space-y-3" />
+
       {/* Header */}
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
