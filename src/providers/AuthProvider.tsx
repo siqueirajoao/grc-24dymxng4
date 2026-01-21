@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase/client'
 
 interface AuthContextType {
   user: User | null
@@ -33,35 +33,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Set up auth state listener
+    // Set up auth state listener FIRST
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      // It is FORBIDDEN to use async / await inside this callback
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
     })
 
-    // Check for existing session with error handling
-    supabase.auth
-      .getSession()
-      .then(({ data: { session } }) => {
-        setSession(session)
-        setUser(session?.user ?? null)
-      })
-      .catch((error) => {
-        console.error('Error getting session:', error)
-        // Even if it fails, we must stop loading to show the app (likely unauthenticated)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setUser(session?.user ?? null)
+      setLoading(false)
+    })
 
     return () => subscription.unsubscribe()
   }, [])
 
   const signUp = async (email: string, password: string) => {
     const redirectUrl = `${window.location.origin}/`
+
     const { error } = await supabase.auth.signUp({
       email,
       password,

@@ -1,165 +1,102 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
+  DialogTrigger,
 } from '@/components/ui/dialog'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { useToast } from '@/hooks/use-toast'
 import { createLead } from '@/services/leads'
-import { toast } from 'sonner'
-
-const formSchema = z.object({
-  name: z.string().min(2, 'Nome muito curto'),
-  email: z.string().email('E-mail inválido'),
-  company: z.string().min(2, 'Empresa muito curta'),
-  role: z.string().optional(),
-  message: z.string().optional(),
-})
-
-interface LeadGenerationModalProps {
-  isOpen: boolean
-  onClose: () => void
-}
+import { Loader2 } from 'lucide-react'
 
 export function LeadGenerationModal({
-  isOpen,
-  onClose,
-}: LeadGenerationModalProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      company: '',
-      role: '',
-      message: '',
-    },
-  })
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    const formData = new FormData(e.currentTarget)
+    const data = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      company: formData.get('company') as string,
+      message: formData.get('message') as string,
+    }
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsSubmitting(true)
-    try {
-      const { error } = await createLead(values)
-      if (error) {
-        console.error(error)
-        toast.error('Erro ao enviar dados. Tente novamente.')
-        return
-      }
-      toast.success('Recebemos seu contato! Retornaremos em breve.')
-      form.reset()
-      onClose()
-    } catch (error) {
-      console.error(error)
-      toast.error('Erro ao enviar dados. Tente novamente.')
-    } finally {
-      setIsSubmitting(false)
+    const { error } = await createLead(data)
+
+    setLoading(false)
+
+    if (error) {
+      toast({
+        title: 'Erro ao enviar',
+        description: 'Ocorreu um erro ao enviar sua mensagem. Tente novamente.',
+        variant: 'destructive',
+      })
+    } else {
+      toast({
+        title: 'Sucesso!',
+        description: 'Recebemos seu contato. Retornaremos em breve.',
+      })
+      setOpen(false)
     }
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Solicitar Demonstração</DialogTitle>
-          <DialogDescription>
-            Preencha os dados abaixo e entraremos em contato para agendar uma
-            demonstração da plataforma Lawyn.
-          </DialogDescription>
+          <DialogTitle>Fale com um Especialista</DialogTitle>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome Completo</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Seu nome" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
+        <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+          <div className="grid gap-2">
+            <Label htmlFor="name">Nome</Label>
+            <Input id="name" name="name" required placeholder="Seu nome" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email Corporativo</Label>
+            <Input
+              id="email"
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>E-mail Corporativo</FormLabel>
-                  <FormControl>
-                    <Input placeholder="seu@empresa.com.br" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              type="email"
+              required
+              placeholder="seu@empresa.com"
             />
-            <FormField
-              control={form.control}
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="company">Empresa</Label>
+            <Input
+              id="company"
               name="company"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Empresa</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Nome da empresa" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              required
+              placeholder="Nome da empresa"
             />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cargo (Opcional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Seu cargo" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="message">Mensagem (Opcional)</Label>
+            <Textarea
+              id="message"
               name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mensagem (Opcional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Conte um pouco sobre suas necessidades..."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder="Como podemos ajudar?"
             />
-            <div className="flex justify-end pt-4">
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Enviando...' : 'Enviar Solicitação'}
-              </Button>
-            </div>
-          </form>
-        </Form>
+          </div>
+          <Button type="submit" disabled={loading}>
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Enviar
+          </Button>
+        </form>
       </DialogContent>
     </Dialog>
   )
