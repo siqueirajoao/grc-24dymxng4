@@ -67,15 +67,12 @@ export default function TermsOfUse() {
             <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
               TERMOS DE USO – LAWYN
             </h1>
-            <p className="text-zinc-400">
-              Última atualização: 19 de Janeiro de 2026
-            </p>
           </div>
 
           <Separator className="bg-white/10" />
 
           <Card className="bg-zinc-900/50 border-white/10 text-zinc-300">
-            <CardContent className="p-6 md:p-8">
+            <CardContent className="p-6 md:p-10">
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-4">
                   <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
