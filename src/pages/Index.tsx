@@ -4,7 +4,6 @@ import { Navbar } from '@/components/landing/Navbar'
 import { FeaturesSection } from '@/components/landing/FeaturesSection'
 import { ModuleShowcase } from '@/components/landing/ModuleShowcase'
 import { IntegratedEcosystem } from '@/components/landing/IntegratedEcosystem'
-import { SegmentsSection } from '@/components/landing/SegmentsSection'
 import { ComplianceSection } from '@/components/landing/ComplianceSection'
 import { FAQSection } from '@/components/landing/FAQSection'
 import { LandingFooter } from '@/components/landing/LandingFooter'
@@ -27,7 +26,6 @@ export default function Index() {
         <FeaturesSection />
         <ModuleShowcase onOpenDemo={() => setIsDemoOpen(true)} />
         <IntegratedEcosystem />
-        <SegmentsSection />
         <ComplianceSection />
         <FAQSection />
       </main>
