@@ -17,6 +17,7 @@ import ThirdParty from './pages/ThirdParty'
 import Bia from './pages/Bia'
 import Tasks from './pages/Tasks'
 import Admin from './pages/Admin'
+import TermsOfUse from './pages/TermsOfUse'
 
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -29,6 +30,7 @@ const App = () => (
         <Routes>
           {/* Landing Page (No Layout) */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/terms" element={<TermsOfUse />} />
 
           {/* Authenticated App Routes (With Layout) */}
           <Route element={<Layout />}>

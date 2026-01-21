@@ -1,4 +1,5 @@
 import { Building2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export function LandingFooter() {
   return (
@@ -77,9 +78,12 @@ export function LandingFooter() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <Link
+                  to="/terms"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   Termos de Uso
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="hover:text-blue-400 transition-colors">
