@@ -11,6 +11,10 @@ interface ModuleDetailProps {
 export function ModuleDetail({ moduleId, onOpenDemo }: ModuleDetailProps) {
   const module = modules.find((m) => m.id === moduleId) || modules[0]
 
+  // Conditional label for Regulatory module
+  const regulationLabel =
+    module.id === 'regulatory' ? 'Reguladores' : 'Normativos Relacionados'
+
   return (
     <div className="flex flex-col h-full justify-center lg:pl-4 relative z-20">
       {/* Detail Card */}
@@ -46,23 +50,25 @@ export function ModuleDetail({ moduleId, onOpenDemo }: ModuleDetailProps) {
           </p>
         </div>
 
-        {/* Normativos */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-widest">
-            <FileText className="w-3.5 h-3.5" />
-            <span>Normativos Relacionados</span>
+        {/* Normativos / Reguladores - Render only if exists */}
+        {module.regulation.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-widest">
+              <FileText className="w-3.5 h-3.5" />
+              <span>{regulationLabel}</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {module.regulation.map((reg, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-zinc-300 hover:bg-white/10 transition-colors cursor-default"
+                >
+                  {reg}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {module.regulation.map((reg, i) => (
-              <span
-                key={i}
-                className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-medium text-zinc-300 hover:bg-white/10 transition-colors cursor-default"
-              >
-                {reg}
-              </span>
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* Funcionalidades */}
         <div className="space-y-3">
@@ -88,7 +94,7 @@ export function ModuleDetail({ moduleId, onOpenDemo }: ModuleDetailProps) {
         <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
           <Button
             onClick={onOpenDemo}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white rounded-lg h-12 px-8 font-semibold shadow-lg shadow-blue-900/20 transition-all hover:scale-105"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-lg h-12 px-8 font-semibold shadow-lg shadow-blue-900/20 transition-all hover:scale-105"
           >
             Fale com um Especialista
             <ArrowRight className="ml-2 w-4 h-4" />

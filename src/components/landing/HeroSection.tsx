@@ -91,24 +91,30 @@ export function HeroSection({ onOpenDemo }: HeroSectionProps) {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-in-up [animation-delay:800ms] opacity-0 w-full sm:w-auto pt-2">
-            <Button
-              size="lg"
-              onClick={onOpenDemo}
-              className="h-12 sm:h-14 px-8 text-base bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all hover:scale-105 w-full sm:w-auto"
-            >
-              Solicitar Demo
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={scrollToEcosystem}
-              className="h-12 sm:h-14 px-8 text-base border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-full backdrop-blur-md transition-all hover:scale-105 w-full sm:w-auto"
-            >
-              Explorar Ecossistema
-              <Layers className="ml-2 w-5 h-5" />
-            </Button>
+          <div className="flex flex-col gap-4 animate-fade-in-up [animation-delay:800ms] opacity-0 w-full sm:w-auto pt-2">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+              <Button
+                size="lg"
+                onClick={onOpenDemo}
+                className="h-12 sm:h-14 px-8 text-base bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all hover:scale-105 w-full sm:w-auto"
+              >
+                Solicitar Demo
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={scrollToEcosystem}
+                className="h-12 sm:h-14 px-8 text-base border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-full backdrop-blur-md transition-all hover:scale-105 w-full sm:w-auto"
+              >
+                Explorar Ecossistema
+                <Layers className="ml-2 w-5 h-5" />
+              </Button>
+            </div>
+            {/* Added helper text below button */}
+            <p className="text-sm text-gray-500 ml-1">
+              Clique em um módulo e descubra tudo que a Lawyn pode te oferecer
+            </p>
           </div>
         </div>
 

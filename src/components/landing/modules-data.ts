@@ -37,7 +37,7 @@ export const modules: ModuleData[] = [
       'Matrizes de Risco Dinâmicas',
       'Heatmaps Interativos',
       'Monitoramento de KRIs',
-      'Gestão de Incidentes',
+      'Monitoramento de Riscos',
     ],
     // REMOVED: ISO 31000
     regulation: ['COSO ERM', 'Boas Práticas'],
@@ -56,9 +56,9 @@ export const modules: ModuleData[] = [
       'Fortaleça a primeira e segunda linhas de defesa com testes de controles, planos de ação e certificações periódicas.',
     features: [
       'Biblioteca de Controles',
+      'Gestão de Evidências',
       'Workflow de Testes',
-      'Planos de Remediação',
-      'Certificação SOX',
+      'Mapeamento de Riscos',
     ],
     regulation: ['COSO ICIF', 'SOX', 'ISO 27001'],
     icon: ShieldCheck,
@@ -75,12 +75,12 @@ export const modules: ModuleData[] = [
     description:
       'Digitalize o ciclo de auditoria, do planejamento anual ao follow-up dos apontamentos, com trilhas imutáveis.',
     features: [
-      'Universe & Planejamento',
-      'Papéis de Trabalho Digitais',
+      'Planejamento',
       'Relatórios Automáticos',
-      'Follow-up de Apontamentos',
+      'Follow-up de Requerimentos',
+      'Tratamento de Apontamentos',
     ],
-    regulation: ['IPPF (IIA)', 'NBC', 'ISO 19011'],
+    regulation: [], // References removed as per requirements
     icon: FileCheck,
     color: 'text-amber-500',
     borderColor: 'border-amber-500/50',
@@ -98,9 +98,9 @@ export const modules: ModuleData[] = [
       'Workflow de Aprovação',
       'Controle de Versão',
       'Portal de Políticas',
-      'Attestation de Leitura',
+      'Acompanhamento de Adesão',
     ],
-    regulation: ['ISO 9001', 'ESG', 'Compliance'],
+    regulation: ['ESG', 'Compliance'],
     icon: ScrollText,
     color: 'text-cyan-500',
     borderColor: 'border-cyan-500/50',
@@ -115,12 +115,12 @@ export const modules: ModuleData[] = [
     description:
       'Gestão automatizada do inventário regulatório, com captura de normas e controle de prazos de obrigações.',
     features: [
-      'Feed Regulatório (IA)',
+      'Feed Regulatório',
       'Obrigações e Prazos',
       'Inventário de Normas',
       'Gestão de Ofícios',
     ],
-    regulation: ['Reguladores Federais', 'Agências', 'Autorregulação'],
+    regulation: ['Banco Central', 'CVM', 'Receita Federal', 'Planalto'],
     icon: BookOpen,
     color: 'text-blue-500',
     borderColor: 'border-blue-500/50',
@@ -152,14 +152,13 @@ export const modules: ModuleData[] = [
     id: 'lgpd',
     title: 'Proteção de Dados',
     subtitle: 'DATA PRIVACY',
-    // UPDATED: Description text
     description:
-      'Esteja em conformidade total com a LGPD através de mapeamento de dados (ROPA), gestão de consentimento e portal do titular.',
+      'Esteja em conformidade com a LGPD através de mapeamento de dados (ROPA), gestão de consentimento e portal do titular.',
     features: [
-      'Data Mapping (ROPA)',
-      'Avaliação de Impacto (DPIA)',
+      'Relatório de Impacto (RIPD)',
+      'Mapeamento de Processos',
+      'Gestão de Relatórios',
       'Portal do Titular',
-      'Gestão de Cookies',
     ],
     regulation: ['Lei 13.709 (LGPD)', 'GDPR', 'ANPD'],
     icon: Lock,
@@ -174,14 +173,13 @@ export const modules: ModuleData[] = [
     title: 'Gestão de Terceiros',
     subtitle: 'VENDOR RISK',
     description:
-      'Avaliação e monitoramento contínuo de riscos de fornecedores e parceiros, integrando Due Diligence e contratos.',
+      'Monitoramento e controle de riscos de fornecedores e parceiros, acompanhamento de prazos de Due Dilligence e Contratos.',
     features: [
-      'Due Diligence & KYP',
       'Avaliação de Riscos',
       'Monitoramento Contínuo',
-      'Contratos & SLAs',
+      'Contratos e SLAs',
+      'Controle de Diligências',
     ],
-    // UPDATED: Terminology for clearer industry standard
     regulation: ['Integridade de Terceiros', 'Due Diligence'],
     icon: Users,
     color: 'text-pink-500',
@@ -195,11 +193,11 @@ export const modules: ModuleData[] = [
     title: 'BIA & Continuidade',
     subtitle: 'BUSINESS CONTINUITY',
     description:
-      'Análise de Impacto no Negócio (BIA) e Planos de Continuidade de Negócios (PCN) para garantir resiliência operacional.',
+      'Identifique processos críticos e tenha uma visão geral de atividades críticas para garantir resiliência operacional.',
     features: [
       'Análise de Impacto (BIA)',
-      'Planos de Continuidade (PCN)',
-      'Testes de Recuperação',
+      'Identificação de Processos Críticos',
+      'Visão Geral de Atividades Críticas',
       'Gestão de Crises',
     ],
     regulation: ['ISO 22301', 'Resiliência Operacional'],
