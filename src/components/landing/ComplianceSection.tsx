@@ -1,6 +1,5 @@
 export function ComplianceSection() {
   const regulations = [
-    'BACEN',
     'CVM',
     'LGPD',
     'SOX',
