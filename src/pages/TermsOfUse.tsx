@@ -29,9 +29,30 @@ export default function TermsOfUse() {
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white tracking-tight">
           TERMOS DE USO – LAWYN
         </h1>
-        <p className="text-gray-400 mb-12 text-lg">
+        <p className="text-gray-400 mb-8 text-lg">
           Última atualização: 19.01.2026
         </p>
+
+        <div className="space-y-6 mb-12 text-lg text-gray-300 leading-relaxed">
+          <p>
+            Bem-vindo à Lawyn. Estes Termos de Uso ("Termos") regulam o acesso e
+            a utilização da plataforma Lawyn, disponibilizada como software como
+            serviço (SaaS), incluindo seus módulos de governança, risco e
+            compliance (GRC), automações regulatórias, fluxos de evidências,
+            dashboards, relatórios e demais funcionalidades correlatas.
+          </p>
+          <p>
+            Estes Termos possuem natureza ampla e institucional, aplicando-se a
+            todos os usuários da plataforma, independentemente da existência de
+            contrato comercial específico. As condições comerciais, de pagamento
+            e demais obrigações contratuais específicas são reguladas por
+            instrumento próprio celebrado entre a Lawyn e o Cliente.
+          </p>
+          <p>
+            Ao acessar ou utilizar a plataforma Lawyn, o Usuário declara ter
+            lido, compreendido e concordado integralmente com estes Termos.
+          </p>
+        </div>
 
         <div className="prose prose-invert prose-blue max-w-none text-gray-300 space-y-12">
           <section>
