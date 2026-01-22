@@ -7,24 +7,19 @@ import {
 
 const faqs = [
   {
-    question: 'A plataforma é adequada para pequenas empresas?',
+    question: 'O que é o Lawyn e para quem ele foi desenvolvido?',
     answer:
-      'Sim, a Lawyn é modular e escalável. Você pode começar apenas com os módulos essenciais para o seu estágio atual e expandir conforme sua maturidade de governança cresce.',
+      'O Lawyn é uma plataforma completa de GRC (Governança, Riscos e Compliance) desenvolvida especialmente para instituições em ambientes regulados. Ele integra em um único sistema a gestão de riscos operacionais, controles internos, auditorias, políticas corporativas, conformidade regulatória (BCB, CVM, COAF), obrigações acessórias (CADOCs), privacidade de dados (LGPD), gestão de terceiros e continuidade de negócios (BIA).',
   },
   {
-    question: 'Como funciona a implementação?',
+    question: 'Como o Lawyn garante a segurança dos meus dados?',
     answer:
-      'Nossa implementação é ágil, geralmente durando de 4 a 8 semanas. Oferecemos templates pré-configurados baseados nas melhores práticas de mercado para acelerar o setup.',
+      'A Lawyn é construída sobre uma arquitetura moderna, nativa em nuvem, e hospedada em infraestrutura operada por provedores certificados de acordo com padrões internacionais de segurança amplamente reconhecidos, incluindo ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27018 e SOC 2 Type II. Os dados são criptografados tanto em trânsito (TLS 1.2+) quanto em repouso (AES-256). Os controles de acesso, os mecanismos de autenticação e a segurança na camada de aplicação são gerenciados pela Lawyn, em conformidade com o modelo de responsabilidade compartilhada em segurança da informação.',
   },
   {
-    question: 'É possível integrar com outros sistemas?',
+    question: 'O Lawyn atende às exigências regulatórias do Banco Central?',
     answer:
-      'Totalmente. Possuímos uma API aberta e conectores nativos para os principais ERPs, CRMs e ferramentas de produtividade do mercado.',
-  },
-  {
-    question: 'Os dados ficam armazenados no Brasil?',
-    answer:
-      'Sim, utilizamos infraestrutura em nuvem com data centers locais, garantindo conformidade com a LGPD e requisitos de residência de dados.',
+      'Sim, o Lawyn foi projetado especificamente para atender às exigências regulatórias de ambientes regulados. A plataforma oferece monitoramento de atualizações normativas de várias fontes (BCB, CVM, Planalto, Receita Federal e +), gestão de CADOCs com calendário de vencimentos, controle de políticas fundamentais exigidas pela regulação, geração de relatórios de conformidade para auditorias internas e externas, e gestão completa de riscos e controles alinhada às boas práticas de GRC. Nosso módulo regulatório acompanha automaticamente novas circulares e resoluções, facilitando a análise de aplicabilidade.',
   },
 ]
 
@@ -51,7 +46,7 @@ export function FAQSection() {
               <AccordionTrigger className="text-white hover:text-blue-400 hover:no-underline text-left">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-400">
+              <AccordionContent className="text-gray-400 leading-relaxed">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
