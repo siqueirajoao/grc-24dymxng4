@@ -1,6 +1,7 @@
 export function ComplianceSection() {
   const regulations = [
     'CVM',
+    'BACEN',
     'LGPD',
     'SOX',
     'ISO 27001',
@@ -13,7 +14,7 @@ export function ComplianceSection() {
     <section id="compliance" className="py-20 bg-black overflow-hidden">
       <div className="container px-4 mb-8 text-center">
         <h3 className="text-xl font-semibold text-gray-500 uppercase tracking-widest">
-          Em conformidade com os principais frameworks
+          Em conformidade com os principais Frameworks e reguladores
         </h3>
       </div>
 
