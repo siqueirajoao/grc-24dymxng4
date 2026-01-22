@@ -49,13 +49,13 @@ export function LandingFooter() {
             <h4 className="font-bold text-white mb-4">Empresa</h4>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <a
+                  href="https://lawers.com.br/about"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   Sobre Nós
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Carreiras
                 </a>
               </li>
               <li>
