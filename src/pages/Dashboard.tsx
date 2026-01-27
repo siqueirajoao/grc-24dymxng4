@@ -23,28 +23,33 @@ import {
 } from '@/components/ui/chart'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts'
 import { Link } from 'react-router-dom'
-
-const complianceData = [
-  { name: 'Riscos', score: 85, fill: 'hsl(var(--destructive))' },
-  { name: 'Controles', score: 92, fill: 'hsl(var(--primary))' },
-  { name: 'Auditoria', score: 78, fill: 'hsl(var(--warning))' },
-  { name: 'Políticas', score: 95, fill: 'hsl(var(--success))' },
-]
+import { useTranslation } from 'react-i18next'
 
 export default function Dashboard() {
+  const { t } = useTranslation()
+
+  const complianceData = [
+    { name: t('modules.risks'), score: 85, fill: 'hsl(var(--destructive))' },
+    { name: t('modules.controls'), score: 92, fill: 'hsl(var(--primary))' },
+    { name: t('modules.audit'), score: 78, fill: 'hsl(var(--warning))' },
+    { name: t('modules.policies'), score: 95, fill: 'hsl(var(--success))' },
+  ]
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Visão geral da conformidade e riscos da organização.
-        </p>
+        <h1 className="text-3xl font-bold tracking-tight">
+          {t('dashboard.title')}
+        </h1>
+        <p className="text-muted-foreground">{t('dashboard.subtitle')}</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Riscos Altos</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t('dashboard.high_risks')}
+            </CardTitle>
             <ShieldAlert className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
@@ -52,14 +57,14 @@ export default function Dashboard() {
               <CountUp end={12} />
             </div>
             <p className="text-xs text-muted-foreground">
-              +2 desde o último mês
+              +2 {t('dashboard.since_last_month')}
             </p>
           </CardContent>
         </Card>
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Controles Efetivos
+              {t('dashboard.effective_controls')}
             </CardTitle>
             <ShieldCheck className="h-4 w-4 text-primary" />
           </CardHeader>
@@ -67,13 +72,15 @@ export default function Dashboard() {
             <div className="text-2xl font-bold">
               <CountUp end={89} suffix="%" />
             </div>
-            <p className="text-xs text-muted-foreground">+5% de melhoria</p>
+            <p className="text-xs text-muted-foreground">
+              +5% {t('dashboard.improvement')}
+            </p>
           </CardContent>
         </Card>
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Auditorias Abertas
+              {t('dashboard.open_audits')}
             </CardTitle>
             <FileCheck className="h-4 w-4 text-warning" />
           </CardHeader>
@@ -82,14 +89,14 @@ export default function Dashboard() {
               <CountUp end={3} />
             </div>
             <p className="text-xs text-muted-foreground">
-              1 planejada para esta semana
+              1 {t('dashboard.planned_week')}
             </p>
           </CardContent>
         </Card>
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Políticas a Revisar
+              {t('dashboard.policies_review')}
             </CardTitle>
             <ScrollText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -97,7 +104,9 @@ export default function Dashboard() {
             <div className="text-2xl font-bold">
               <CountUp end={7} />
             </div>
-            <p className="text-xs text-muted-foreground">2 vencem em breve</p>
+            <p className="text-xs text-muted-foreground">
+              2 {t('dashboard.due_soon')}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -105,10 +114,8 @@ export default function Dashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4 hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle>Conformidade por Módulo</CardTitle>
-            <CardDescription>
-              Status de conformidade em relação aos objetivos definidos.
-            </CardDescription>
+            <CardTitle>{t('dashboard.compliance_module')}</CardTitle>
+            <CardDescription>{t('dashboard.compliance_desc')}</CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
             <ChartContainer config={{}} className="h-[300px]">
@@ -142,10 +149,8 @@ export default function Dashboard() {
         </Card>
         <Card className="col-span-3 hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle>Matriz de Riscos</CardTitle>
-            <CardDescription>
-              Distribuição dos riscos identificados por probabilidade e impacto.
-            </CardDescription>
+            <CardTitle>{t('dashboard.risk_matrix')}</CardTitle>
+            <CardDescription>{t('dashboard.risk_matrix_desc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <RiskMatrix />
@@ -156,7 +161,7 @@ export default function Dashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card className="col-span-2">
           <CardHeader>
-            <CardTitle>Atividades Recentes</CardTitle>
+            <CardTitle>{t('dashboard.recent_activity')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -208,7 +213,7 @@ export default function Dashboard() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Ações Rápidas</CardTitle>
+            <CardTitle>{t('dashboard.quick_actions')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <Button
@@ -217,7 +222,8 @@ export default function Dashboard() {
               asChild
             >
               <Link to="/risks">
-                Novo Risco <ArrowUpRight className="w-4 h-4 ml-2" />
+                {t('dashboard.new_risk')}{' '}
+                <ArrowUpRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
             <Button
@@ -226,7 +232,8 @@ export default function Dashboard() {
               asChild
             >
               <Link to="/controls">
-                Testar Controle <ArrowUpRight className="w-4 h-4 ml-2" />
+                {t('dashboard.test_control')}{' '}
+                <ArrowUpRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
             <Button
@@ -235,7 +242,8 @@ export default function Dashboard() {
               asChild
             >
               <Link to="/audits">
-                Iniciar Auditoria <ArrowUpRight className="w-4 h-4 ml-2" />
+                {t('dashboard.start_audit')}{' '}
+                <ArrowUpRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
           </CardContent>

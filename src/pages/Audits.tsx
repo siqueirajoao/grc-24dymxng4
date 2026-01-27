@@ -16,29 +16,32 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { FileCheck, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function Audits() {
+  const { t } = useTranslation()
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <FileCheck className="h-8 w-8 text-warning" />
-            Auditoria Interna
+            {t('audits.title')}
           </h1>
-          <p className="text-muted-foreground mt-1">
-            Planejamento e execução de trabalhos de auditoria.
-          </p>
+          <p className="text-muted-foreground mt-1">{t('audits.subtitle')}</p>
         </div>
         <Button>
-          <Plus className="mr-2 h-4 w-4" /> Nova Auditoria
+          <Plus className="mr-2 h-4 w-4" /> {t('audits.new_audit')}
         </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Em Andamento</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t('audits.in_progress')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">2</div>
@@ -47,7 +50,7 @@ export default function Audits() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">
-              Planejadas (Q1)
+              {t('audits.planned')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -57,7 +60,7 @@ export default function Audits() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">
-              Concluídas (Ano)
+              {t('audits.completed')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -68,21 +71,21 @@ export default function Audits() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Auditorias Recentes</CardTitle>
-          <CardDescription>
-            Acompanhamento dos trabalhos de auditoria.
-          </CardDescription>
+          <CardTitle>{t('audits.recent')}</CardTitle>
+          <CardDescription>{t('audits.recent_desc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Código</TableHead>
-                <TableHead>Título</TableHead>
-                <TableHead>Escopo</TableHead>
-                <TableHead>Período</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Apontamentos</TableHead>
+                <TableHead>{t('audits.table.code')}</TableHead>
+                <TableHead>{t('audits.table.title')}</TableHead>
+                <TableHead>{t('audits.table.scope')}</TableHead>
+                <TableHead>{t('audits.table.period')}</TableHead>
+                <TableHead>{t('audits.table.status')}</TableHead>
+                <TableHead className="text-right">
+                  {t('audits.table.findings')}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

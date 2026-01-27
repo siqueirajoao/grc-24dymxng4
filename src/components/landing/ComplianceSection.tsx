@@ -1,4 +1,7 @@
+import { useTranslation } from 'react-i18next'
+
 export function ComplianceSection() {
+  const { t } = useTranslation()
   const regulations = [
     'CVM',
     'BACEN',
@@ -14,7 +17,7 @@ export function ComplianceSection() {
     <section id="compliance" className="py-20 bg-black overflow-hidden">
       <div className="container px-4 mb-8 text-center">
         <h3 className="text-xl font-semibold text-gray-500 uppercase tracking-widest">
-          Em conformidade com os principais Frameworks e reguladores
+          {t('compliance.label')}
         </h3>
       </div>
 

@@ -35,46 +35,75 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useTranslation } from 'react-i18next'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 export function AppSidebar() {
   const location = useLocation()
+  const { t } = useTranslation()
 
   const isActive = (path: string) => location.pathname === path
 
   const items = [
     {
-      label: 'Executivo',
+      label: t('sidebar.executive'),
       items: [
-        { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard }, // Updated URL
-        { title: 'Minhas Tarefas', url: '/tasks', icon: ListTodo },
+        {
+          title: t('sidebar.dashboard'),
+          url: '/dashboard',
+          icon: LayoutDashboard,
+        },
+        { title: t('sidebar.my_tasks'), url: '/tasks', icon: ListTodo },
       ],
     },
     {
-      label: 'Core GRC',
+      label: t('sidebar.core_grc'),
       items: [
-        { title: 'Gestão de Riscos', url: '/risks', icon: ShieldAlert },
-        { title: 'Controles Internos', url: '/controls', icon: ShieldCheck },
-        { title: 'Auditorias & Achados', url: '/audits', icon: FileCheck },
+        {
+          title: t('sidebar.risk_management'),
+          url: '/risks',
+          icon: ShieldAlert,
+        },
+        {
+          title: t('sidebar.internal_controls'),
+          url: '/controls',
+          icon: ShieldCheck,
+        },
+        {
+          title: t('sidebar.audits_findings'),
+          url: '/audits',
+          icon: FileCheck,
+        },
       ],
     },
     {
-      label: 'Regulatório',
+      label: t('sidebar.regulatory'),
       items: [
-        { title: 'Políticas & Normas', url: '/policies', icon: BookOpen },
-        { title: 'CADOCs & Reports', url: '/cadocs', icon: FileText },
+        {
+          title: t('sidebar.policies_norms'),
+          url: '/policies',
+          icon: BookOpen,
+        },
+        { title: t('sidebar.cadocs_reports'), url: '/cadocs', icon: FileText },
       ],
     },
     {
-      label: 'Especializado',
+      label: t('sidebar.specialized'),
       items: [
-        { title: 'LGPD & Privacidade', url: '/lgpd', icon: Lock },
-        { title: 'Gestão de Terceiros', url: '/third-party', icon: Users },
-        { title: 'BIA & Continuidade', url: '/bia', icon: Activity },
+        { title: t('sidebar.lgpd_privacy'), url: '/lgpd', icon: Lock },
+        {
+          title: t('sidebar.third_party'),
+          url: '/third-party',
+          icon: Users,
+        },
+        { title: t('sidebar.bia_continuity'), url: '/bia', icon: Activity },
       ],
     },
     {
-      label: 'Sistema',
-      items: [{ title: 'Administração', url: '/admin', icon: Settings }],
+      label: t('sidebar.system'),
+      items: [
+        { title: t('sidebar.administration'), url: '/admin', icon: Settings },
+      ],
     },
   ]
 
@@ -119,6 +148,9 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
+            <div className="group-data-[collapsible=icon]:hidden px-2 mb-2">
+              <LanguageSwitcher />
+            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
@@ -149,11 +181,11 @@ export function AppSidebar() {
               >
                 <DropdownMenuItem>
                   <Settings className="mr-2 h-4 w-4" />
-                  Configurações
+                  {t('sidebar.settings')}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <LogOut className="mr-2 h-4 w-4" />
-                  Sair
+                  {t('sidebar.logout')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

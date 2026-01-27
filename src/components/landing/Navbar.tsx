@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 interface NavbarProps {
   onOpenDemo: () => void
@@ -11,6 +13,7 @@ interface NavbarProps {
 export function Navbar({ onOpenDemo }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,10 +25,10 @@ export function Navbar({ onOpenDemo }: NavbarProps) {
   }, [])
 
   const navLinks = [
-    { label: 'Ecossistema', href: '#ecosystem' },
-    { label: 'Soluções', href: '#features' },
-    { label: 'Compliance', href: '#compliance' },
-    { label: 'FAQ', href: '#faq' },
+    { label: t('nav.ecosystem'), href: '#ecosystem' },
+    { label: t('nav.solutions'), href: '#features' },
+    { label: t('nav.compliance'), href: '#compliance' },
+    { label: t('nav.faq'), href: '#faq' },
   ]
 
   const scrollToSection = (
@@ -56,7 +59,7 @@ export function Navbar({ onOpenDemo }: NavbarProps) {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -67,23 +70,27 @@ export function Navbar({ onOpenDemo }: NavbarProps) {
               {link.label}
             </a>
           ))}
+          <LanguageSwitcher />
           <Button
             variant="default"
             size="sm"
             onClick={onOpenDemo}
             className="bg-blue-600 hover:bg-blue-500 text-white rounded-full px-6"
           >
-            Solicitar Demo
+            {t('nav.request_demo')}
           </Button>
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-white p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <LanguageSwitcher />
+          <button
+            className="text-white p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -108,7 +115,7 @@ export function Navbar({ onOpenDemo }: NavbarProps) {
             }}
             className="bg-blue-600 hover:bg-blue-500 text-white w-full rounded-full"
           >
-            Solicitar Demo
+            {t('nav.request_demo')}
           </Button>
         </div>
       )}

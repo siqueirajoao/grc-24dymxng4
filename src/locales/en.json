@@ -1,0 +1,235 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "search": "Search...",
+    "actions": "Actions",
+    "status": "Status",
+    "save": "Save",
+    "cancel": "Cancel",
+    "new": "New",
+    "details": "Details",
+    "filter": "Filter",
+    "back_home": "Back to Home",
+    "user": "User",
+    "loading": "Loading..."
+  },
+  "nav": {
+    "ecosystem": "Ecosystem",
+    "solutions": "Solutions",
+    "compliance": "Compliance",
+    "faq": "FAQ",
+    "request_demo": "Request Demo"
+  },
+  "hero": {
+    "title_prefix": "Your Solution for",
+    "title_highlight": "Regulated Environments",
+    "description": "Lawyn is the GRC platform that unifies Governance, Risk, and Compliance into a single operating system designed to handle the regulatory complexity of any sector.",
+    "explore_ecosystem": "Explore Ecosystem",
+    "click_module": "Click on a module to discover everything Lawyn can offer you",
+    "cards": {
+      "compliance": "Compliance",
+      "compliance_desc": "Integrated Management",
+      "cadocs": "CADOCs & Reports",
+      "cadocs_desc": "Generation & Validation",
+      "regulations": "Regulations",
+      "regulations_desc": "Continuous Monitoring",
+      "policies": "Policies",
+      "policies_desc": "Corporate Governance"
+    }
+  },
+  "features": {
+    "title_start": "Everything you need for",
+    "title_end": "High Performance GRC Management",
+    "subtitle": "Advanced features designed to simplify complexity and elevate governance maturity.",
+    "governance": {
+      "title": "Unified Governance",
+      "desc": "Centralize all policies, risks, and controls in a single integrated and auditable platform."
+    },
+    "automation": {
+      "title": "Intelligent Automation",
+      "desc": "Automate workflows, control testing, and evidence collection to reduce manual effort."
+    },
+    "security": {
+      "title": "Data Security",
+      "desc": "Bank-grade protection with end-to-end encryption and granular access management."
+    },
+    "monitoring": {
+      "title": "Regulatory Monitoring",
+      "desc": "Track regulatory changes in real-time and update your controls automatically."
+    },
+    "dashboards": {
+      "title": "Executive Dashboards",
+      "desc": "Clear view of the organization's risk and compliance posture for agile decision-making."
+    },
+    "collaboration": {
+      "title": "Real-Time Collaboration",
+      "desc": "Connect the three lines of defense in a collaborative and transparent environment."
+    }
+  },
+  "ecosystem": {
+    "badge": "INTEGRATED ECOSYSTEM",
+    "title": "For High Complexity Environments",
+    "subtitle": "A robust architecture designed to scale compliance in any sector.",
+    "modules_title": "Integrated Ecosystem",
+    "modules_subtitle": "Browse modules and discover how each part of the platform connects to strengthen your governance.",
+    "cards": {
+      "regulated": {
+        "title": "Regulated Institutions",
+        "desc": "Banks, Fintechs, Insurers, and public companies subject to strict regulations (Central Bank, SEC)."
+      },
+      "tech": {
+        "title": "Tech Companies",
+        "desc": "Startups and Scale-ups needing to structure governance and compliance for sustainable growth and IPO."
+      },
+      "industry": {
+        "title": "Industry & Services",
+        "desc": "Large corporations with operational complexity, supply chain risks, and audit requirements."
+      }
+    }
+  },
+  "compliance": {
+    "label": "Compliant with major Frameworks and regulators"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Get your questions answered about the Lawyn platform.",
+    "q1": "What is Lawyn and who was it developed for?",
+    "a1": "Lawyn is a complete GRC (Governance, Risk, and Compliance) platform developed especially for institutions in regulated environments.",
+    "q2": "How does Lawyn ensure the security of my data?",
+    "a2": "Lawyn is built on modern, cloud-native architecture and hosted on infrastructure operated by certified providers.",
+    "q3": "Does Lawyn meet Central Bank regulatory requirements?",
+    "a3": "Yes, Lawyn was designed specifically to meet regulatory requirements of regulated environments."
+  },
+  "footer": {
+    "slogan": "Operating System for Governance, Risk, and Compliance for future companies.",
+    "product": "Product",
+    "features": "Features",
+    "modules": "Modules",
+    "integrations": "Integrations",
+    "company": "Company",
+    "about": "About Us",
+    "blog": "Blog",
+    "legal": "Legal",
+    "terms": "Terms of Use",
+    "privacy": "Privacy",
+    "rights": "Lawyn GRC. All rights reserved."
+  },
+  "sidebar": {
+    "executive": "Executive",
+    "dashboard": "Dashboard",
+    "my_tasks": "My Tasks",
+    "core_grc": "Core GRC",
+    "risk_management": "Risk Management",
+    "internal_controls": "Internal Controls",
+    "audits_findings": "Audits & Findings",
+    "regulatory": "Regulatory",
+    "policies_norms": "Policies & Standards",
+    "cadocs_reports": "CADOCs & Reports",
+    "specialized": "Specialized",
+    "lgpd_privacy": "GDPR & Privacy",
+    "third_party": "Third Party Management",
+    "bia_continuity": "BIA & Continuity",
+    "system": "System",
+    "administration": "Administration",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of organization compliance and risks.",
+    "high_risks": "High Risks",
+    "effective_controls": "Effective Controls",
+    "open_audits": "Open Audits",
+    "policies_review": "Policies to Review",
+    "compliance_module": "Compliance by Module",
+    "compliance_desc": "Compliance status regarding defined objectives.",
+    "risk_matrix": "Risk Matrix",
+    "risk_matrix_desc": "Distribution of identified risks by probability and impact.",
+    "recent_activity": "Recent Activity",
+    "quick_actions": "Quick Actions",
+    "new_risk": "New Risk",
+    "test_control": "Test Control",
+    "start_audit": "Start Audit",
+    "since_last_month": "since last month",
+    "improvement": "improvement",
+    "planned_week": "planned for this week",
+    "due_soon": "due soon"
+  },
+  "risks": {
+    "title": "Risk Management",
+    "subtitle": "Identify, assess, and monitor corporate risks.",
+    "new_risk": "New Risk",
+    "search_placeholder": "Search risks...",
+    "inventory": "Risk Inventory",
+    "inventory_desc": "Complete list of identified risks and their status.",
+    "table": {
+      "id": "ID",
+      "title": "Title",
+      "category": "Category",
+      "probability": "Probability",
+      "impact": "Impact",
+      "status": "Status"
+    }
+  },
+  "controls": {
+    "title": "Internal Controls",
+    "subtitle": "Manage and test the effectiveness of organization controls.",
+    "new_control": "New Control",
+    "search_placeholder": "Search controls...",
+    "library": "Control Library",
+    "library_desc": "List of implemented internal controls.",
+    "table": {
+      "id": "ID",
+      "name": "Control Name",
+      "type": "Type",
+      "frequency": "Frequency",
+      "owner": "Owner",
+      "effectiveness": "Effectiveness",
+      "test": "Test"
+    }
+  },
+  "audits": {
+    "title": "Internal Audit",
+    "subtitle": "Planning and execution of audit work.",
+    "new_audit": "New Audit",
+    "in_progress": "In Progress",
+    "planned": "Planned (Q1)",
+    "completed": "Completed (Year)",
+    "recent": "Recent Audits",
+    "recent_desc": "Monitoring of audit work.",
+    "table": {
+      "code": "Code",
+      "title": "Title",
+      "scope": "Scope",
+      "period": "Period",
+      "status": "Status",
+      "findings": "Findings"
+    }
+  },
+  "bia": {
+    "title": "Business Continuity (BIA)",
+    "subtitle": "Impact analysis and continuity plans.",
+    "new_analysis": "New Analysis",
+    "critical_processes": "Critical Processes",
+    "critical_processes_desc": "Business Impact Analysis (BIA) and RTO/RPO.",
+    "table": {
+      "process": "Process",
+      "department": "Department",
+      "financial_impact": "Financial Impact",
+      "image_impact": "Reputational Impact",
+      "rto": "RTO (Target)",
+      "rpo": "RPO (Target)"
+    }
+  },
+  "modules": {
+    "risks": "Risk Management",
+    "controls": "Internal Controls",
+    "audit": "Internal Audit",
+    "policies": "Policies",
+    "regulatory": "Regulatory",
+    "cadocs": "Reporting",
+    "lgpd": "Data Protection",
+    "third_party": "Vendor Management",
+    "bia": "BIA & Continuity"
+  }
+}

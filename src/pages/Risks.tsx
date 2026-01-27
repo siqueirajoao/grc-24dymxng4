@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { ShieldAlert, Plus, Search, Filter } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface Risk {
   id: string
@@ -64,6 +65,7 @@ const initialRisks: Risk[] = [
 ]
 
 export default function Risks() {
+  const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
   const risks = initialRisks.filter(
     (risk) =>
@@ -90,14 +92,12 @@ export default function Risks() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <ShieldAlert className="h-8 w-8 text-destructive" />
-            Gestão de Riscos
+            {t('risks.title')}
           </h1>
-          <p className="text-muted-foreground mt-1">
-            Identifique, avalie e monitore os riscos corporativos.
-          </p>
+          <p className="text-muted-foreground mt-1">{t('risks.subtitle')}</p>
         </div>
         <Button>
-          <Plus className="mr-2 h-4 w-4" /> Novo Risco
+          <Plus className="mr-2 h-4 w-4" /> {t('risks.new_risk')}
         </Button>
       </div>
 
@@ -105,7 +105,7 @@ export default function Risks() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar riscos..."
+            placeholder={t('risks.search_placeholder')}
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -118,22 +118,24 @@ export default function Risks() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Inventário de Riscos</CardTitle>
-          <CardDescription>
-            Lista completa de riscos identificados e seus status.
-          </CardDescription>
+          <CardTitle>{t('risks.inventory')}</CardTitle>
+          <CardDescription>{t('risks.inventory_desc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">ID</TableHead>
-                <TableHead>Título</TableHead>
-                <TableHead>Categoria</TableHead>
-                <TableHead>Probabilidade</TableHead>
-                <TableHead>Impacto</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
+                <TableHead className="w-[100px]">
+                  {t('risks.table.id')}
+                </TableHead>
+                <TableHead>{t('risks.table.title')}</TableHead>
+                <TableHead>{t('risks.table.category')}</TableHead>
+                <TableHead>{t('risks.table.probability')}</TableHead>
+                <TableHead>{t('risks.table.impact')}</TableHead>
+                <TableHead>{t('risks.table.status')}</TableHead>
+                <TableHead className="text-right">
+                  {t('common.actions')}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -156,7 +158,7 @@ export default function Risks() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="sm">
-                      Detalhes
+                      {t('common.details')}
                     </Button>
                   </TableCell>
                 </TableRow>

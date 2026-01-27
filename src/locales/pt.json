@@ -1,0 +1,235 @@
+{
+  "common": {
+    "welcome": "Bem-vindo",
+    "search": "Buscar...",
+    "actions": "Ações",
+    "status": "Status",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "new": "Novo",
+    "details": "Detalhes",
+    "filter": "Filtrar",
+    "back_home": "Voltar para Home",
+    "user": "Usuário",
+    "loading": "Carregando..."
+  },
+  "nav": {
+    "ecosystem": "Ecossistema",
+    "solutions": "Soluções",
+    "compliance": "Compliance",
+    "faq": "FAQ",
+    "request_demo": "Solicitar Demo"
+  },
+  "hero": {
+    "title_prefix": "Sua Solução para",
+    "title_highlight": "Ambientes Regulados",
+    "description": "Lawyn é a plataforma GRC que unifica Governança, Riscos e Compliance em um único sistema operacional projetado para lidar com a complexidade regulatória de qualquer setor.",
+    "explore_ecosystem": "Explorar Ecossistema",
+    "click_module": "Clique em um módulo e descubra tudo que a Lawyn pode te oferecer",
+    "cards": {
+      "compliance": "Conformidade",
+      "compliance_desc": "Gestão integrada",
+      "cadocs": "CADOCs e Relatórios",
+      "cadocs_desc": "Geração e Validação",
+      "regulations": "Regulamentações",
+      "regulations_desc": "Monitoramento contínuo",
+      "policies": "Políticas",
+      "policies_desc": "Governança corporativa"
+    }
+  },
+  "features": {
+    "title_start": "Tudo o que você precisa para",
+    "title_end": "Gestão de GRC de Alta Performance",
+    "subtitle": "Recursos avançados projetados para simplificar a complexidade e elevar a maturidade de governança.",
+    "governance": {
+      "title": "Governança Unificada",
+      "desc": "Centralize todas as políticas, riscos e controles em uma única plataforma integrada e auditável."
+    },
+    "automation": {
+      "title": "Automação Inteligente",
+      "desc": "Automatize fluxos de trabalho, testes de controle e coleta de evidências para reduzir esforço manual."
+    },
+    "security": {
+      "title": "Segurança de Dados",
+      "desc": "Proteção de nível bancário com criptografia de ponta a ponta e gestão granular de acessos."
+    },
+    "monitoring": {
+      "title": "Monitoramento Regulatório",
+      "desc": "Acompanhe mudanças nas regulações em tempo real e atualize seus controles automaticamente."
+    },
+    "dashboards": {
+      "title": "Dashboards Executivos",
+      "desc": "Visão clara da postura de risco e conformidade da organização para tomada de decisão ágil."
+    },
+    "collaboration": {
+      "title": "Colaboração em Tempo Real",
+      "desc": "Conecte as três linhas de defesa em um ambiente colaborativo e transparente."
+    }
+  },
+  "ecosystem": {
+    "badge": "ECOSSISTEMA INTEGRADO",
+    "title": "Para Ambientes de Alta Complexidade",
+    "subtitle": "Uma arquitetura robusta desenhada para escalar conformidade em qualquer setor.",
+    "modules_title": "Ecossistema Integrado",
+    "modules_subtitle": "Navegue pelos módulos e descubra como cada parte da plataforma se conecta para fortalecer sua governança.",
+    "cards": {
+      "regulated": {
+        "title": "Instituições Reguladas",
+        "desc": "Bancos, Fintechs, Seguradoras e empresas de capital aberto sujeitas a regulações rigorosas (BACEN, CVM, SUSEP)."
+      },
+      "tech": {
+        "title": "Empresas de Tecnologia",
+        "desc": "Startups e Scale-ups que precisam estruturar governança e compliance para crescimento sustentável e IPO."
+      },
+      "industry": {
+        "title": "Indústria e Serviços",
+        "desc": "Grandes corporações com complexidade operacional, riscos de cadeia de suprimentos e requisitos de auditoria."
+      }
+    }
+  },
+  "compliance": {
+    "label": "Em conformidade com os principais Frameworks e reguladores"
+  },
+  "faq": {
+    "title": "Perguntas Frequentes",
+    "subtitle": "Tire suas dúvidas sobre a plataforma Lawyn.",
+    "q1": "O que é o Lawyn e para quem ele foi desenvolvido?",
+    "a1": "O Lawyn é uma plataforma completa de GRC (Governança, Riscos e Compliance) desenvolvida especialmente para instituições em ambientes regulados.",
+    "q2": "Como o Lawyn garante a segurança dos meus dados?",
+    "a2": "A Lawyn é construída sobre uma arquitetura moderna, nativa em nuvem, e hospedada em infraestrutura operada por provedores certificados.",
+    "q3": "O Lawyn atende às exigências regulatórias do Banco Central?",
+    "a3": "Sim, o Lawyn foi projetado especificamente para atender às exigências regulatórias de ambientes regulados."
+  },
+  "footer": {
+    "slogan": "Sistema Operacional de Governança, Riscos e Compliance para empresas do futuro.",
+    "product": "Produto",
+    "features": "Funcionalidades",
+    "modules": "Módulos",
+    "integrations": "Integrações",
+    "company": "Empresa",
+    "about": "Sobre Nós",
+    "blog": "Blog",
+    "legal": "Legal",
+    "terms": "Termos de Uso",
+    "privacy": "Privacidade",
+    "rights": "Lawyn GRC. Todos os direitos reservados."
+  },
+  "sidebar": {
+    "executive": "Executivo",
+    "dashboard": "Dashboard",
+    "my_tasks": "Minhas Tarefas",
+    "core_grc": "Core GRC",
+    "risk_management": "Gestão de Riscos",
+    "internal_controls": "Controles Internos",
+    "audits_findings": "Auditorias & Achados",
+    "regulatory": "Regulatório",
+    "policies_norms": "Políticas & Normas",
+    "cadocs_reports": "CADOCs & Reports",
+    "specialized": "Especializado",
+    "lgpd_privacy": "LGPD & Privacidade",
+    "third_party": "Gestão de Terceiros",
+    "bia_continuity": "BIA & Continuidade",
+    "system": "Sistema",
+    "administration": "Administração",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Visão geral da conformidade e riscos da organização.",
+    "high_risks": "Riscos Altos",
+    "effective_controls": "Controles Efetivos",
+    "open_audits": "Auditorias Abertas",
+    "policies_review": "Políticas a Revisar",
+    "compliance_module": "Conformidade por Módulo",
+    "compliance_desc": "Status de conformidade em relação aos objetivos definidos.",
+    "risk_matrix": "Matriz de Riscos",
+    "risk_matrix_desc": "Distribuição dos riscos identificados por probabilidade e impacto.",
+    "recent_activity": "Atividades Recentes",
+    "quick_actions": "Ações Rápidas",
+    "new_risk": "Novo Risco",
+    "test_control": "Testar Controle",
+    "start_audit": "Iniciar Auditoria",
+    "since_last_month": "desde o último mês",
+    "improvement": "de melhoria",
+    "planned_week": "planejada para esta semana",
+    "due_soon": "vencem em breve"
+  },
+  "risks": {
+    "title": "Gestão de Riscos",
+    "subtitle": "Identifique, avalie e monitore os riscos corporativos.",
+    "new_risk": "Novo Risco",
+    "search_placeholder": "Buscar riscos...",
+    "inventory": "Inventário de Riscos",
+    "inventory_desc": "Lista completa de riscos identificados e seus status.",
+    "table": {
+      "id": "ID",
+      "title": "Título",
+      "category": "Categoria",
+      "probability": "Probabilidade",
+      "impact": "Impacto",
+      "status": "Status"
+    }
+  },
+  "controls": {
+    "title": "Controles Internos",
+    "subtitle": "Gerencie e teste a efetividade dos controles da organização.",
+    "new_control": "Novo Controle",
+    "search_placeholder": "Buscar controles...",
+    "library": "Biblioteca de Controles",
+    "library_desc": "Relação de controles internos implementados.",
+    "table": {
+      "id": "ID",
+      "name": "Nome do Controle",
+      "type": "Tipo",
+      "frequency": "Frequência",
+      "owner": "Responsável",
+      "effectiveness": "Efetividade",
+      "test": "Testar"
+    }
+  },
+  "audits": {
+    "title": "Auditoria Interna",
+    "subtitle": "Planejamento e execução de trabalhos de auditoria.",
+    "new_audit": "Nova Auditoria",
+    "in_progress": "Em Andamento",
+    "planned": "Planejadas (Q1)",
+    "completed": "Concluídas (Ano)",
+    "recent": "Auditorias Recentes",
+    "recent_desc": "Acompanhamento dos trabalhos de auditoria.",
+    "table": {
+      "code": "Código",
+      "title": "Título",
+      "scope": "Escopo",
+      "period": "Período",
+      "status": "Status",
+      "findings": "Apontamentos"
+    }
+  },
+  "bia": {
+    "title": "Continuidade de Negócios (BIA)",
+    "subtitle": "Análise de impacto e planos de continuidade.",
+    "new_analysis": "Nova Análise",
+    "critical_processes": "Processos Críticos",
+    "critical_processes_desc": "Análise de Impacto no Negócio (BIA) e RTO/RPO.",
+    "table": {
+      "process": "Processo",
+      "department": "Departamento",
+      "financial_impact": "Impacto Financeiro",
+      "image_impact": "Impacto Imagem",
+      "rto": "RTO (Meta)",
+      "rpo": "RPO (Meta)"
+    }
+  },
+  "modules": {
+    "risks": "Gestão de Riscos",
+    "controls": "Controles Internos",
+    "audit": "Auditoria Interna",
+    "policies": "Políticas",
+    "regulatory": "Regulatório",
+    "cadocs": "Reportes",
+    "lgpd": "Proteção de Dados",
+    "third_party": "Gestão de Terceiros",
+    "bia": "BIA & Continuidade"
+  }
+}

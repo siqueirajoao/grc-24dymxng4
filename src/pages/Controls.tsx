@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { ShieldCheck, Plus, Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface Control {
   id: string
@@ -56,6 +57,7 @@ const initialControls: Control[] = [
 ]
 
 export default function Controls() {
+  const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
 
   const getEffectivenessColor = (status: string) => {
@@ -75,14 +77,12 @@ export default function Controls() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <ShieldCheck className="h-8 w-8 text-primary" />
-            Controles Internos
+            {t('controls.title')}
           </h1>
-          <p className="text-muted-foreground mt-1">
-            Gerencie e teste a efetividade dos controles da organização.
-          </p>
+          <p className="text-muted-foreground mt-1">{t('controls.subtitle')}</p>
         </div>
         <Button>
-          <Plus className="mr-2 h-4 w-4" /> Novo Controle
+          <Plus className="mr-2 h-4 w-4" /> {t('controls.new_control')}
         </Button>
       </div>
 
@@ -90,7 +90,7 @@ export default function Controls() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar controles..."
+            placeholder={t('controls.search_placeholder')}
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -100,22 +100,24 @@ export default function Controls() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Biblioteca de Controles</CardTitle>
-          <CardDescription>
-            Relação de controles internos implementados.
-          </CardDescription>
+          <CardTitle>{t('controls.library')}</CardTitle>
+          <CardDescription>{t('controls.library_desc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">ID</TableHead>
-                <TableHead>Nome do Controle</TableHead>
-                <TableHead>Tipo</TableHead>
-                <TableHead>Frequência</TableHead>
-                <TableHead>Responsável</TableHead>
-                <TableHead>Efetividade</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
+                <TableHead className="w-[100px]">
+                  {t('controls.table.id')}
+                </TableHead>
+                <TableHead>{t('controls.table.name')}</TableHead>
+                <TableHead>{t('controls.table.type')}</TableHead>
+                <TableHead>{t('controls.table.frequency')}</TableHead>
+                <TableHead>{t('controls.table.owner')}</TableHead>
+                <TableHead>{t('controls.table.effectiveness')}</TableHead>
+                <TableHead className="text-right">
+                  {t('common.actions')}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -136,7 +138,7 @@ export default function Controls() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="sm">
-                      Testar
+                      {t('controls.table.test')}
                     </Button>
                   </TableCell>
                 </TableRow>
