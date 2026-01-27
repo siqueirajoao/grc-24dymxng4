@@ -105,7 +105,7 @@ export function HeroSection({ onOpenDemo }: HeroSectionProps) {
                 variant="outline"
                 size="lg"
                 onClick={scrollToEcosystem}
-                className="h-12 sm:h-14 px-8 text-base border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-full backdrop-blur-md transition-all hover:scale-105 w-full sm:w-auto"
+                className="h-12 sm:h-14 px-8 text-base border-white/10 bg-white/5 text-white hover:text-white hover:bg-white/10 rounded-full backdrop-blur-md transition-all hover:scale-105 w-full sm:w-auto"
               >
                 Explorar Ecossistema
                 <Layers className="ml-2 w-5 h-5" />
