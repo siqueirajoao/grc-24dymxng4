@@ -87,6 +87,120 @@
       }
     }
   },
+  "module_showcase": {
+    "title": "Integrated Ecosystem",
+    "subtitle": "Browse the modules and discover how each part of the platform connects to strengthen your governance.",
+    "common": {
+      "talk_specialist": "Talk to a Specialist",
+      "features": "Features",
+      "related_normatives": "Related Normatives"
+    },
+    "modules": {
+      "risks": {
+        "title": "Risk Management",
+        "subtitle": "ENTERPRISE RISK MANAGEMENT",
+        "description": "Complete framework for risk identification and mitigation (RCSA), aligned with global best practices.",
+        "features": [
+          "Dynamic Risk Matrices",
+          "Interactive Heatmaps",
+          "KRI Monitoring",
+          "Risk Treatment"
+        ],
+        "regulation": ["COSO ERM", "Best Practices"]
+      },
+      "controls": {
+        "title": "Internal Controls",
+        "subtitle": "INTERNAL CONTROLS",
+        "description": "Strengthen the first and second lines of defense with control testing, action plans, and periodic certifications.",
+        "features": [
+          "Control Library",
+          "Evidence Management",
+          "Testing Workflow",
+          "Risk Mapping"
+        ],
+        "regulation": ["COSO ICIF", "ISO 27001"]
+      },
+      "audit": {
+        "title": "Internal Audit",
+        "subtitle": "INTERNAL AUDIT",
+        "description": "Digitize the audit cycle, from annual planning to follow-up of findings, with immutable trails.",
+        "features": [
+          "Audit Planning",
+          "Automatic Reports",
+          "Requirement Follow-up",
+          "Finding Management"
+        ],
+        "regulation": []
+      },
+      "policies": {
+        "title": "Policies",
+        "subtitle": "POLICY MANAGEMENT",
+        "description": "Complete lifecycle of corporate policies: creation, review, approval, and publication with version control.",
+        "features": [
+          "Approval Workflow",
+          "Version Control",
+          "Policy Portal",
+          "Adherence Tracking"
+        ],
+        "regulation": ["Compliance", "ESG"]
+      },
+      "regulatory": {
+        "title": "Regulatory",
+        "subtitle": "REGULATORY COMPLIANCE",
+        "description": "Automated management of the regulatory inventory, with regulation capture and obligation deadline control.",
+        "features": [
+          "Regulatory Feed",
+          "Obligations & Deadlines",
+          "Regulation Inventory",
+          "Official Letter Management"
+        ],
+        "regulation": ["Central Bank", "CVM", "Tax Authority", "Government"],
+        "regulation_title": "Regulators"
+      },
+      "cadocs": {
+        "title": "Reports",
+        "subtitle": "REGULATORY REPORTING",
+        "description": "Automation and validation of complex regulatory reports, with data integration and rule validation.",
+        "features": [
+          "File Validator",
+          "Layout Generation",
+          "Regulatory Calendar",
+          "Version Management"
+        ],
+        "regulation": ["Regulatory Obligations", "Tax Authority", "Layouts"]
+      },
+      "lgpd": {
+        "title": "Data Protection",
+        "subtitle": "DATA PRIVACY",
+        "description": "Ensure total compliance with LGPD through specialized tools for personal data protection.",
+        "features": [
+          "Impact Report (RIPD)",
+          "Process Mapping",
+          "Report Management"
+        ],
+        "regulation": ["Law 13.709 (LGPD)", "ANPD"]
+      },
+      "third-party": {
+        "title": "Third-Party Management",
+        "subtitle": "VENDOR RISK",
+        "description": "Monitoring and control of vendor and partner risks, with tracking of due diligence deadlines and contracts.",
+        "features": [
+          "Risk Assessment",
+          "Continuous Monitoring",
+          "Contracts and SLAs",
+          "Diligence Control"
+        ],
+        "regulation": ["Third-Party Integrity", "Due Diligence"]
+      },
+      "bia": {
+        "title": "BIA & Continuity",
+        "subtitle": "BUSINESS CONTINUITY",
+        "description": "Identification of critical processes and overview of essential business activities.",
+        "features": ["Impact Analysis (BIA)", "Crisis Management"],
+        "regulation": ["ISO 22301", "Operational Resilience"]
+      }
+    }
+  },
   "compliance": {
     "label": "Compliant with major Frameworks and regulators"
   },
