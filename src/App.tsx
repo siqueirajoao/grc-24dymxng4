@@ -15,10 +15,12 @@ import Tasks from '@/pages/Tasks'
 import TermsOfUse from '@/pages/TermsOfUse'
 import ThirdParty from '@/pages/ThirdParty'
 import NotFound from '@/pages/NotFound'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 
 const App = () => (
   <AuthProvider>
     <BrowserRouter>
+      <GoogleAnalytics />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
