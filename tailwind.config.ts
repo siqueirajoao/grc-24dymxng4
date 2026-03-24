@@ -28,7 +28,13 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
-        display: ['"Lora"', 'Georgia', 'serif'],
+        serif: ['"Playfair Display"', '"Times New Roman"', 'Georgia', 'serif'],
+        display: [
+          '"Playfair Display"',
+          '"Times New Roman"',
+          'Georgia',
+          'serif',
+        ],
       },
       colors: {
         border: 'hsl(var(--border))',
