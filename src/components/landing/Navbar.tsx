@@ -53,7 +53,10 @@ export function Navbar({ onOpenDemo }: NavbarProps) {
       )}
     >
       <div className="container px-4 md:px-6 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold tracking-tighter text-white">
+        <Link
+          to="/"
+          className="text-2xl font-bold tracking-tighter text-white font-display"
+        >
           Lawyn
           <span className="text-blue-500">.</span>
         </Link>
