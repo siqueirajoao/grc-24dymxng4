@@ -35,6 +35,11 @@
       "regulations_desc": "Continuous Monitoring",
       "policies": "Policies",
       "policies_desc": "Corporate Governance"
+    },
+    "floating_banner": {
+      "title": "Powerful. Effective. Easy-to-use.",
+      "description": "Discover how Lawyn takes the effort out of tracking your regulatory obligations and monitoring compliance.",
+      "cta": "See it in action"
     }
   },
   "features": {

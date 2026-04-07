@@ -35,6 +35,11 @@
       "regulations_desc": "Monitoramento contínuo",
       "policies": "Políticas",
       "policies_desc": "Governança corporativa"
+    },
+    "floating_banner": {
+      "title": "Poderoso. Efetivo. Fácil de usar.",
+      "description": "Descubra como a Lawyn simplifica o rastreamento de obrigações regulatórias e o monitoramento de compliance.",
+      "cta": "Ver na prática"
     }
   },
   "features": {
