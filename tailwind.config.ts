@@ -27,14 +27,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Inter"', 'system-ui', 'sans-serif'],
-        serif: ['"Playfair Display"', '"Times New Roman"', 'Georgia', 'serif'],
-        display: [
-          '"Playfair Display"',
-          '"Times New Roman"',
-          'Georgia',
-          'serif',
-        ],
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        serif: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        display: ['"DM Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
